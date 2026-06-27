@@ -6,10 +6,10 @@
   "author": "Developer's hub Aenora",
   "type": "commonjs",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
-  },
+ "scripts": {
+  "dev": "nodemon index.js",
+  "start": "node index.js"
+},
   "dependencies": {
     "@clerk/backend": "^2.17.2",
     "cors": "^2.8.5",
