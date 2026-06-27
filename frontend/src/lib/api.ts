@@ -5,38 +5,54 @@ const API = axios.create({
   baseURL: API_BASE_URL,
 });
 
-// 🔥 REQUEST INTERCEPTOR (DEBUG INCLUDED)
-API.interceptors.request.use((config) => {
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem("adminToken");
+// ================= REQUEST INTERCEPTOR =================
+API.interceptors.request.use(
+  (config) => {
+    if (typeof window !== "undefined") {
+      // User token OR Admin token
+      const token =
+        localStorage.getItem("token") ||
+        localStorage.getItem("adminToken");
 
-    console.log("🔥 TOKEN FROM STORAGE:", token);
+      console.log("🔥 TOKEN FROM STORAGE:", token);
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-      console.log("🔥 AUTH HEADER SET:", config.headers.Authorization);
-    } else {
-      console.log("❌ NO TOKEN FOUND");
+      if (token) {
+        config.headers = config.headers || {};
+        config.headers.Authorization = `Bearer ${token}`;
+
+        console.log(
+          "🔥 AUTH HEADER SET:",
+          config.headers.Authorization
+        );
+      } else {
+        console.log("❌ NO TOKEN FOUND");
+      }
     }
-  }
 
-  return config;
-});
-
-// 🔥 RESPONSE DEBUG (IMPORTANT)
-API.interceptors.response.use(
-  (res) => {
-    console.log("✅ RESPONSE SUCCESS:", res.config.url);
-    return res;
+    return config;
   },
-  (err) => {
+  (error) => Promise.reject(error)
+);
+
+// ================= RESPONSE INTERCEPTOR =================
+API.interceptors.response.use(
+  (response) => {
+    console.log("✅ RESPONSE SUCCESS:", response.config.url);
+    return response;
+  },
+  (error) => {
     console.log("❌ RESPONSE ERROR:", {
-      url: err.config?.url,
-      status: err.response?.status,
-      message: err.response?.data,
+      url: error.config?.url,
+      status: error.response?.status,
+      message: error.response?.data,
     });
 
-    return Promise.reject(err);
+    // Optional: logout on invalid token
+    if (error.response?.status === 401) {
+      console.log("⚠️ Unauthorized request");
+    }
+
+    return Promise.reject(error);
   }
 );
 
