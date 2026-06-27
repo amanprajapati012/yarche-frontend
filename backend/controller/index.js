@@ -15,6 +15,7 @@ const Otp = require("../models/otpModel");
 const Founder = require("../models/founderModel");
 const Franchise = require("../models/franchiseModel");
 const { v4: uuidv4 } = require("uuid");
+const Address = require("../models/addressModel");
 const mongoose = require("mongoose");
 const { getIO } = require("../socket/socket");
 const Notification = require("../models/Notification");
@@ -114,23 +115,7 @@ const adminLogin = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const {
-      name,
-      email,
-      mobile,
-      password,
-
-      addressLine,
-      landmark,
-      city,
-      district,
-      state,
-      country,
-      pincode,
-
-      latitude,
-      longitude,
-    } = req.body;
+    const { name, email, mobile, password } = req.body;
 
     const existing = await User.findOne({
       $or: [{ email }, { mobile }],
@@ -148,24 +133,9 @@ const register = async (req, res) => {
       email,
       mobile,
       password,
-
-      address: {
-        addressLine,
-        landmark,
-        city,
-        district,
-        state,
-        country,
-        pincode,
-
-        location: {
-          type: "Point",
-          coordinates: [longitude, latitude],
-        },
-      },
     });
 
-    // 🔔 Create Notification
+    // notification (same as before)
     const notification = await Notification.create({
       title: "New Customer Registered",
       message: `${user.name} has created a new account`,
@@ -179,15 +149,11 @@ const register = async (req, res) => {
       },
     });
 
-    // ⚡ Real Time Socket Emit
     try {
       const io = getIO();
-
       io.emit("new-notification", notification);
-
-      console.log("🔔 New Customer Notification Sent:", user.name);
     } catch (socketError) {
-      console.log("Socket Emit Error:", socketError.message);
+      console.log(socketError.message);
     }
 
     const token = user.generateToken();
@@ -210,6 +176,7 @@ const login = async (req, res) => {
   try {
     const { email, mobile, password } = req.body;
 
+    // validation
     if ((!email && !mobile) || !password) {
       return res.status(400).json({
         response: "failed",
@@ -217,6 +184,7 @@ const login = async (req, res) => {
       });
     }
 
+    // find user
     const user = await User.findOne({
       $or: [
         email ? { email: email.toLowerCase().trim() } : null,
@@ -231,6 +199,7 @@ const login = async (req, res) => {
       });
     }
 
+    // check password
     const isMatch = user.comparePassword(password);
 
     if (!isMatch) {
@@ -240,6 +209,7 @@ const login = async (req, res) => {
       });
     }
 
+    // generate token
     const token = user.generateToken();
 
     return res.status(200).json({
@@ -249,33 +219,191 @@ const login = async (req, res) => {
 
       user: {
         id: user._id,
-
         name: user.name,
         email: user.email,
         mobile: user.mobile,
-
-        addressLine: user.address?.addressLine || "",
-        landmark: user.address?.landmark || "",
-
-        city: user.address?.city || "",
-        district: user.address?.district || "",
-        state: user.address?.state || "",
-        country: user.address?.country || "",
-
-        pincode: user.address?.pincode || "",
-
-        latitude:
-          user.address?.location?.coordinates?.[1] || "",
-
-        longitude:
-          user.address?.location?.coordinates?.[0] || "",
-
         createdAt: user.createdAt,
       },
     });
+
   } catch (err) {
     console.log("LOGIN ERROR:", err);
 
+    return res.status(500).json({
+      response: "failed",
+      message: err.message,
+    });
+  }
+};
+
+const addAddress = async (req, res) => {
+  try {
+    console.log("============== ADD ADDRESS ==============");
+    console.log("USER :", req.user);
+    console.log("BODY :", req.body);
+
+    const userId = req.user.id;
+
+    const {
+      type,
+      name,
+      mobile,
+      addressLine,
+      landmark,
+      city,
+      district,
+      state,
+      country,
+      pincode,
+      latitude,
+      longitude,
+    } = req.body;
+
+    const address = await Address.create({
+      user: userId,
+      type,
+      name,
+      mobile,
+      addressLine,
+      landmark,
+      city,
+      district,
+      state,
+      country,
+      pincode,
+      location: {
+        type: "Point",
+        coordinates: [
+          Number(longitude) || 0,
+          Number(latitude) || 0,
+        ],
+      },
+    });
+
+    return res.status(201).json({
+      response: "success",
+      data: address,
+    });
+  } catch (err) {
+    console.log("============== ERROR ==============");
+    console.log(err);
+    console.log(err.message);
+    console.log(err.stack);
+
+    return res.status(500).json({
+      response: "failed",
+      message: err.message,
+    });
+  }
+};
+
+/* ================= GET USER ADDRESSES ================= */
+const getAddresses = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const addresses = await Address.find({ user: userId });
+
+    return res.status(200).json({
+      response: "success",
+      data: addresses,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      response: "failed",
+      message: err.message,
+    });
+  }
+};
+
+
+const updateAddress = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { id } = req.params;
+
+    const address = await Address.findOne({
+      _id: id,
+      user: userId,
+    });
+
+    if (!address) {
+      return res.status(404).json({
+        response: "failed",
+        message: "Address not found",
+      });
+    }
+
+    Object.assign(address, req.body);
+
+    if (req.body.latitude && req.body.longitude) {
+      address.location = {
+        type: "Point",
+        coordinates: [
+          req.body.longitude,
+          req.body.latitude,
+        ],
+      };
+    }
+
+    await address.save();
+
+    return res.status(200).json({
+      response: "success",
+      message: "Address updated successfully",
+      data: address,
+    });
+
+  } catch (err) {
+    return res.status(500).json({
+      response: "failed",
+      message: err.message,
+    });
+  }
+};
+
+/* ================= DELETE ADDRESS ================= */
+const deleteAddress = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await Address.findByIdAndDelete(id);
+
+    return res.status(200).json({
+      response: "success",
+      message: "Address deleted",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      response: "failed",
+      message: err.message,
+    });
+  }
+};
+
+/* ================= SET DEFAULT ADDRESS ================= */
+const setDefaultAddress = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { id } = req.params;
+
+    await Address.updateMany(
+      { user: userId },
+      { isDefault: false }
+    );
+
+    const updated = await Address.findByIdAndUpdate(
+      id,
+      { isDefault: true },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      response: "success",
+      message: "Default address updated",
+      data: updated,
+    });
+  } catch (err) {
     return res.status(500).json({
       response: "failed",
       message: err.message,
@@ -2145,13 +2273,10 @@ module.exports = {
   getAllOrders,
   getOrdersByUser,
   updatePaymentStatus,
-
   applyDiscount,
   getCarousels,
   getReel,
-
   searchProducts,
-
   addSubscriber,
   changePassword,
   createTransaction,
@@ -2163,4 +2288,9 @@ module.exports = {
   getFeaturedCollections,
   getCollectionBySlug,
   updateProfile,
+  addAddress,
+  getAddresses,
+  deleteAddress,
+  setDefaultAddress,
+  updateAddress,
 };

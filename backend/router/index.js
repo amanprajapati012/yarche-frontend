@@ -39,6 +39,11 @@ const {
   getFeaturedCollections,
   getCollectionBySlug,
   updateProfile,
+   addAddress,
+  getAddresses,
+  deleteAddress,
+  setDefaultAddress,
+    updateAddress,
 } = require('../controller');
 
 // ✅ IMPORTANT: middleware se import
@@ -66,6 +71,19 @@ router.post("/register", register)
 
 // Login User
 router.post("/login", login)
+
+router.post("/address", verifyToken, addAddress);
+
+// Get all addresses
+router.get("/address", verifyToken, getAddresses);
+
+
+router.patch("/address/:id", verifyToken, updateAddress);
+// Delete address
+router.delete("/address/:id", verifyToken, deleteAddress);
+
+// Set default address
+router.patch("/address/default/:id", verifyToken, setDefaultAddress);
 
 router.patch("/user/update", verifyToken, updateProfile);
 
