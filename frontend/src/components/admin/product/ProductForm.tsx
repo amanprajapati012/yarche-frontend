@@ -120,11 +120,11 @@ export default function ProductForm({
       quantity: initialData.quantity || 0,
 
       variants:
-  initialData.variants?.map((v: any) => ({
-    ...v,
-    useProductImages:
-      v.useProductImages ?? true,
-  })) || [],
+        initialData.variants?.map((v: any) => ({
+          ...v,
+          useProductImages:
+            v.useProductImages ?? true,
+        })) || [],
     });
 
     setExistingProductImages(
@@ -256,19 +256,19 @@ export default function ProductForm({
 
       // ===== DEBUG START =====
 
-console.log("PRODUCT IMAGES STATE");
-console.log(productImages);
+      console.log("PRODUCT IMAGES STATE");
+      console.log(productImages);
 
-console.log("VARIANT IMAGES STATE");
-console.log(variantImages);
+      console.log("VARIANT IMAGES STATE");
+      console.log(variantImages);
 
-console.log("FORMDATA CONTENT");
+      console.log("FORMDATA CONTENT");
 
-for (const pair of fd.entries()) {
-  console.log(pair[0], pair[1]);
-}
+      for (const pair of fd.entries()) {
+        console.log(pair[0], pair[1]);
+      }
 
-// ===== DEBUG END =====
+      // ===== DEBUG END =====
 
 
       if (isEdit) {
@@ -421,7 +421,7 @@ for (const pair of fd.entries()) {
           disabled={loading}
           className="
             rounded-xl
-            bg-[#28170D]
+            bg-footer
             px-6 py-3
             text-white
             disabled:opacity-50

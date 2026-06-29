@@ -74,7 +74,7 @@ export default function StatsCards({ stats, loading }: Props) {
                   {card.title}
                 </p>
 
-                <h2 className="text-2xl font-bold text-[#28170D] mt-1">
+                <h2 className="text-2xl font-bold text-foreground mt-1">
                   {loading ? "..." : card.value}
                 </h2>
               </div>

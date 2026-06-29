@@ -49,9 +49,9 @@ export default function MobileSearch({
   if (!showSearch) return null;
 
   return (
-    <div className="fixed inset-0 z-[3000] bg-[#FFF6E2] p-5 md:hidden overflow-y-auto">
+    <div className="fixed inset-0 z-[3000] bg-background p-5 md:hidden overflow-y-auto">
       <div className="flex items-center justify-between mb-6">
-        <span className="text-xl font-bold text-[#28170D]">
+        <span className="text-xl font-bold text-foreground">
           Search
         </span>
 
@@ -75,15 +75,15 @@ export default function MobileSearch({
             placeholder="What are you looking for?"
           />
 
-          <button className="bg-[#28170D] text-white px-5">
+          <button className="bg-footer text-white px-5">
             <IconSearch size={20} />
           </button>
         </div>
 
         {query && (
-          <div className="rounded-xl border border-[#28170D]/10 overflow-hidden bg-[#FFF6E2]">
+          <div className="rounded-xl border border-[#28170D]/10 overflow-hidden bg-background">
             {results.length === 0 ? (
-              <div className="p-6 text-center text-[#28170D]">
+              <div className="p-6 text-center text-foreground">
                 No products found
               </div>
             ) : (
@@ -108,12 +108,12 @@ export default function MobileSearch({
                     />
 
                     <div className="flex-1">
-                      <p className="font-medium text-[#28170D] line-clamp-2">
+                      <p className="font-medium text-foreground line-clamp-2">
                         {product.product_name}
                       </p>
 
                       <div className="mt-1 flex items-center gap-2">
-                        <span className="font-bold text-[#28170D]">
+                        <span className="font-bold text-foreground">
                           ₹
                           {product.discountedPrice ||
                             product.price}

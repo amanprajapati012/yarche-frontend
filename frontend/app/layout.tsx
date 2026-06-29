@@ -1,17 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import LayoutWrapper from "@/src/layout/LayoutWrapper";
 import { Toaster } from "sonner";
+import Script from "next/script";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const poppins = Poppins({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-poppins",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-cormorant",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -27,11 +32,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${poppins.variable} ${cormorant.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-[#F9F6F0] text-[#2B2321]">
-
-        {/* ✨ Premium Toast System */}
+      <Script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        strategy="lazyOnload"
+      />
+      <body className="min-h-full bg-[var(--background)] text-[var(--foreground)]">
         <Toaster
           position="top-right"
           richColors
@@ -44,18 +51,14 @@ export default function RootLayout({
             classNames: {
               toast:
                 "group flex items-center gap-3 rounded-2xl border border-[#E6D4B8] bg-[#FFF8EA] px-4 py-3 shadow-[0_10px_30px_rgba(40,23,13,0.12)]",
-              title: "text-[#28170D] font-semibold text-sm",
+              title: "text-foreground font-semibold text-sm",
               description: "text-[#6B5B4D] text-xs",
-              success:
-                "!border-green-200 !bg-green-50",
-              error:
-                "!border-red-200 !bg-red-50",
-              warning:
-                "!border-amber-200 !bg-amber-50",
-              info:
-                "!border-blue-200 !bg-blue-50",
+              success: "!border-green-200 !bg-green-50",
+              error: "!border-red-200 !bg-red-50",
+              warning: "!border-amber-200 !bg-amber-50",
+              info: "!border-blue-200 !bg-blue-50",
               closeButton:
-                "!bg-white !border !border-[#E6D4B8] !text-[#28170D]",
+                "!bg-white !border !border-[#E6D4B8] !text-foreground",
             },
           }}
         />

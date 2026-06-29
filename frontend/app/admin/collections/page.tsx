@@ -126,17 +126,17 @@ export default function CollectionsPage() {
   ];
 
   return (
-    <div className="p-6 space-y-5 bg-[#fff6e2] min-h-screen">
+    <div className="p-6 space-y-5 bg-background min-h-screen">
 
       {/* HEADER */}
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold text-[#28170D]">
+        <h1 className="text-2xl font-semibold text-foreground">
           Collections
         </h1>
 
         <button
           onClick={handleAdd}
-          className="bg-[#28170D] text-white px-4 py-2 rounded-lg hover:opacity-90"
+          className="bg-footer text-white px-4 py-2 rounded-lg hover:opacity-90"
         >
           + Add Collection
         </button>

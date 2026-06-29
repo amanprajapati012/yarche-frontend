@@ -30,12 +30,12 @@ export default function ProductsPage() {
   if (loading) return <Loader />;
 
   return (
-    <div className="bg-[#fff6e2] min-h-screen py-10">
+    <div className="bg-background min-h-screen py-10">
       <div className="max-w-7xl mx-auto px-4">
-        
+
         {/* HEADER */}
         <div className="mb-10">
-          <h1 className="text-4xl font-bold text-[#28170D]">
+          <h1 className="text-4xl font-bold text-foreground">
             All Products
           </h1>
           <p className="text-gray-600 mt-2">

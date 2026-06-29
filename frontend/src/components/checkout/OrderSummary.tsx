@@ -3,23 +3,25 @@
 import { ArrowRight, ShieldCheck } from "lucide-react";
 
 type CartItem = {
-  _id: string;
-  name: string;
-  image?: string;
-  price: number;
-  quantity: number;
+    _id: string;
+    name: string;
+    image?: string;
+    price: number;
+    quantity: number;
 };
 
 type OrderSummaryProps = {
-    items: CartItem[];
-    subtotal: number;
-    shipping: number;
-    total: number;
-    coupon: string;
-    setCoupon: React.Dispatch<React.SetStateAction<string>>;
-    appliedCoupon: string | null;
-    couponDiscount: number;
-    applyCoupon: () => void;
+  items: CartItem[];
+  subtotal: number;
+  shipping: number;
+  total: number;
+  coupon: string;
+  setCoupon: React.Dispatch<React.SetStateAction<string>>;
+  appliedCoupon: string | null;
+  couponDiscount: number;
+  applyCoupon: () => void;
+
+  onPlaceOrder: () => void; // NEW
 };
 
 export default function OrderSummary({
@@ -32,6 +34,7 @@ export default function OrderSummary({
     appliedCoupon,
     couponDiscount,
     applyCoupon,
+    onPlaceOrder,
 }: OrderSummaryProps) {
     return (
         <div className="sticky top-24">
@@ -76,14 +79,21 @@ export default function OrderSummary({
                 <div className="mt-5 flex gap-2">
                     <input
                         value={coupon}
-                        onChange={(e) => setCoupon(e.target.value)}
+                        onChange={(e) =>
+                            setCoupon(
+                                e.target.value
+                                    .toUpperCase()
+                                    .replace(/[^A-Z0-9]/g, "")
+                            )
+                        }
                         placeholder="Apply coupon"
                         className="flex-1 px-3 py-2 rounded-lg bg-[#e0caa8] outline-none"
                     />
 
-                    <button
+                    <button 
+                        disabled={!coupon}
                         onClick={applyCoupon}
-                        className="px-4 py-2 bg-[#3B281C] text-white rounded-lg"
+                        className="px-4 py-2 bg-[#3B281C] text-white rounded-lg disabled:opacity-50"
                     >
                         Apply
                     </button>
@@ -91,7 +101,7 @@ export default function OrderSummary({
 
                 {appliedCoupon && (
                     <p className="text-green-700 text-sm mt-2">
-                        Coupon <strong>{appliedCoupon}</strong> applied!
+                        Coupon <strong>{appliedCoupon}</strong> Applied Successfully 🎉
                     </p>
                 )}
 
@@ -123,10 +133,13 @@ export default function OrderSummary({
                 </div>
 
                 {/* Place Order */}
-                <button className="mt-6 w-full bg-[#2D1A10] text-white py-4 rounded-2xl flex justify-center items-center gap-2 hover:bg-[#3B281C] transition">
-                    Place Order
-                    <ArrowRight size={18} />
-                </button>
+                <button
+    onClick={onPlaceOrder}
+    className="mt-6 w-full bg-[#2D1A10] text-white py-4 rounded-2xl flex justify-center items-center gap-2 hover:bg-[#3B281C] transition"
+>
+    Place Order
+    <ArrowRight size={18} />
+</button>
 
                 {/* Secure Checkout */}
                 <div className="flex items-center gap-2 mt-3 text-xs text-gray-600">

@@ -80,7 +80,7 @@ export default function ProductDetailsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#fff6e2] flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <Loader />
       </div>
     );
@@ -88,9 +88,9 @@ export default function ProductDetailsPage() {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-[#fff6e2] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="bg-[#f5e6c6] border border-[#28170D]/10 rounded-[24px] md:rounded-[30px] p-6 md:p-8 text-center max-w-md w-full">
-          <h2 className="text-2xl md:text-3xl font-black text-[#28170D]">
+          <h2 className="text-2xl md:text-3xl font-black text-foreground">
             Product Not Found
           </h2>
 
@@ -104,13 +104,13 @@ export default function ProductDetailsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#fff6e2] relative overflow-x-hidden">
+    <div className="min-h-screen bg-background relative overflow-x-hidden">
 
       {/* Background Blur */}
 
-      <div className="absolute top-0 left-0 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-[#28170D]/5 blur-[100px] rounded-full" />
+      <div className="absolute top-0 left-0 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-footer/5 blur-[100px] rounded-full" />
 
-      <div className="absolute bottom-0 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-[#28170D]/5 blur-[140px] rounded-full" />
+      <div className="absolute bottom-0 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-footer/5 blur-[140px] rounded-full" />
 
       <div className="relative w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-5 md:py-10">
 
@@ -168,7 +168,7 @@ export default function ProductDetailsPage() {
                   py-2
                   rounded-full
                   bg-[#FF6E23]
-                  text-[#28170D]
+                  text-foreground
                   font-bold
                   text-[11px]
                   md:text-xs
@@ -185,7 +185,7 @@ export default function ProductDetailsPage() {
                   md:text-4xl
                   lg:text-5xl
                   font-black
-                  text-[#28170D]
+                  text-foreground
                   mt-4
                   break-words
                 "

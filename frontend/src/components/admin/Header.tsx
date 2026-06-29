@@ -99,7 +99,7 @@ export default function Header({ setOpen }: HeaderProps) {
         sticky top-0 z-30
         h-20
         border-b border-[#ead9b7]
-        bg-[#fff0d3]/90
+        bg-surface/90
         backdrop-blur-xl
       "
     >
@@ -112,7 +112,7 @@ export default function Header({ setOpen }: HeaderProps) {
               lg:hidden
               rounded-xl
               p-2.5
-              hover:bg-[#28170D]/5
+              hover:bg-footer/5
               transition
             "
           >
@@ -126,7 +126,7 @@ export default function Header({ setOpen }: HeaderProps) {
               h-12 w-12
               items-center justify-center
               rounded-2xl
-              bg-[#28170D]
+              bg-footer
               text-white
               shadow-lg
             "
@@ -137,7 +137,7 @@ export default function Header({ setOpen }: HeaderProps) {
           {/* Heading */}
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold text-[#28170D]">
+              <h1 className="text-xl font-bold text-foreground">
                 Yarche Commerce Hub
               </h1>
 
@@ -158,7 +158,7 @@ export default function Header({ setOpen }: HeaderProps) {
               </span>
             </div>
 
-            <p className="hidden md:flex items-center gap-2 text-xs text-[#28170D]/60 mt-1">
+            <p className="hidden md:flex items-center gap-2 text-xs text-foreground/60 mt-1">
               <LayoutDashboard size={13} />
               Monitor sales, manage inventory, track orders &
               grow your handmade crockery business.
@@ -229,7 +229,7 @@ export default function Header({ setOpen }: HeaderProps) {
       "
               >
                 <div className="flex items-center justify-between p-4 border-b">
-                  <h3 className="font-bold text-[#28170D]">
+                  <h3 className="font-bold text-foreground">
                     Notifications
                   </h3>
 
@@ -240,7 +240,7 @@ export default function Header({ setOpen }: HeaderProps) {
               flex items-center gap-1
               text-xs
               font-semibold
-              text-[#28170D]
+              text-foreground
             "
                     >
                       <CheckCheck size={14} />
@@ -281,7 +281,7 @@ export default function Header({ setOpen }: HeaderProps) {
                           )}
 
                           <div className="flex-1">
-                            <h4 className="font-semibold text-sm text-[#28170D]">
+                            <h4 className="font-semibold text-sm text-foreground">
                               {item.title}
                             </h4>
 
@@ -317,7 +317,7 @@ export default function Header({ setOpen }: HeaderProps) {
                   flex h-11 w-11
                   items-center justify-center
                   rounded-full
-                  bg-[#28170D]
+                  bg-footer
                   text-white
                   font-bold
                 "
@@ -326,11 +326,11 @@ export default function Header({ setOpen }: HeaderProps) {
               </div>
 
               <div className="hidden md:block text-left">
-                <p className="text-sm font-semibold text-[#28170D]">
+                <p className="text-sm font-semibold text-foreground">
                   Admin Panel
                 </p>
 
-                <p className="text-xs text-[#28170D]/60">
+                <p className="text-xs text-foreground/60">
                   Store Administrator
                 </p>
               </div>
@@ -357,7 +357,7 @@ top-16
                 "
               >
                 <div className="p-5 border-b">
-                  <h3 className="font-semibold text-[#28170D]">
+                  <h3 className="font-semibold text-foreground">
                     Welcome Back 👋
                   </h3>
 

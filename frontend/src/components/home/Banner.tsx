@@ -44,7 +44,7 @@ const itemVariants: Variants = {
 
 export default function Banner() {
   return (
-    <section className="bg-[#28170D] text-white py-4 md:py-5 overflow-hidden">
+    <section className="bg-footer text-white py-4 md:py-5 overflow-hidden">
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -76,13 +76,13 @@ export default function Banner() {
             className="text-center"
           >
             <div className="flex items-center justify-center gap-3 mb-2">
-              <div className="h-px w-8 bg-[#FFF6E2]/40" />
+              <div className="h-px w-8 bg-background/40" />
 
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#FFF6E2]/60">
                 Artisan Made
               </span>
 
-              <div className="h-px w-8 bg-[#FFF6E2]/40" />
+              <div className="h-px w-8 bg-background/40" />
             </div>
 
             <h2 className="font-serif text-lg md:text-2xl lg:text-3xl leading-tight">

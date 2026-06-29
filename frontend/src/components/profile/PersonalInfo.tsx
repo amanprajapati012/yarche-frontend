@@ -18,7 +18,7 @@ export default function PersonalInfo() {
           Personal Information
         </h2>
 
-        <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#28170D] text-white">
+        <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-footer text-white">
           <Pencil size={16} />
           Edit
         </button>

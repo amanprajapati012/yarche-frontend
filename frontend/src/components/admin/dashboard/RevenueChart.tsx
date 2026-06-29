@@ -17,7 +17,7 @@ export default function RevenueChart({ data }: any) {
 
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 className="text-lg font-semibold text-[#28170D]">
+          <h2 className="text-lg font-semibold text-foreground">
             Revenue Overview
           </h2>
           <p className="text-xs text-gray-500">

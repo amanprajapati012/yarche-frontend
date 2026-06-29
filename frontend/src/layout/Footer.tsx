@@ -2,13 +2,13 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#28170D] text-[#FFF6E2] py-16 px-6 mt-0">
+    <footer className="w-full bg-footer text-[#FFF6E2] py-16 px-6 mt-0">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-[#FFF6E2]/10 pb-12">
-        
+
         {/* Brand Information Column */}
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-[#FFF6E2] text-[#28170D] rounded-full flex items-center justify-center font-serif font-bold">Y</div>
+            <div className="w-8 h-8 bg-background text-foreground rounded-full flex items-center justify-center font-serif font-bold">Y</div>
             <span className="text-xl font-serif font-bold tracking-wider">YARCHE</span>
           </div>
           <p className="text-xs text-[#FFF6E2]/70 leading-relaxed max-w-xs">
@@ -43,10 +43,10 @@ export default function Footer() {
           <h4 className="text-sm font-bold uppercase tracking-wider text-[#FFF0D3]">Newsletter</h4>
           <p className="text-xs text-[#FFF6E2]/70">Subscribe to get updates on new arrivals.</p>
           <form className="flex items-center border-b border-[#FFF6E2]/30 pb-2">
-            <input 
-              type="email" 
-              placeholder="Enter your email address" 
-              className="bg-transparent text-xs w-full focus:outline-none placeholder-[#FFF6E2]/40 text-[#FFF6E2]" 
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              className="bg-transparent text-xs w-full focus:outline-none placeholder-[#FFF6E2]/40 text-[#FFF6E2]"
             />
             <button type="submit" className="text-sm px-2 hover:translate-x-1 transition-transform">→</button>
           </form>

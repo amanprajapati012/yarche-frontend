@@ -53,7 +53,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="w-full bg-[#FFF6E2] sticky top-0 z-[1000] border-b border-[#28170D]/10">
+    <header className="w-full bg-background sticky top-0 z-[1000] border-b border-[#28170D]/10">
       <div className="max-w-[1440px] mx-auto">
         <TopBar
           user={user}

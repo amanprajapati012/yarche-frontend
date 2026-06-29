@@ -1,32 +1,52 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Main Colors */
+  --background: #fffbf5;
+  --surface: #fff6e8;
+  --footer: #28170d;
+
+  /* Text */
+  --foreground: #28170d;
+  --text-secondary: #6b5a4d;
+
+  /* Inputs */
+  --input-bg: #efd6ad;
+  --border: #e8d9bd;
 }
 
 @theme inline {
+  /* Tailwind Colors */
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-surface: var(--surface);
+  --color-footer: var(--footer);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-foreground: var(--foreground);
+  --color-text-secondary: var(--text-secondary);
+  --color-input-bg: var(--input-bg);
+  --color-border: var(--border);
+
+  /* Fonts */
+  --font-sans: var(--font-poppins);
+  --font-heading: var(--font-cormorant);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins);
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-cormorant);
+}
 
-
+/* Scrollbar */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
@@ -36,21 +56,12 @@ body {
   -ms-overflow-style: none;
 }
 
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-
+/* Inputs */
 input,
 select,
 textarea {
-  background: #efd6ad !important;
-  color: #28170d !important;
+  background: var(--input-bg) !important;
+  color: var(--foreground) !important;
 }
 
 input:-webkit-autofill,
@@ -58,6 +69,6 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
 select:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px #efd6ad inset !important;
-  -webkit-text-fill-color: #28170d !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset !important;
+  -webkit-text-fill-color: var(--foreground) !important;
 }

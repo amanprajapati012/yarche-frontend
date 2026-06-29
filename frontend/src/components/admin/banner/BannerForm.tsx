@@ -123,14 +123,14 @@ export default function BannerForm({
         <div className="border-b border-[#f2d9a6] px-4 sm:px-6 py-4 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <BackButton />
-            <h2 className="text-lg sm:text-xl font-semibold text-[#28170d]">
+            <h2 className="text-lg sm:text-xl font-semibold text-foreground">
               {editData ? "Update Banner" : "Create Banner"}
             </h2>
           </div>
 
           <button
             onClick={() => setOpen(false)}
-            className="text-[#28170d] text-xl"
+            className="text-foreground text-xl"
           >
             ✕
           </button>
@@ -140,7 +140,7 @@ export default function BannerForm({
         <div className="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 overflow-y-auto flex-1">
 
           {/* TITLE */}
-          <div className="rounded-xl p-3 flex gap-2 items-center bg-[#fff0d3]">
+          <div className="rounded-xl p-3 flex gap-2 items-center bg-surface">
             <Type size={18} />
             <input
               value={form.title}
@@ -151,7 +151,7 @@ export default function BannerForm({
           </div>
 
           {/* CAPTION */}
-          <div className="rounded-xl p-3 flex gap-2 items-center bg-[#fff0d3]">
+          <div className="rounded-xl p-3 flex gap-2 items-center bg-surface">
             <FileText size={18} />
             <input
               value={form.caption}
@@ -162,7 +162,7 @@ export default function BannerForm({
           </div>
 
           {/* BUTTON */}
-          <div className="rounded-xl p-3 flex gap-2 items-center bg-[#fff0d3]">
+          <div className="rounded-xl p-3 flex gap-2 items-center bg-surface">
             <Type size={18} />
             <input
               value={form.buttonText}
@@ -173,7 +173,7 @@ export default function BannerForm({
           </div>
 
           {/* LINK */}
-          <div className="rounded-xl p-3 flex gap-2 items-center bg-[#fff0d3]">
+          <div className="rounded-xl p-3 flex gap-2 items-center bg-surface">
             <LinkIcon size={18} />
             <input
               value={form.link}
@@ -184,7 +184,7 @@ export default function BannerForm({
           </div>
 
           {/* DESCRIPTION */}
-          <div className="col-span-1 sm:col-span-2 rounded-xl p-3 bg-[#fff0d3]">
+          <div className="col-span-1 sm:col-span-2 rounded-xl p-3 bg-surface">
             <div className="flex gap-2 mb-2 items-center text-sm">
               <AlignLeft size={18} />
               <span>Description</span>
@@ -200,8 +200,8 @@ export default function BannerForm({
           </div>
 
           {/* IMAGE UPLOAD */}
-          <div className="col-span-1 sm:col-span-2 rounded-xl p-4 bg-[#fff0d3]">
-            <label className="flex gap-2 items-center mb-3 text-[#28170d] font-medium text-sm">
+          <div className="col-span-1 sm:col-span-2 rounded-xl p-4 bg-surface">
+            <label className="flex gap-2 items-center mb-3 text-foreground font-medium text-sm">
               <ImagePlus size={18} />
               Upload Images
             </label>
@@ -218,7 +218,7 @@ export default function BannerForm({
           {/* EXISTING IMAGES */}
           {existingImages.length > 0 && (
             <div className="col-span-1 sm:col-span-2">
-              <h3 className="mb-3 font-semibold text-[#28170d] text-sm">
+              <h3 className="mb-3 font-semibold text-foreground text-sm">
                 Existing Images
               </h3>
 
@@ -245,7 +245,7 @@ export default function BannerForm({
           {/* NEW IMAGES */}
           {images.length > 0 && (
             <div className="col-span-1 sm:col-span-2">
-              <h3 className="mb-3 font-semibold text-[#28170d] text-sm">
+              <h3 className="mb-3 font-semibold text-foreground text-sm">
                 New Images
               </h3>
 
@@ -281,8 +281,8 @@ export default function BannerForm({
             {loading
               ? "Saving..."
               : editData
-              ? "Update Banner"
-              : "Create Banner"}
+                ? "Update Banner"
+                : "Create Banner"}
           </button>
         </div>
       </div>

@@ -9,15 +9,15 @@ import ShopByCategory from "@/src/components/home/ShopByCategory";
 
 export default function Home() {
   return (
-    <div className="w-full bg-[#FFF6E2] min-h-screen">
+    <div className="w-full bg-background min-h-screen">
       <FeatureBar />
       <CollectionTiles />
-      <ShopByCategory/>
-      <TopProducts/>
-      <Banner/>
-      <Bestseller/>
-      <CraftStory/>
-      <NewArrivals/>
+      <ShopByCategory />
+      <TopProducts />
+      <Banner />
+      <Bestseller />
+      <CraftStory />
+      <NewArrivals />
     </div>
   );
 }

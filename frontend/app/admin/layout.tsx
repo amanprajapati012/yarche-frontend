@@ -33,7 +33,7 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-[#fff6e2]">
+    <div className="min-h-screen bg-background">
       <Sidebar open={open} setOpen={setOpen} />
 
       <div className="lg:ml-72">

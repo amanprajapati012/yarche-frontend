@@ -23,7 +23,7 @@ export default function ProductImageSection({
   return (
     <div className="rounded-2xl border bg-white p-6 shadow-sm">
       <div className="mb-6">
-        <h2 className="text-xl font-semibold text-[#28170D]">
+        <h2 className="text-xl font-semibold text-foreground">
           Product Images
         </h2>
 

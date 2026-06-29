@@ -33,13 +33,13 @@ export default function ProductInfo({
   ) => {
     const { name, value } = e.target;
 
-setFormData((prev) => ({
-  ...prev,
-  [name]:
-    e.target.type === "number"
-      ? Number(value)
-      : value,
-}));
+    setFormData((prev) => ({
+      ...prev,
+      [name]:
+        e.target.type === "number"
+          ? Number(value)
+          : value,
+    }));
   };
 
   const fetchCategories = async () => {
@@ -92,7 +92,7 @@ setFormData((prev) => ({
 
   return (
     <div className="rounded-2xl border bg-white p-6 shadow-sm">
-      <h2 className="mb-6 text-xl font-semibold text-[#28170D]">
+      <h2 className="mb-6 text-xl font-semibold text-foreground">
         Product Information
       </h2>
 
@@ -262,87 +262,87 @@ setFormData((prev) => ({
             )}
           </select>
 
-          
+
         </div>
         <div>
-  <label className="mb-2 block text-sm font-medium">
-    Price *
-  </label>
+          <label className="mb-2 block text-sm font-medium">
+            Price *
+          </label>
 
-  <input
-    type="number"
-    name="price"
-    value={formData.price}
-    onChange={handleChange}
-    className="
+          <input
+            type="number"
+            name="price"
+            value={formData.price}
+            onChange={handleChange}
+            className="
       w-full rounded-xl border
       px-4 py-3
       outline-none
       focus:ring-2
       focus:ring-[#28170D]
     "
-  />
-</div>
+          />
+        </div>
 
-<div>
-  <label className="mb-2 block text-sm font-medium">
-    Discounted Price
-  </label>
+        <div>
+          <label className="mb-2 block text-sm font-medium">
+            Discounted Price
+          </label>
 
-  <input
-    type="number"
-    name="discountedPrice"
-    value={formData.discountedPrice}
-    onChange={handleChange}
-    className="
+          <input
+            type="number"
+            name="discountedPrice"
+            value={formData.discountedPrice}
+            onChange={handleChange}
+            className="
       w-full rounded-xl border
       px-4 py-3
       outline-none
       focus:ring-2
       focus:ring-[#28170D]
     "
-  />
-</div>
+          />
+        </div>
 
-<div>
-  <label className="mb-2 block text-sm font-medium">
-    Landing Price
-  </label>
+        <div>
+          <label className="mb-2 block text-sm font-medium">
+            Landing Price
+          </label>
 
-  <input
-    type="number"
-    name="landingPrice"
-    value={formData.landingPrice}
-    onChange={handleChange}
-    className="
+          <input
+            type="number"
+            name="landingPrice"
+            value={formData.landingPrice}
+            onChange={handleChange}
+            className="
       w-full rounded-xl border
       px-4 py-3
       outline-none
       focus:ring-2
       focus:ring-[#28170D]
     "
-  />
-</div>
+          />
+        </div>
 
-<div>
-  <label className="mb-2 block text-sm font-medium">
-    Quantity
-  </label>
+        <div>
+          <label className="mb-2 block text-sm font-medium">
+            Quantity
+          </label>
 
-  <input
-    type="number"
-    name="quantity"
-    value={formData.quantity}
-    onChange={handleChange}
-    className="
+          <input
+            type="number"
+            name="quantity"
+            value={formData.quantity}
+            onChange={handleChange}
+            className="
       w-full rounded-xl border
       px-4 py-3
       outline-none
       focus:ring-2
       focus:ring-[#28170D]
     "
-  />
-</div>
+          />
+        </div>
 
 
 

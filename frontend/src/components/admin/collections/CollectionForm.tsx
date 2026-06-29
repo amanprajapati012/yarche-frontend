@@ -100,7 +100,7 @@ export default function CollectionForm({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      
+
       {/* MODAL */}
       <div className="w-[600px] max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl p-6 space-y-5"
         style={{ backgroundColor: "#fff6e2" }}
@@ -108,7 +108,7 @@ export default function CollectionForm({
 
         {/* HEADER */}
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-semibold flex items-center gap-2 text-[#28170D]">
+          <h2 className="text-xl font-semibold flex items-center gap-2 text-foreground">
             <Tag size={18} />
             {editData ? "Edit Collection" : "Create Collection"}
           </h2>

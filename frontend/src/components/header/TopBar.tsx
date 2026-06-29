@@ -10,6 +10,7 @@ import {
 } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 import API from "@/src/lib/api";
+import Image from "next/image";
 
 interface Props {
   user: any;
@@ -90,14 +91,15 @@ export default function TopBar({
   return (
     <div className="flex items-center justify-between px-4 py-4 md:px-8 md:py-5">
       {/* LOGO */}
-      <Link href="/" className="flex items-center gap-2">
-        <div className="w-9 h-9 bg-[#28170D] rounded-full flex items-center justify-center text-[#FFF6E2] font-serif font-bold text-xl tracking-tight">
-          Y
-        </div>
-
-        <span className="text-3xl font-bold tracking-tighter text-[#28170D]">
-          YARCHE
-        </span>
+      <Link href="/" className="flex items-center">
+        <Image
+          src="/logo3.png"
+          alt="Yarche"
+          width={230}
+          height={90}
+          priority
+          className="h-12 md:h-14 w-auto object-contain"
+        />
       </Link>
 
       {/* DESKTOP SEARCH */}
@@ -106,7 +108,7 @@ export default function TopBar({
         className="hidden md:block flex-1 max-w-xl mx-8 relative"
       >
         <div className="flex bg-white border border-[#28170D]/20 rounded-md overflow-hidden">
-          <button className="flex items-center gap-1 px-4 text-sm font-medium border-r border-[#28170D]/10 text-[#28170D]">
+          <button className="flex items-center gap-1 px-4 text-sm font-medium border-r border-[#28170D]/10 text-foreground">
             All products
             <IconChevronDown size={14} />
           </button>
@@ -119,19 +121,19 @@ export default function TopBar({
             placeholder="What are you looking for?"
           />
 
-          <button className="bg-[#28170D] px-5 text-white">
+          <button className="bg-footer px-5 text-white">
             <IconSearch size={20} />
           </button>
         </div>
 
         {openSearch && (
-          <div className="absolute top-[110%] left-0 w-full z-[9999] bg-[#FFF6E2] border border-[#28170D]/10 rounded-xl shadow-lg overflow-hidden">
+          <div className="absolute top-[110%] left-0 w-full z-[9999] bg-background border border-[#28170D]/10 rounded-xl shadow-lg overflow-hidden">
             {loading ? (
-              <div className="p-4 text-center text-[#28170D]">
+              <div className="p-4 text-center text-foreground">
                 Searching...
               </div>
             ) : results.length === 0 ? (
-              <div className="p-4 text-center text-[#28170D]">
+              <div className="p-4 text-center text-foreground">
                 No products found
               </div>
             ) : (
@@ -157,12 +159,12 @@ export default function TopBar({
                     />
 
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-[#28170D] truncate">
+                      <h4 className="font-medium text-foreground truncate">
                         {product.product_name}
                       </h4>
 
                       <div className="mt-1 flex items-center gap-2">
-                        <span className="font-bold text-[#28170D]">
+                        <span className="font-bold text-foreground">
                           ₹{product.discountedPrice || product.price}
                         </span>
 
@@ -185,7 +187,7 @@ export default function TopBar({
       {/* ICONS */}
       <div className="flex items-center gap-4">
         <button
-          className="md:hidden text-[#28170D]"
+          className="md:hidden text-foreground"
           onClick={() => setShowSearch(true)}
         >
           <IconSearch size={28} />
@@ -197,7 +199,7 @@ export default function TopBar({
               href="/account/profile"
               className="flex items-center gap-3 group"
             >
-              <div className="w-10 h-10 rounded-full bg-[#28170D] text-[#FFF6E2] flex items-center justify-center font-semibold text-sm overflow-hidden">
+              <div className="w-10 h-10 rounded-full bg-footer text-[#FFF6E2] flex items-center justify-center font-semibold text-sm overflow-hidden">
                 {user?.profileImage ? (
                   <img
                     src={user.profileImage}
@@ -209,7 +211,7 @@ export default function TopBar({
                 )}
               </div>
 
-              <div className="text-xs text-[#28170D] hidden lg:block">
+              <div className="text-xs text-foreground hidden lg:block">
                 <p>Welcome</p>
                 <p className="font-bold group-hover:underline">
                   {user.name}
@@ -223,10 +225,10 @@ export default function TopBar({
             >
               <IconUser
                 size={24}
-                className="text-[#28170D]"
+                className="text-foreground"
               />
 
-              <div className="text-xs text-[#28170D]">
+              <div className="text-xs text-foreground">
                 <p>Welcome</p>
                 <p className="font-bold">Log in</p>
               </div>
@@ -242,17 +244,17 @@ export default function TopBar({
 
           <Link
             href="/cart"
-            className="relative text-[#28170D]"
+            className="relative text-foreground"
           >
             <IconShoppingCart size={24} />
 
-            <span className="absolute -top-1.5 -right-1.5 bg-[#28170D] text-[#FFF6E2] text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">
+            <span className="absolute -top-1.5 -right-1.5 bg-footer text-[#FFF6E2] text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">
               {cartItems.length > 9 ? "9+" : cartItems.length}
             </span>
           </Link>
 
           <button
-            className="md:hidden text-[#28170D]"
+            className="md:hidden text-foreground"
             onClick={() => setIsDrawerOpen(true)}
           >
             <IconMenu2 size={28} />

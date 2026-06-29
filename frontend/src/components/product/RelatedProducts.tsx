@@ -17,7 +17,7 @@ export default function RelatedProducts({ products }: any) {
           text-2xl
           md:text-3xl
           font-black
-          text-[#28170D]
+          text-foreground
         "
         >
           Related Products

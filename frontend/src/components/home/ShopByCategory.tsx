@@ -41,12 +41,12 @@ export default function ShopByCategory() {
 
   if (loading) {
     return (
-      <section className="bg-[#fff6e2] py-12 px-5 md:px-10 lg:px-16">
+      <section className="bg-background py-12 px-5 md:px-10 lg:px-16">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {Array.from({ length: 6 }).map((_, i) => (
             <div
               key={i}
-              className="h-44 rounded-[28px] bg-[#fff0d3] animate-pulse"
+              className="h-44 rounded-[28px] bg-surface animate-pulse"
             />
           ))}
         </div>
@@ -55,12 +55,12 @@ export default function ShopByCategory() {
   }
 
   return (
-    <section className="bg-[#fff6e2] py-14 px-5 md:px-10 lg:px-16">
+    <section className="bg-background py-14 px-5 md:px-10 lg:px-16">
       <div className="max-w-7xl mx-auto">
         {/* HEADER */}
         <div className="flex items-end justify-between mb-10">
           <div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-[#28170d]">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-foreground">
               Shop by Category
             </h2>
 
@@ -69,7 +69,7 @@ export default function ShopByCategory() {
 
           <Link
             href="/categories"
-            className="text-sm md:text-base font-semibold text-[#28170d] hover:opacity-80 transition"
+            className="text-sm md:text-base font-semibold text-foreground hover:opacity-80 transition"
           >
             View All →
           </Link>
@@ -78,7 +78,7 @@ export default function ShopByCategory() {
         {/* GRID */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-7">
           {categories.map((cat) => {
-             console.log(cat.category);
+            console.log(cat.category);
             const image = getImage(cat.images?.[0]);
 
             return (
@@ -91,7 +91,7 @@ export default function ShopByCategory() {
                   block
                   rounded-[32px]
                   overflow-hidden
-                  bg-[#fff0d3]
+                  bg-surface
                   border border-[#ead9b8]
                   shadow-sm
                   hover:shadow-2xl

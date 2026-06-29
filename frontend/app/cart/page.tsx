@@ -69,7 +69,7 @@ export default function CartPage() {
     }
 
     return (
-        <section className="bg-[#f3e7d3] min-h-screen py-10">
+        <section className="bg-[var(--background)] py-20] min-h-screen py-10">
             <div className="max-w-[1600px] mx-auto px-4">
 
                 {/* HEADER */}
@@ -180,21 +180,21 @@ export default function CartPage() {
                     {/* RIGHT SIDE SUMMARY */}
                     <div className="sticky top-24">
 
-                        <div className="bg-[#ead7b8] border border-[#d8c2a0] rounded-[34px] p-7 shadow-xl">
+                        <div className="bg-[var(--background)] border border-bg-[var(--footer)] rounded-[34px] p-7 shadow-xl">
 
                             <h2 className="text-2xl font-bold text-[#3B281C]">
                                 Order Summary
                             </h2>
 
                             {/* DELIVERY PROGRESS */}
-                            <div className="mt-6 bg-[#e0caa8] rounded-2xl p-4">
+                            <div className="mt-6 bg-[var(--surface)] rounded-2xl p-4">
 
                                 <div className="flex justify-between text-sm mb-2">
                                     <span>Free Delivery Progress</span>
                                     <span>{Math.round(progress)}%</span>
                                 </div>
 
-                                <div className="h-3 bg-[#d8c2a0] rounded-full overflow-hidden">
+                                <div className="h-3 bg-[var(--surface)] rounded-full overflow-hidden">
                                     <div
                                         className="h-full bg-[#3B281C]"
                                         style={{ width: `${progress}%` }}
@@ -215,17 +215,17 @@ export default function CartPage() {
                             {/* ICON FEATURES */}
                             <div className="grid grid-cols-3 gap-3 mt-5">
 
-                                <div className="bg-[#e0caa8] rounded-2xl p-3 text-center">
+                                <div className="bg-[var(--surface)] rounded-2xl p-3 text-center">
                                     <Truck size={20} className="mx-auto text-[#3B281C]" />
                                     <p className="text-xs mt-2">Fast Delivery</p>
                                 </div>
 
-                                <div className="bg-[#e0caa8] rounded-2xl p-3 text-center">
+                                <div className="bg-[var(--surface)] rounded-2xl p-3 text-center">
                                     <ShieldCheck size={20} className="mx-auto text-[#3B281C]" />
                                     <p className="text-xs mt-2">Secure</p>
                                 </div>
 
-                                <div className="bg-[#e0caa8] rounded-2xl p-3 text-center">
+                                <div className="bg-[var(--surface)] rounded-2xl p-3 text-center">
                                     <BadgeCheck size={20} className="mx-auto text-[#3B281C]" />
                                     <p className="text-xs mt-2">Quality</p>
                                 </div>

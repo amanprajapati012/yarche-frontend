@@ -43,7 +43,7 @@ export default function ProductCard({ product }: any) {
   return (
     <Link
       href={`/products/${slugify(product.name)}`}
-      className="group block bg-[#fff0d3] rounded-[28px] overflow-hidden border border-[#e6d8bc] shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+      className="group block bg-surface rounded-[28px] overflow-hidden border border-[#e6d8bc] shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
     >
       {/* IMAGE */}
       <div className="relative h-[190px] p-3 flex items-center justify-center overflow-hidden">
@@ -98,7 +98,7 @@ export default function ProductCard({ product }: any) {
                 price: product.discountedPrice,
                 originalPrice: product.price,
                 image: imageSrc,
-                  title: product.title,
+                title: product.title,
 
                 stock: product.quantity, // ADD THIS
 

@@ -60,7 +60,7 @@ export default function ImageUploader({
   return (
     <div className="space-y-4">
       {/* LABEL */}
-      <label className="block text-sm font-medium text-[#28170D]">
+      <label className="block text-sm font-medium text-foreground">
         {label}
       </label>
 
@@ -97,7 +97,7 @@ export default function ImageUploader({
       --------------------------- */}
       {existingImages.length > 0 && (
         <div className="space-y-2">
-          <h4 className="text-sm font-medium text-[#28170D]">
+          <h4 className="text-sm font-medium text-foreground">
             Existing Images
           </h4>
 
@@ -134,7 +134,7 @@ export default function ImageUploader({
       --------------------------- */}
       {images.length > 0 && (
         <div className="space-y-2">
-          <h4 className="text-sm font-medium text-[#28170D]">
+          <h4 className="text-sm font-medium text-foreground">
             New Images
           </h4>
 

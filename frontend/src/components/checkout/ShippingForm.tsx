@@ -15,12 +15,20 @@ import { getAddresses } from "@/src/lib/addressApi";
 
 type FormData = {
   addressId?: string;
+
   name: string;
   phone: string;
   email: string;
+
   address: string;
+
+  landmark: string;
+  district: string;
+
   city: string;
   state: string;
+  country: string;
+
   pincode: string;
 };
 
@@ -29,6 +37,7 @@ type Address = {
   type: string;
   name: string;
   mobile: string;
+  email: string;
   addressLine: string;
   landmark?: string;
   city: string;
@@ -62,10 +71,10 @@ export default function ShippingForm({
       setLoading(true);
 
       const res = await getAddresses();
-          console.log("ADDRESS API =>", res.data);
+      console.log("ADDRESS API =>", res.data);
 
       const list: Address[] = res?.data?.data || [];
-          console.log("ADDRESS LIST =>", list);
+      console.log("ADDRESS LIST =>", list);
 
       setAddresses(list);
 
@@ -87,12 +96,22 @@ export default function ShippingForm({
 
     setForm((prev) => ({
       ...prev,
+
       addressId: address._id,
+
       name: address.name,
       phone: address.mobile,
+
       address: address.addressLine,
+      email: address.email || "",
+
+      landmark: address.landmark || "",
+      district: address.district || "",
+
       city: address.city,
       state: address.state,
+      country: address.country || "India",
+
       pincode: address.pincode,
     }));
   };
@@ -193,11 +212,10 @@ export default function ShippingForm({
 
               <label
                 key={address._id}
-                className={`block cursor-pointer rounded-2xl border-2 p-5 transition ${
-                  selectedAddress?._id === address._id
-                    ? "border-[#3B281C] bg-[#f7ebd9]"
-                    : "border-[#d8c2a0] bg-[#e9d3b2]"
-                }`}
+                className={`block cursor-pointer rounded-2xl border-2 p-5 transition ${selectedAddress?._id === address._id
+                  ? "border-[#3B281C] bg-[#f7ebd9]"
+                  : "border-[#d8c2a0] bg-[#e9d3b2]"
+                  }`}
               >
 
                 <div className="flex gap-4">
@@ -270,7 +288,7 @@ export default function ShippingForm({
           </div>
 
           <div className="grid md:grid-cols-2 gap-4">
-                        <Input
+            <Input
               icon={<User size={18} />}
               placeholder="Full Name"
               value={form.name}
@@ -289,12 +307,7 @@ export default function ShippingForm({
               placeholder="Email Address"
               value={form.email}
               className="md:col-span-2"
-              onChange={(e: any) =>
-                setForm((prev) => ({
-                  ...prev,
-                  email: e.target.value,
-                }))
-              }
+              readOnly
             />
 
             <Textarea
@@ -406,4 +419,3 @@ function Textarea({
     </div>
   );
 }
-        

@@ -53,7 +53,7 @@ export default function ProductInfo({
 
         </div>
 
-        <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black text-[#28170D] leading-tight break-words">
+        <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black text-foreground leading-tight break-words">
           {product.name}
         </h1>
 
@@ -78,7 +78,7 @@ export default function ProductInfo({
           product?.category) && (
           <div className="flex flex-wrap gap-2 mt-5">
 
-            <div className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-[#fff3e2] border border-[#28170D]/10 text-[#28170D] text-xs font-semibold">
+            <div className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-[#fff3e2] border border-[#28170D]/10 text-foreground text-xs font-semibold">
               <Tag size={12} />
               {product.category}
             </div>
@@ -91,7 +91,7 @@ export default function ProductInfo({
                 ) => (
                   <div
                     key={index}
-                    className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-[#fff3e2] border border-[#28170D]/10 text-[#28170D] text-xs font-semibold hover:border-[#FF6E23] transition-all"
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-[#fff3e2] border border-[#28170D]/10 text-foreground text-xs font-semibold hover:border-[#FF6E23] transition-all"
                   >
                     <Tag size={12} />
                     {tag}
@@ -105,11 +105,11 @@ export default function ProductInfo({
 
       {/* PRICE */}
 
-      <div className="bg-[#f5e6c6] border border-[#28170D]/10 rounded-[28px] p-6">
+      <div className="bg-[var(--surface)] border border-bg-[var(--footer)]/10 rounded-[28px] p-6">
 
         <div className="flex flex-wrap items-center gap-3">
 
-          <span className="text-4xl md:text-6xl font-black text-[#28170D]">
+          <span className="text-4xl md:text-6xl font-black text-foreground">
             ₹{active.discountedPrice}
           </span>
 
@@ -117,7 +117,7 @@ export default function ProductInfo({
             ₹{active.price}
           </span>
 
-          <span className="bg-[#28170D] text-[#FF6E23] px-3 py-2 rounded-full text-sm font-bold">
+          <span className="bg-footer text-[#FF6E23] px-3 py-2 rounded-full text-sm font-bold">
             {discount}% OFF
           </span>
 
@@ -147,11 +147,11 @@ export default function ProductInfo({
 
       {/* SKU */}
 
-      <div className="bg-[#f5e6c6] border border-[#28170D]/10 rounded-2xl p-4">
+      <div className="bg-[var(--surface)] border border-bg-[var(--footer)]/10 rounded-2xl p-4">
 
         <div className="flex items-center gap-3">
 
-          <div className="w-12 h-12 rounded-xl bg-[#28170D] flex items-center justify-center text-[#FF6E23]">
+          <div className="w-12 h-12 rounded-xl bg-footer flex items-center justify-center text-[#FF6E23]">
             <ScanBarcode size={22} />
           </div>
 
@@ -161,7 +161,7 @@ export default function ProductInfo({
               Product SKU
             </p>
 
-            <p className="font-black text-[#28170D] break-all">
+            <p className="font-black text-foreground break-all">
               {product.productSku}
             </p>
 
@@ -173,12 +173,12 @@ export default function ProductInfo({
 
       {/* DELIVERY */}
 
-      <div className="bg-[#f5e6c6] border border-[#28170D]/10 rounded-[28px] p-5 space-y-4">
+      <div className="bg-[var(--surface)] border border-bg-[var(--footer)]/10 rounded-[28px] p-5 space-y-4">
 
         <div className="flex gap-4">
           <Truck className="text-[#FF6E23]" />
           <div>
-            <h4 className="font-black text-[#28170D]">
+            <h4 className="font-black text-foreground">
               Estimated Delivery
             </h4>
             <p className="text-[#6d5f53]">
@@ -187,12 +187,12 @@ export default function ProductInfo({
           </div>
         </div>
 
-        <div className="h-px bg-[#28170D]/10" />
+        <div className="h-px bg-footer/10" />
 
         <div className="flex gap-4">
           <PackageCheck className="text-[#FF6E23]" />
           <div>
-            <h4 className="font-black text-[#28170D]">
+            <h4 className="font-black text-foreground">
               Free Shipping & Replacement
             </h4>
             <p className="text-[#6d5f53]">
@@ -201,12 +201,12 @@ export default function ProductInfo({
           </div>
         </div>
 
-        <div className="h-px bg-[#28170D]/10" />
+        <div className="h-px bg-footer/10" />
 
         <div className="flex gap-4">
           <ShieldCheck className="text-[#FF6E23]" />
           <div>
-            <h4 className="font-black text-[#28170D]">
+            <h4 className="font-black text-foreground">
               Secure Checkout
             </h4>
             <p className="text-[#6d5f53]">
@@ -221,12 +221,12 @@ export default function ProductInfo({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-        <button className="h-14 md:h-16 rounded-2xl border-2 border-[#28170D] bg-[#fff3e2] text-[#28170D] font-black flex items-center justify-center gap-2 hover:bg-[#28170D] hover:text-white transition-all">
+        <button className="h-14 md:h-16 rounded-2xl border-2 border-[#28170D] bg-[#fff3e2] text-foreground font-black flex items-center justify-center gap-2 hover:bg-footer hover:text-white transition-all">
           <ShoppingCart size={18} />
           Add To Cart
         </button>
 
-        <button className="h-14 md:h-16 rounded-2xl bg-[#28170D] text-white font-black flex items-center justify-center gap-2 hover:scale-[1.03] hover:shadow-xl transition-all">
+        <button className="h-14 md:h-16 rounded-2xl bg-footer text-white font-black flex items-center justify-center gap-2 hover:scale-[1.03] hover:shadow-xl transition-all">
           <Zap size={18} />
           Buy Now Securely
         </button>

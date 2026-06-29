@@ -61,7 +61,7 @@ export default function ProfilePage() {
 
   return (
     <>
-      <div className="min-h-screen bg-[#fff6e2] p-3 lg:p-6 overflow-x-hidden">
+      <div className="min-h-screen bg-[var(--background)]  p-3 lg:p-6 overflow-x-hidden">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6">
 
           <AccountSidebar />
@@ -70,10 +70,10 @@ export default function ProfilePage() {
 
             {/* Header */}
             <div className="mb-6">
-              <h1 className="text-3xl font-bold text-[#28170d]">
+              <h1 className="text-3xl font-bold text-foreground">
                 My Profile
               </h1>
-              <p className="text-[#28170d]/60 mt-1">
+              <p className="text-foreground/60 mt-1">
                 Manage your account information
               </p>
             </div>
@@ -82,36 +82,36 @@ export default function ProfilePage() {
             <div className="grid grid-cols-1 xl:grid-cols-[320px_1fr] gap-6">
 
               {/* LEFT CARD */}
-              <div className="bg-[#fff0d3] border border-[#28170d]/10 rounded-[28px] p-6 text-center min-w-0">
-                <div className="w-28 h-28 mx-auto rounded-full bg-[#28170d] text-white flex items-center justify-center">
+              <div className="bg-surface border border-[#28170d]/10 rounded-[28px] p-6 text-center min-w-0">
+                <div className="w-28 h-28 mx-auto rounded-full bg-footer text-white flex items-center justify-center">
                   <User size={42} />
                 </div>
 
-                <h2 className="text-2xl font-bold text-[#28170d] mt-5 break-words">
+                <h2 className="text-2xl font-bold text-foreground mt-5 break-words">
                   {user?.name || "-"}
                 </h2>
 
-                <p className="text-[#28170d]/70 mt-2 break-all">
+                <p className="text-foreground/70 mt-2 break-all">
                   {user?.email || "-"}
                 </p>
 
-                <p className="text-[#28170d] font-medium mt-2">
+                <p className="text-foreground font-medium mt-2">
                   +91 {user?.mobile || "-"}
                 </p>
               </div>
 
               {/* RIGHT CARD */}
-              <div className="bg-[#fff0d3] border border-[#28170d]/10 rounded-[28px] p-4 md:p-6 min-w-0">
+              <div className="bg-surface border border-[#28170d]/10 rounded-[28px] p-4 md:p-6 min-w-0">
 
                 {/* top bar */}
                 <div className="flex flex-col md:flex-row md:justify-between gap-4 mb-6">
-                  <h2 className="text-2xl font-bold text-[#28170d]">
+                  <h2 className="text-2xl font-bold text-foreground">
                     Personal Information
                   </h2>
 
                   <button
                     onClick={() => setOpenEdit(true)}
-                    className="px-5 py-3 rounded-2xl bg-[#28170d] text-white font-medium flex items-center gap-2"
+                    className="px-5 py-3 rounded-2xl bg-footer text-white font-medium flex items-center gap-2"
                   >
                     <Pencil size={18} />
                     Edit Profile
@@ -138,10 +138,10 @@ export default function ProfilePage() {
       {openEdit && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
 
-          <div className="w-full max-w-lg bg-[#fff0d3] rounded-[30px] p-6">
+          <div className="w-full max-w-lg bg-surface rounded-[30px] p-6">
 
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-2xl font-bold text-[#28170d]">
+              <h3 className="text-2xl font-bold text-foreground">
                 Edit Profile
               </h3>
 
@@ -190,7 +190,7 @@ export default function ProfilePage() {
 
               <button
                 onClick={handleSave}
-                className="flex-1 py-3 rounded-2xl bg-[#28170d] text-white font-semibold"
+                className="flex-1 py-3 rounded-2xl bg-footer text-white font-semibold"
               >
                 Save
               </button>
@@ -208,16 +208,16 @@ export default function ProfilePage() {
 
 function InfoCard({ icon, title, value }: any) {
   return (
-    <div className="bg-[#fff6e2] border border-[#28170d]/10 rounded-2xl p-4 flex gap-4 min-w-0">
+    <div className="bg-background border border-[#28170d]/10 rounded-2xl p-4 flex gap-4 min-w-0">
 
-      <div className="w-12 h-12 rounded-xl bg-[#28170d] text-white flex items-center justify-center shrink-0">
+      <div className="w-12 h-12 rounded-xl bg-footer text-white flex items-center justify-center shrink-0">
         {icon}
       </div>
 
       <div className="min-w-0 flex-1">
-        <p className="text-sm text-[#28170d]/60">{title}</p>
+        <p className="text-sm text-foreground/60">{title}</p>
 
-        <p className="font-semibold text-[#28170d] break-words">
+        <p className="font-semibold text-foreground break-words">
           {value || "-"}
         </p>
       </div>
@@ -231,7 +231,7 @@ function InfoCard({ icon, title, value }: any) {
 function InputField({ label, value, onChange, type = "text" }: any) {
   return (
     <div>
-      <label className="block mb-2 text-sm font-medium text-[#28170d]">
+      <label className="block mb-2 text-sm font-medium text-foreground">
         {label}
       </label>
 
@@ -239,7 +239,7 @@ function InputField({ label, value, onChange, type = "text" }: any) {
         type={type}
         value={value}
         onChange={onChange}
-        className="w-full h-12 px-4 rounded-2xl border border-[#28170d]/15 bg-[#fff6e2] outline-none"
+        className="w-full h-12 px-4 rounded-2xl border border-[#28170d]/15 bg-background outline-none"
       />
     </div>
   );

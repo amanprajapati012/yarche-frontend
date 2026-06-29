@@ -10,6 +10,7 @@ const initialState = {
     type: "home",
     name: "",
     mobile: "",
+    email: "",
     addressLine: "",
     landmark: "",
     city: "",
@@ -47,6 +48,7 @@ export default function AddressModal({
                 type: editData.type || "home",
                 name: editData.name || "",
                 mobile: editData.mobile || "",
+                email: editData.email || "",
                 addressLine: editData.addressLine || "",
                 landmark: editData.landmark || "",
                 city: editData.city || "",
@@ -91,6 +93,14 @@ export default function AddressModal({
 
         if (!/^[6-9]\d{9}$/.test(form.mobile))
             err.mobile = "Enter valid mobile number";
+
+        if (!form.email.trim()) {
+            err.email = "Email is required";
+        } else if (
+            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(form.email)
+        ) {
+            err.email = "Invalid Email";
+        }
 
         if (!form.addressLine.trim())
             err.addressLine = "Address is required";
@@ -262,6 +272,13 @@ export default function AddressModal({
                             onChange={handleChange}
                             error={errors.mobile}
                         />
+                        <Input
+    label="Email Address"
+    name="email"
+    value={form.email}
+    onChange={handleChange}
+    error={errors.email}
+/>
 
                         <div className="md:col-span-2">
                             <Input

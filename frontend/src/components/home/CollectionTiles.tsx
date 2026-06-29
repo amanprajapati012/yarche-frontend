@@ -73,7 +73,7 @@ export default function CollectionTiles() {
   };
 
   return (
-    <section className="relative bg-[#FFF6E2] overflow-hidden py-16 md:py-24">
+    <section className="relative bg-[var(--background)] py-20 overflow-hidden py-16 md:py-24">
       {/* Pattern */}
       <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#28170D_1px,transparent_1px)] [background-size:28px_28px]" />
 
@@ -88,18 +88,18 @@ export default function CollectionTiles() {
           {/* LEFT CONTENT */}
           <div className="lg:col-span-3">
             <div className="flex items-center gap-3 mb-4">
-              <span className="uppercase tracking-[0.25em] text-xs text-[#28170D]/60">
+              <span className="uppercase tracking-[0.25em] text-xs text-foreground/60">
                 Shop Our
               </span>
 
-              <div className="h-px w-12 bg-[#28170D]/20" />
+              <div className="h-px w-12 bg-footer/20" />
             </div>
 
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-[#28170D] leading-tight">
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight">
               Collections
             </h2>
 
-            <p className="mt-5 text-[#28170D]/65 text-sm leading-7">
+            <p className="mt-5 text-foreground/65 text-sm leading-7">
               Discover handcrafted pottery and timeless pieces designed to
               elevate everyday dining.
             </p>
@@ -107,14 +107,14 @@ export default function CollectionTiles() {
             <div className="flex gap-3 mt-8">
               <button
                 onClick={scrollLeft}
-                className="w-11 h-11 rounded-full border border-[#28170D]/20 flex items-center justify-center hover:bg-[#28170D] hover:text-white transition-all"
+                className="w-11 h-11 rounded-full border border-[#28170D]/20 flex items-center justify-center hover:bg-footer hover:text-white transition-all"
               >
                 <ArrowLeft size={18} />
               </button>
 
               <button
                 onClick={scrollRight}
-                className="w-11 h-11 rounded-full border border-[#28170D]/20 flex items-center justify-center hover:bg-[#28170D] hover:text-white transition-all"
+                className="w-11 h-11 rounded-full border border-[#28170D]/20 flex items-center justify-center hover:bg-footer hover:text-white transition-all"
               >
                 <ArrowRight size={18} />
               </button>
@@ -195,7 +195,7 @@ function CollectionCard({
       relative
       overflow-hidden
       rounded-[32px]
-      bg-[#FFF0D3]
+      bg-surface
       shadow-[0_10px_40px_rgba(40,23,13,0.12)]
       hover:shadow-[0_20px_60px_rgba(40,23,13,0.18)]
       hover:-translate-y-2
@@ -232,7 +232,7 @@ function CollectionCard({
           </p>
         </div>
 
-        <button className="w-12 h-12 rounded-full bg-white text-[#28170D] flex items-center justify-center shadow-lg group-hover:translate-x-1 group-hover:scale-105 transition-all">
+        <button className="w-12 h-12 rounded-full bg-white text-foreground flex items-center justify-center shadow-lg group-hover:translate-x-1 group-hover:scale-105 transition-all">
           <ArrowRight size={18} />
         </button>
       </div>

@@ -46,7 +46,7 @@ export default function AddressCard({
   return (
     <div
       className="
-        bg-[#f2d9b1]
+        bg-[var(--background)] 
         border-2
         border-[#d8b98c]
         rounded-2xl
@@ -63,13 +63,13 @@ export default function AddressCard({
 
         <div className="flex items-center gap-3">
 
-          <div className="w-11 h-11 rounded-full bg-[#28170d] text-white flex items-center justify-center">
+          <div className="w-11 h-11 rounded-full bg-footer text-white flex items-center justify-center">
             {getTypeIcon()}
           </div>
 
           <div>
 
-            <h3 className="font-bold text-lg text-[#28170d]">
+            <h3 className="font-bold text-lg text-foreground">
               {data.name}
             </h3>
 
@@ -82,7 +82,7 @@ export default function AddressCard({
                   rounded-full
                   text-xs
                   font-semibold
-                  bg-[#28170d]
+                  bg-footer
                   text-white
                 "
               >
@@ -125,7 +125,7 @@ export default function AddressCard({
 
           <MapPin
             size={18}
-            className="text-[#28170d] mt-1 flex-shrink-0"
+            className="text-foreground mt-1 flex-shrink-0"
           />
 
           <div className="text-[#4d3725] leading-6">
@@ -154,9 +154,9 @@ export default function AddressCard({
 
         <div className="flex items-center gap-3">
 
-          <Phone size={18} className="text-[#28170d]" />
+          <Phone size={18} className="text-foreground" />
 
-          <span className="text-[#28170d] font-medium">
+          <span className="text-foreground font-medium">
             {data.mobile}
           </span>
 
@@ -177,7 +177,7 @@ export default function AddressCard({
             justify-center
             gap-2
             rounded-xl
-            bg-[#28170d]
+            bg-footer
             text-white
             py-3
             font-semibold

@@ -19,9 +19,9 @@ export default function ProductTabs({
   return (
     <div
       className="
-      bg-[#f5e6c6]
+      bg-[var(--surface)]
       border
-      border-[#28170D]/10
+      border-bg-[var(--footer)]/10
       rounded-[32px]
       overflow-hidden
     "
@@ -34,7 +34,7 @@ export default function ProductTabs({
         md:px-10
         py-6
         border-b
-        border-[#28170D]/10
+        border-bg-[var(--footer)]/10
       "
       >
         <div className="flex items-center gap-3">
@@ -44,7 +44,7 @@ export default function ProductTabs({
             w-12
             h-12
             rounded-2xl
-            bg-[#28170D]
+            bg-footer
             text-[#FF6E23]
             flex
             items-center
@@ -60,7 +60,7 @@ export default function ProductTabs({
               text-2xl
               md:text-3xl
               font-black
-              text-[#28170D]
+              text-foreground
             "
             >
               Product Details
@@ -99,10 +99,10 @@ export default function ProductTabs({
           >
             <ShieldCheck
               size={24}
-              className="text-[#28170D]"
+              className="text-foreground"
             />
 
-            <h4 className="font-bold text-[#28170D] mt-3">
+            <h4 className="font-bold text-foreground mt-3">
               Premium Quality
             </h4>
 
@@ -122,10 +122,10 @@ export default function ProductTabs({
           >
             <Truck
               size={24}
-              className="text-[#28170D]"
+              className="text-foreground"
             />
 
-            <h4 className="font-bold text-[#28170D] mt-3">
+            <h4 className="font-bold text-foreground mt-3">
               Fast Delivery
             </h4>
 
@@ -145,10 +145,10 @@ export default function ProductTabs({
           >
             <PackageCheck
               size={24}
-              className="text-[#28170D]"
+              className="text-foreground"
             />
 
-            <h4 className="font-bold text-[#28170D] mt-3">
+            <h4 className="font-bold text-foreground mt-3">
               Easy Replacement
             </h4>
 
@@ -168,10 +168,10 @@ export default function ProductTabs({
           >
             <Sparkles
               size={24}
-              className="text-[#28170D]"
+              className="text-foreground"
             />
 
-            <h4 className="font-bold text-[#28170D] mt-3">
+            <h4 className="font-bold text-foreground mt-3">
               Trusted Product
             </h4>
 
@@ -204,7 +204,7 @@ export default function ProductTabs({
               px-4
               py-2
               rounded-full
-              bg-[#28170D]
+              bg-footer
               text-[#FF6E23]
               text-xs
               font-bold
@@ -248,7 +248,7 @@ export default function ProductTabs({
             border-[#28170D]/10
           "
           >
-            <h4 className="font-black text-[#28170D]">
+            <h4 className="font-black text-foreground">
               Premium Experience
             </h4>
 
@@ -267,7 +267,7 @@ export default function ProductTabs({
             border-[#28170D]/10
           "
           >
-            <h4 className="font-black text-[#28170D]">
+            <h4 className="font-black text-foreground">
               Secure Packaging
             </h4>
 
@@ -286,7 +286,7 @@ export default function ProductTabs({
             border-[#28170D]/10
           "
           >
-            <h4 className="font-black text-[#28170D]">
+            <h4 className="font-black text-foreground">
               Customer First
             </h4>
 

@@ -97,11 +97,10 @@ export default function BannerPage() {
       label: "Status",
       render: (row: any) => (
         <span
-          className={`px-2 py-1 rounded text-xs ${
-            row.isActive
+          className={`px-2 py-1 rounded text-xs ${row.isActive
               ? "bg-green-100 text-green-700"
               : "bg-red-100 text-red-600"
-          }`}
+            }`}
         >
           {row.isActive ? "Active" : "Inactive"}
         </span>
@@ -115,7 +114,7 @@ export default function BannerPage() {
       style={{ background: "#fff6e2" }}
     >
       <div className="flex justify-between items-center mb-5">
-        <h1 className="text-xl font-semibold flex items-center gap-2 text-[#28170d]">
+        <h1 className="text-xl font-semibold flex items-center gap-2 text-foreground">
           <ImageIcon size={20} />
           Banner Management
         </h1>

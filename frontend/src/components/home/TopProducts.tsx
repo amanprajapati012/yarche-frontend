@@ -44,7 +44,7 @@ export default function TopProducts() {
   };
 
   return (
-    <section className="bg-[#FFF6E2] py-16">
+    <section className="bg-background py-16">
       <div className="max-w-7xl mx-auto px-5">
         {/* HEADER */}
         <div className="flex items-center justify-between mb-8">

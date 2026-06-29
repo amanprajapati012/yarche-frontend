@@ -79,7 +79,7 @@ export default function DataTable({
 
       {/* SEARCH BAR */}
       <div className="flex items-center justify-between border-b border-[#f2e4c5] px-5 py-4">
-        <h2 className="text-sm font-semibold text-[#28170D]">
+        <h2 className="text-sm font-semibold text-foreground">
           Table
         </h2>
 
@@ -103,18 +103,18 @@ export default function DataTable({
       {/* TABLE */}
       <div className="overflow-x-auto">
         <table className="min-w-full">
-          <thead className="bg-[#fff0d3]">
+          <thead className="bg-surface">
             <tr>
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  className="px-5 py-4 text-left text-sm font-semibold text-[#28170D]"
+                  className="px-5 py-4 text-left text-sm font-semibold text-foreground"
                 >
                   {column.label}
                 </th>
               ))}
 
-              <th className="px-5 py-4 text-right text-sm font-semibold text-[#28170D]">
+              <th className="px-5 py-4 text-right text-sm font-semibold text-foreground">
                 Actions
               </th>
             </tr>

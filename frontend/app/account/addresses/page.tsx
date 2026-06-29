@@ -50,6 +50,7 @@ export default function AddressesPage() {
         type: form.type,
         name: form.name,
         mobile: form.mobile,
+         email: form.email,   
         addressLine: form.addressLine,
         landmark: form.landmark,
         city: form.city,
@@ -111,7 +112,7 @@ export default function AddressesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7e6c6] py-8 px-4">
+    <div className="min-h-screen bg-[var(--background)]  py-8 px-4">
 
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6">
 
@@ -127,7 +128,7 @@ export default function AddressesPage() {
 
               <div>
 
-                <h1 className="text-3xl font-bold text-[#28170d]">
+                <h1 className="text-3xl font-bold text-foreground">
                   My Addresses
                 </h1>
 
@@ -139,7 +140,7 @@ export default function AddressesPage() {
 
               <button
                 onClick={handleAdd}
-                className="px-6 py-3 rounded-xl bg-[#28170d] text-white font-semibold hover:opacity-90 transition"
+                className="px-6 py-3 rounded-xl bg-footer text-white font-semibold hover:opacity-90 transition"
               >
                 + Add Address
               </button>
@@ -154,7 +155,7 @@ export default function AddressesPage() {
 
             {loading ? (
 
-              <div className="text-center py-20 text-[#28170d]">
+              <div className="text-center py-20 text-foreground">
                 Loading Addresses...
               </div>
 
@@ -162,7 +163,7 @@ export default function AddressesPage() {
 
               <div className="bg-[#f2d9b1] rounded-2xl p-12 text-center">
 
-                <h2 className="text-2xl font-bold text-[#28170d]">
+                <h2 className="text-2xl font-bold text-foreground">
                   No Address Found
                 </h2>
 
@@ -172,7 +173,7 @@ export default function AddressesPage() {
 
                 <button
                   onClick={handleAdd}
-                  className="mt-6 bg-[#28170d] text-white px-6 py-3 rounded-xl"
+                  className="mt-6 bg-footer text-white px-6 py-3 rounded-xl"
                 >
                   Add Address
                 </button>

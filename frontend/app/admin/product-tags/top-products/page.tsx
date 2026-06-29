@@ -79,15 +79,15 @@ export default function TopProductsPage() {
               ...product,
               tags: checked
                 ? [
-                    ...product.tags,
-                    TAG,
-                  ]
+                  ...product.tags,
+                  TAG,
+                ]
                 : product.tags.filter(
-                    (
-                      t: string
-                    ) =>
-                      t !== TAG
-                  ),
+                  (
+                    t: string
+                  ) =>
+                    t !== TAG
+                ),
             };
           })
         );
@@ -114,7 +114,7 @@ export default function TopProductsPage() {
       <div className="rounded-2xl border border-[#ead9b7] bg-white p-6 shadow-sm">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-[#28170D]">
+            <h1 className="text-2xl font-bold text-foreground">
               Top Products
             </h1>
 
@@ -129,7 +129,7 @@ export default function TopProductsPage() {
               Selected Products
             </p>
 
-            <p className="text-2xl font-bold text-[#28170D]">
+            <p className="text-2xl font-bold text-foreground">
               {totalSelected}
             </p>
           </div>

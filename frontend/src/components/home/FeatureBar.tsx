@@ -6,39 +6,39 @@ export default function FeatureBar() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const images = [
-  "https://images.pexels.com/photos/6208086/pexels-photo-6208086.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  "https://images.pexels.com/photos/4252143/pexels-photo-4252143.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  "https://images.pexels.com/photos/3735208/pexels-photo-3735208.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  "https://images.pexels.com/photos/1793035/pexels-photo-1793035.jpeg?auto=compress&cs=tinysrgb&w=1600",
-  "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=1600",
-];
+    "https://images.pexels.com/photos/6208086/pexels-photo-6208086.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "https://images.pexels.com/photos/4252143/pexels-photo-4252143.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "https://images.pexels.com/photos/3735208/pexels-photo-3735208.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "https://images.pexels.com/photos/1793035/pexels-photo-1793035.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  ];
 
- useEffect(() => {
-  const slider = scrollRef.current;
+  useEffect(() => {
+    const slider = scrollRef.current;
 
-  if (!slider) return;
+    if (!slider) return;
 
-  let animationFrame: number;
-  let position = 0;
+    let animationFrame: number;
+    let position = 0;
 
-  const singleSetWidth = slider.scrollWidth / 2;
+    const singleSetWidth = slider.scrollWidth / 2;
 
-  const autoScroll = () => {
-    position += 0.8;
+    const autoScroll = () => {
+      position += 0.8;
 
-    if (position >= singleSetWidth) {
-      position = 0;
-    }
+      if (position >= singleSetWidth) {
+        position = 0;
+      }
 
-    slider.scrollLeft = position;
+      slider.scrollLeft = position;
+
+      animationFrame = requestAnimationFrame(autoScroll);
+    };
 
     animationFrame = requestAnimationFrame(autoScroll);
-  };
 
-  animationFrame = requestAnimationFrame(autoScroll);
-
-  return () => cancelAnimationFrame(animationFrame);
-}, []);
+    return () => cancelAnimationFrame(animationFrame);
+  }, []);
 
   const features = [
     {
@@ -137,7 +137,7 @@ export default function FeatureBar() {
 
         {/* FEATURES */}
         <div className="mt-12 md:mt-16">
-          <div className="bg-[#FFF6E2] rounded-3xl overflow-hidden shadow-xl border border-[#E7D7C3]">
+          <div className="bg-background rounded-3xl overflow-hidden shadow-xl border border-[#E7D7C3]">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
               {features.map((item, index) => (
                 <div

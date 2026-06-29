@@ -55,7 +55,7 @@ export default function ProfileSidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-[#FFF6E2] transition"
+              className="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-background transition"
             >
               <Icon size={20} />
               {item.name}

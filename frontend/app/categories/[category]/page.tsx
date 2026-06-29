@@ -185,9 +185,9 @@ export default function CategoryPage() {
                                 )
                             }
                             className={`px-5 py-2 rounded-full whitespace-nowrap font-medium transition ${selectedSubcategory ===
-                                    "All"
-                                    ? "bg-[#ff6e23] text-white"
-                                    : "bg-white border"
+                                "All"
+                                ? "bg-[#ff6e23] text-white"
+                                : "bg-white border"
                                 }`}
                         >
                             All
@@ -203,9 +203,9 @@ export default function CategoryPage() {
                                         )
                                     }
                                     className={`px-5 py-2 rounded-full whitespace-nowrap font-medium transition ${selectedSubcategory ===
-                                            sub.sub_category
-                                            ? "bg-[#ff6e23] text-white"
-                                            : "bg-white border"
+                                        sub.sub_category
+                                        ? "bg-[#ff6e23] text-white"
+                                        : "bg-white border"
                                         }`}
                                 >
                                     {sub.sub_category}
@@ -246,7 +246,7 @@ export default function CategoryPage() {
                 ) : (
                     <>
                         <div className="mb-8">
-                            <h2 className="text-3xl font-black text-[#28170d]">
+                            <h2 className="text-3xl font-black text-foreground">
                                 Products
                             </h2>
                         </div>

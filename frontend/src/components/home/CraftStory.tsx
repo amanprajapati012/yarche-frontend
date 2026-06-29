@@ -30,9 +30,9 @@ export default function CraftStory() {
   };
 
   return (
-    <section className="bg-[#FFF6E2] py-12 md:py-16">
+    <section className="bg-[var(--background)]  py-12 md:py-16">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="overflow-hidden rounded-3xl border border-[#eadfc5] bg-[#FFF0D3]">
+        <div className="overflow-hidden rounded-3xl border border-[#eadfc5] bg-surface">
           {/* Top Section */}
           <div className="grid md:grid-cols-2">
             {/* Video */}
@@ -54,7 +54,7 @@ export default function CraftStory() {
                 >
                   <div className="w-16 h-16 rounded-full bg-white shadow-xl flex items-center justify-center hover:scale-110 transition-all duration-300">
                     <Play
-                      className="ml-1 text-[#28170D]"
+                      className="ml-1 text-foreground"
                       size={24}
                       fill="currentColor"
                     />
@@ -66,7 +66,7 @@ export default function CraftStory() {
             {/* Content */}
             <div className="relative flex items-center px-8 md:px-14 py-10 md:py-0">
               <div className="max-w-md">
-                <h2 className="font-serif text-3xl md:text-5xl text-[#28170D] leading-tight">
+                <h2 className="font-serif text-3xl md:text-5xl text-foreground leading-tight">
                   Crafted
                   <span className="italic text-[#8B5E3C]"> Slowly.</span>
                   <br />
@@ -79,7 +79,7 @@ export default function CraftStory() {
                   something beautiful.
                 </p>
 
-                <button className="mt-8 bg-[#28170D] text-white px-6 py-3 rounded-full hover:scale-105 transition-all duration-300">
+                <button className="mt-8 bg-footer text-white px-6 py-3 rounded-full hover:scale-105 transition-all duration-300">
                   Discover Our Story →
                 </button>
               </div>
@@ -162,10 +162,10 @@ function Feature({
 }) {
   return (
     <div className="flex items-center gap-3 p-5 md:p-6 border-r border-[#eadfc5] last:border-r-0">
-      <div className="text-[#28170D]">{icon}</div>
+      <div className="text-foreground">{icon}</div>
 
       <div>
-        <h4 className="text-sm font-medium text-[#28170D]">
+        <h4 className="text-sm font-medium text-foreground">
           {title}
         </h4>
 
