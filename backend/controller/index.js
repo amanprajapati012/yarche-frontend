@@ -248,6 +248,7 @@ const addAddress = async (req, res) => {
       type,
       name,
       mobile,
+      email,
       addressLine,
       landmark,
       city,
@@ -259,11 +260,41 @@ const addAddress = async (req, res) => {
       longitude,
     } = req.body;
 
+    // ================= VALIDATION =================
+
+    if (
+      !name ||
+      !mobile ||
+      !email ||
+      !addressLine ||
+      !city ||
+      !state ||
+      !pincode
+    ) {
+      return res.status(400).json({
+        response: "failed",
+        message: "Please fill all required fields",
+      });
+    }
+
+    // Email Validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        response: "failed",
+        message: "Invalid email address",
+      });
+    }
+
     const address = await Address.create({
       user: userId,
+
       type,
       name,
       mobile,
+      email,
+
       addressLine,
       landmark,
       city,
@@ -271,6 +302,7 @@ const addAddress = async (req, res) => {
       state,
       country,
       pincode,
+
       location: {
         type: "Point",
         coordinates: [
@@ -282,8 +314,10 @@ const addAddress = async (req, res) => {
 
     return res.status(201).json({
       response: "success",
+      message: "Address added successfully",
       data: address,
     });
+
   } catch (err) {
     console.log("============== ERROR ==============");
     console.log(err);
@@ -1042,12 +1076,14 @@ const createOrder = async (req, res) => {
       items,
       shipping = 0,
       couponCode,
-      discount = 0, // ✅ ye sahi hai
+      discount = 0,
       paymentMode,
-      address,
+      addressId,
+      email,
     } = req.body;
 
-    // ✅ VALIDATION
+    // ================= VALIDATION =================
+
     if (!user_id) {
       return res.status(400).json({
         message: "User ID is required",
@@ -1062,6 +1098,13 @@ const createOrder = async (req, res) => {
       });
     }
 
+    if (!addressId) {
+      return res.status(400).json({
+        message: "Address is required",
+        response: "failed",
+      });
+    }
+
     if (!items || items.length === 0) {
       return res.status(400).json({
         message: "Items are required",
@@ -1069,7 +1112,22 @@ const createOrder = async (req, res) => {
       });
     }
 
-    // ✅ BUILD ITEMS
+    // ================= GET ADDRESS =================
+
+    const selectedAddress = await Address.findOne({
+      _id: addressId,
+      user: user_id,
+    });
+
+    if (!selectedAddress) {
+      return res.status(404).json({
+        message: "Address not found",
+        response: "failed",
+      });
+    }
+
+    // ================= BUILD ITEMS =================
+
     let formattedItems = [];
     let totalPrice = 0;
     let itemQuantity = 0;
@@ -1092,6 +1150,7 @@ const createOrder = async (req, res) => {
       }
 
       const discounted = product.discountedPrice || product.price;
+
       const itemTotal = discounted * item.quantity;
 
       formattedItems.push({
@@ -1110,38 +1169,66 @@ const createOrder = async (req, res) => {
       itemQuantity += item.quantity;
     }
 
-    const tax = totalPrice * 0.18;
+    const finalTotal = totalPrice + shipping - discount;
 
-    const finalTotal = totalPrice + tax - discount + shipping; // ✅ FINAL TOTAL
+    // ================= ORDER ADDRESS =================
 
-    // 🔥 ================================
-    // 🔥 RAZORPAY LOGIC START
-    // 🔥 ================================
+    const orderAddress = {
+      addressId: selectedAddress._id,
+
+      fullName: selectedAddress.name,
+
+      mobile: selectedAddress.mobile,
+
+      email: email || "",
+
+      addressLine: selectedAddress.addressLine,
+
+      landmark: selectedAddress.landmark,
+
+      district: selectedAddress.district,
+
+      city: selectedAddress.city,
+
+      state: selectedAddress.state,
+
+      country: selectedAddress.country,
+
+      pincode: selectedAddress.pincode,
+    };
+
+    // ================= ONLINE =================
 
     if (paymentMode === "ONLINE") {
-      const options = {
+      const razorpayOrder = await razorpay.orders.create({
         amount: Math.round(finalTotal * 100),
-
         currency: "INR",
         receipt: `order_rcptid_${Date.now()}`,
-      };
+      });
 
-      const razorpayOrder = await razorpay.orders.create(options);
-
-      // ✅ Save order with pending payment
       const newOrder = await Order.create({
         fullName,
         mobile,
         user_id,
+
         items: formattedItems,
+
         totalPrice: finalTotal,
+
         itemQuantity,
+
         shipping,
+
         couponCode,
+
         couponDiscount: discount,
+
         paymentMode,
-        address,
+
+        address: orderAddress,
+
         paymentStatus: "pending",
+
         razorpayOrderId: razorpayOrder.id,
       });
 
@@ -1150,54 +1237,44 @@ const createOrder = async (req, res) => {
         response: "success",
         razorpayOrder,
         order: newOrder,
-        key: process.env.RAZORPAY_KEY_ID, // frontend ke liye
+        key: process.env.RAZORPAY_KEY_ID,
       });
     }
 
-    // 🔥 ================================
-    // 🔥 COD FLOW
-    // 🔥 ================================
+    // ================= COD =================
 
     const newOrder = await Order.create({
       fullName,
       mobile,
       user_id,
+
       items: formattedItems,
+
       totalPrice: finalTotal,
+
       itemQuantity,
+
       shipping,
+
       couponCode,
+
       couponDiscount: discount,
+
       paymentMode,
-      address,
+
+      address: orderAddress,
+
       paymentStatus: "pending",
     });
-
-    // ✅ EMAIL (COD only)
-    try {
-      if (paymentMode === "COD" && address?.email) {
-        const subject = `Order Confirmed #${newOrder._id}`;
-
-        const orderText = `
-          Hello ${fullName},
-          Your order has been placed successfully.
-          Order ID: ${newOrder._id}
-          Total: ₹${finalTotal}
-        `;
-
-        // await sendMail(address.email, subject, orderText);
-      }
-    } catch (err) {
-      console.log("Mail error:", err.message);
-    }
 
     return res.status(201).json({
       message: "Order created successfully",
       response: "success",
       order: newOrder,
     });
+
   } catch (error) {
-    console.error("Create Order Error:", error);
+    console.error(error);
 
     return res.status(500).json({
       message: "Server Error",

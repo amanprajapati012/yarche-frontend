@@ -30,56 +30,7 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    address: {
-      addressLine: {
-        type: String,
-        trim: true,
-      },
-
-      landmark: {
-        type: String,
-        trim: true,
-      },
-
-      city: {
-        type: String,
-        trim: true,
-      },
-
-      district: {
-        type: String,
-        trim: true,
-      },
-
-      state: {
-        type: String,
-        trim: true,
-      },
-
-      country: {
-        type: String,
-        default: "India",
-        trim: true,
-      },
-
-      pincode: {
-        type: String,
-        trim: true,
-      },
-
-      location: {
-        type: {
-          type: String,
-          enum: ["Point"],
-          default: "Point",
-        },
-
-        coordinates: {
-          type: [Number], // [longitude, latitude]
-          default: [0, 0],
-        },
-      },
-    },
+   
   },
   {
     timestamps: true,

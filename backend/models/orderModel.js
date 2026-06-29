@@ -53,14 +53,31 @@ const orderSchema = new mongoose.Schema(
     },
 
     address: {
-      addressLine1: { type: String },
-      addressLine2: { type: String },
-      email: { type: String },
-      city: { type: String },
-      state: { type: String },
-      pincode: { type: Number },
-      country: { type: String, default: "India" }
-    },
+  addressId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Address",
+  },
+
+  fullName: String,
+
+  mobile: String,
+
+  email: String,
+
+  addressLine: String,
+
+  landmark: String,
+
+  district: String,
+
+  city: String,
+
+  state: String,
+
+  country: String,
+
+  pincode: String,
+},
 
     // Payment fields
     transactionNo: {

@@ -25,6 +25,12 @@ const addressSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+    },
 
     addressLine: {
       type: String,
@@ -85,7 +91,7 @@ const addressSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 /* ================= GEO INDEX ================= */
