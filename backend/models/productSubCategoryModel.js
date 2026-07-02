@@ -9,17 +9,19 @@ const productSubCategorySchema = new mongoose.Schema(
       unique: true, // prevent duplicate subcategories
       trim: true,   // remove extra spaces
     },
-    // description: {
-    //   type: String,
-    //   required: true,
-    // },
-    // keyword: {
-    //   type: String, 
-    // },
-    images: {
-      type: [String], // Stores multiple image URLs or paths
-      default: [],
+   
+   images: [
+  {
+    url: {
+      type: String,
+      required: true,
     },
+    public_id: {
+      type: String,
+      required: true,
+    },
+  },
+],
     category_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "ProductCategory", // replace with your actual category model name

@@ -1,4 +1,3 @@
-// models/CourseCategory.js
 const mongoose = require("mongoose");
 
 const productCategorySchema = new mongoose.Schema(
@@ -6,26 +5,29 @@ const productCategorySchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      unique: true, // prevent duplicate categories
-      trim: true,   // remove extra spaces
+      unique: true,
+      trim: true,
     },
-    // description: {
-    //   type: String,
-    //   required: true,
-    // },
-    // keyFeature: {
-    //   type: String,
-    //   required: true,
-    // },
-    // keyword: {
-    //   type: String, 
-    // },
-    images: {
-      type: [String], // Stores multiple image URLs or paths
-      default: [],
-    },
+
+    images: [
+      {
+        url: {
+          type: String,
+          required: true,
+        },
+        public_id: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-module.exports = mongoose.model("ProductCategory", productCategorySchema);
+module.exports = mongoose.model(
+  "ProductCategory",
+  productCategorySchema
+);

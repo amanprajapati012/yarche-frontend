@@ -5,7 +5,7 @@ const ProductSubCategory = require("../models/productSubCategoryModel");
 const User = require("../models/userModel");
 const Discount = require("../models/discountModel");
 const Order = require("../models/orderModel");
-const Carousel = require("../models/carouselModel")
+const Carousel = require("../models/carouselModel");
 const Subscribe = require("../models/subscribeModel");
 // Delete Crousel by ID
 const fs = require("fs");
@@ -13,6 +13,8 @@ const path = require("path");
 const Reel = require("../models/reelModels");
 const Notification = require("../models/Notification");
 const Collection = require("../models/CollectionModel");
+const uploadToCloudinary = require("../utils/uploadToCloudinary");
+const cloudinary = require("../config/cloudinary");
 
 // get App User Cotroller
 const getUsers = async (req, res) => {
@@ -146,75 +148,85 @@ const addProduct = async (req, res) => {
       });
     }
 
-    const parsedVariants =
-      variants
-        ? typeof variants === "string"
-          ? JSON.parse(variants)
-          : variants
-        : [];
+    const parsedVariants = variants
+      ? typeof variants === "string"
+        ? JSON.parse(variants)
+        : variants
+      : [];
 
-    const parsedTags =
-      tags
-        ? typeof tags === "string"
-          ? JSON.parse(tags)
-          : tags
-        : [];
+    const parsedTags = tags
+      ? typeof tags === "string"
+        ? JSON.parse(tags)
+        : tags
+      : [];
 
     const files = req.files || [];
 
-    const productImages = files
-      .filter(
-        (file) =>
-          file.fieldname === "productImages"
-      )
-      .map(
-        (file) =>
-          `/uploads/product/${file.filename}`
-      );
+    // ============================
+    // Upload Product Images
+    // ============================
 
-    const finalVariants =
-      parsedVariants.map(
-        (variant, index) => {
-          const variantImages = files
-            .filter(
-              (file) =>
-                file.fieldname ===
-                `variantImages_${index}`
-            )
-            .map(
-              (file) =>
-                `/uploads/product/${file.filename}`
-            );
+    const productImages = await Promise.all(
+      files
+        .filter((file) => file.fieldname === "productImages")
+        .map(async (file) => {
+          const result = await uploadToCloudinary(file.buffer);
 
           return {
-            ...variant,
-            images: variantImages,
-            useProductImages:
-              variantImages.length === 0,
+            url: result.secure_url,
+            public_id: result.public_id,
           };
-        }
-      );
+        })
+    );
 
-    const product =
-      await Product.create({
-        productSku,
-        name,
-        title,
-        description,
-        full_description,
-        category,
-        sub_category,
+    // ============================
+    // Upload Variant Images
+    // ============================
 
-        price,
-        discountedPrice,
-        landingPrice,
-        quantity,
+    const finalVariants = await Promise.all(
+      parsedVariants.map(async (variant, index) => {
+        const variantFiles = files.filter(
+          (file) => file.fieldname === `variantImages_${index}`
+        );
 
-        tags: parsedTags,
+        const variantImages = await Promise.all(
+          variantFiles.map(async (file) => {
+            const result = await uploadToCloudinary(file.buffer);
 
-        images: productImages,
-        variants: finalVariants,
-      });
+            return {
+              url: result.secure_url,
+              public_id: result.public_id,
+            };
+          })
+        );
+
+        return {
+          ...variant,
+          images: variantImages,
+          useProductImages: variantImages.length === 0,
+        };
+      })
+    );
+
+    const product = await Product.create({
+      productSku,
+      name,
+      title,
+      description,
+      full_description,
+      category,
+      sub_category,
+
+      price,
+      discountedPrice,
+      landingPrice,
+      quantity,
+
+      tags: parsedTags,
+
+      images: productImages,
+      variants: finalVariants,
+    });
 
     return res.status(201).json({
       success: true,
@@ -224,6 +236,7 @@ const addProduct = async (req, res) => {
     console.log(error);
 
     return res.status(500).json({
+      success: false,
       message: error.message,
     });
   }
@@ -237,7 +250,7 @@ const addProduct = async (req, res) => {
 //     // Parse formData JSON values
 //     let removeImages = [];
 //     let existingImages = [];
- 
+
 //     if (req.body.removeImages) {
 //       removeImages = JSON.parse(req.body.removeImages);
 //     }
@@ -279,7 +292,7 @@ const addProduct = async (req, res) => {
 
 //     // Check product exists
 //     const product = await Product.findById(id);
-  
+
 //     if (!product) {
 //       return res.status(404).json({
 //         message: "Product not found",
@@ -487,18 +500,16 @@ const addProduct = async (req, res) => {
 // };
 
 
-const updateProduct = async (
-  req,
-  res
-) => {
+
+const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const product =
-      await Product.findById(id);
+    const product = await Product.findById(id);
 
     if (!product) {
       return res.status(404).json({
+        success: false,
         message: "Product not found",
       });
     }
@@ -536,131 +547,114 @@ const updateProduct = async (
 
     const files = req.files || [];
 
+    // ==========================
+    // Existing Product Images
+    // ==========================
+
     const existingImages =
       oldImages
-        ? JSON.parse(oldImages)
+        ? typeof oldImages === "string"
+          ? JSON.parse(oldImages)
+          : oldImages
         : [];
 
-    const uploadedProductImages =
+    // ==========================
+    // Upload New Product Images
+    // ==========================
+
+    const uploadedProductImages = await Promise.all(
       files
-        .filter(
-          (file) =>
-            file.fieldname ===
-            "productImages"
-        )
-        .map(
-          (file) =>
-            `/uploads/product/${file.filename}`
-        );
-
-    const removedImages =
-      product.images.filter(
-        (img) =>
-          !existingImages.includes(img)
-      );
-
-    removedImages.forEach((img) => {
-      const imagePath = path.join(
-        process.cwd(),
-        img.replace(
-          "/uploads/",
-          "uploads/"
-        )
-      );
-
-      if (
-        fs.existsSync(imagePath)
-      ) {
-        fs.unlinkSync(imagePath);
-      }
-    });
-
-    product.images = [
-      ...existingImages,
-      ...uploadedProductImages,
-    ];
-
-    product.variants =
-      parsedVariants.map(
-        (variant, index) => {
-          const uploadedVariantImages =
-            files
-              .filter(
-                (file) =>
-                  file.fieldname ===
-                  `variantImages_${index}`
-              )
-              .map(
-                (file) =>
-                  `/uploads/product/${file.filename}`
-              );
-
-          const finalImages =
-            uploadedVariantImages.length >
-            0
-              ? uploadedVariantImages
-              : variant.images || [];
+        .filter((file) => file.fieldname === "productImages")
+        .map(async (file) => {
+          const result = await uploadToCloudinary(file.buffer);
 
           return {
-            ...variant,
-            images: finalImages,
-            useProductImages:
-              finalImages.length === 0,
+            url: result.secure_url,
+            public_id: result.public_id,
           };
-        }
-      );
+        })
+    );
 
-    product.productSku =
-      productSku;
+    product.images = [...existingImages, ...uploadedProductImages];
+
+    // ==========================
+    // Upload Variant Images
+    // ==========================
+
+    product.variants = await Promise.all(
+      parsedVariants.map(async (variant, index) => {
+
+        const variantFiles = files.filter(
+          (file) => file.fieldname === `variantImages_${index}`
+        );
+
+        const uploadedVariantImages = await Promise.all(
+          variantFiles.map(async (file) => {
+            const result = await uploadToCloudinary(file.buffer);
+
+            return {
+              url: result.secure_url,
+              public_id: result.public_id,
+            };
+          })
+        );
+
+        const finalImages =
+          uploadedVariantImages.length > 0
+            ? uploadedVariantImages
+            : variant.images || [];
+
+        return {
+          ...variant,
+          images: finalImages,
+          useProductImages: finalImages.length === 0,
+        };
+      })
+    );
+
+    // ==========================
+    // Update Product Fields
+    // ==========================
+
+    product.productSku = productSku;
     product.name = name;
     product.title = title;
-    product.description =
-      description;
-    product.full_description =
-      full_description;
-    product.category =
-      category;
-    product.sub_category =
-      sub_category;
+    product.description = description;
+    product.full_description = full_description;
+    product.category = category;
+    product.sub_category = sub_category;
 
     product.price = price;
-    product.discountedPrice =
-      discountedPrice;
-    product.landingPrice =
-      landingPrice;
-    product.quantity =
-      quantity;
+    product.discountedPrice = discountedPrice;
+    product.landingPrice = landingPrice;
+    product.quantity = quantity;
 
     product.tags = parsedTags;
 
     await product.save();
 
-    return res.json({
+    return res.status(200).json({
       success: true,
-      message:
-        "Product updated successfully",
+      message: "Product updated successfully",
       product,
     });
+
   } catch (error) {
     console.log(error);
 
     return res.status(500).json({
+      success: false,
       message: error.message,
     });
   }
-};
+}
 
-const updateProductTag = async (
-  req,
-  res
-) => {
+const updateProductTag = async (req, res) => {
   const { id } = req.params;
 
-  const { tag, checked } =
-    req.body;
+  const { tag, checked } = req.body;
 
-  const product =
-    await Product.findById(id);
+  const product = await Product.findById(id);
 
   if (!product) {
     return res.status(404).json({
@@ -669,16 +663,11 @@ const updateProductTag = async (
   }
 
   if (checked) {
-    if (
-      !product.tags.includes(tag)
-    ) {
+    if (!product.tags.includes(tag)) {
       product.tags.push(tag);
     }
   } else {
-    product.tags =
-      product.tags.filter(
-        (item) => item !== tag
-      );
+    product.tags = product.tags.filter((item) => item !== tag);
   }
 
   await product.save();
@@ -736,7 +725,6 @@ const updateProductTag = async (
 //   }
 // };
 
-
 const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
@@ -745,57 +733,63 @@ const deleteProduct = async (req, res) => {
 
     if (!product) {
       return res.status(404).json({
+        success: false,
         message: "Product not found",
-        response: "failed",
       });
     }
 
-    // Main product images delete
-    product.images.forEach((img) => {
-      const imagePath = path.join(
-        process.cwd(),
-        "uploads/product",
-        path.basename(img)
-      );
+    // ==========================
+    // Delete Product Images
+    // ==========================
 
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath);
-      }
-    });
-
-    // Variant images delete
-    product.variants?.forEach((variant) => {
-      variant.images?.forEach((img) => {
-        const imagePath = path.join(
-          process.cwd(),
-          "uploads/product",
-          path.basename(img)
-        );
-
-        if (fs.existsSync(imagePath)) {
-          fs.unlinkSync(imagePath);
+    if (product.images?.length) {
+      for (const image of product.images) {
+        try {
+          await cloudinary.uploader.destroy(image.public_id);
+        } catch (err) {
+          console.log("Product Image Delete Error:", err.message);
         }
-      });
-    });
+      }
+    }
+
+    // ==========================
+    // Delete Variant Images
+    // ==========================
+
+    if (product.variants?.length) {
+      for (const variant of product.variants) {
+        if (variant.images?.length) {
+          for (const image of variant.images) {
+            try {
+              await cloudinary.uploader.destroy(image.public_id);
+            } catch (err) {
+              console.log("Variant Image Delete Error:", err.message);
+            }
+          }
+        }
+      }
+    }
+
+    // ==========================
+    // Delete Product From MongoDB
+    // ==========================
 
     await Product.findByIdAndDelete(id);
 
-    res.status(200).json({
+    return res.status(200).json({
+      success: true,
       message: "Product deleted successfully",
-      response: "success",
     });
+
   } catch (err) {
-    res.status(500).json({
-      message: "Failed to delete product",
-      response: "failed",
-      error: err.message,
+    console.log(err);
+
+    return res.status(500).json({
+      success: false,
+      message: err.message,
     });
   }
 };
-
-
-
-
 
 // ➤ Add Category
 const addCategory = async (req, res) => {
@@ -804,30 +798,38 @@ const addCategory = async (req, res) => {
 
     if (!category) {
       return res.status(400).json({
-        message: "Category is required",
         response: "failed",
+        message: "Category is required",
       });
     }
 
-     // Handle uploaded images from multer
-    const imageFiles = req.files || [];
-    const imagePaths = imageFiles.map(
-      (file) => `/uploads/product/${file.filename}`
-    );
+    const uploadedImages = [];
 
-    const newCategory = new ProductCategory({ category : category, images: imagePaths });
-    await newCategory.save();
+    if (req.files?.length) {
+      for (const file of req.files) {
+        const result = await uploadToCloudinary(file.buffer);
+
+        uploadedImages.push({
+          url: result.secure_url,
+          public_id: result.public_id,
+        });
+      }
+    }
+
+    const newCategory = await ProductCategory.create({
+      category,
+      images: uploadedImages,
+    });
 
     res.status(201).json({
-      message: "Category added successfully",
       response: "success",
+      message: "Category added successfully",
       data: newCategory,
     });
   } catch (err) {
     res.status(500).json({
-      message: "Server error",
-      error: err.message,
       response: "failed",
+      message: err.message,
     });
   }
 };
@@ -885,53 +887,84 @@ const getCategoryById = async (req, res) => {
     });
   }
 };
+//update category
 
-// ➤ Update Category
 const updateCategory = async (req, res) => {
   try {
     const { id } = req.params;
-    const { category } = req.body;
+    const { category, oldImages } = req.body;
 
-    // Find existing subcategory
     const existingCategory = await ProductCategory.findById(id);
 
     if (!existingCategory) {
       return res.status(404).json({
-        message: "Category not found",
         response: "failed",
+        message: "Category not found",
       });
     }
 
-    // Handle uploaded images
-    const imageFiles = req.files || [];
-    const imagePaths = imageFiles.map(
-      (file) => `/uploads/product/${file.filename}`
+    let images = [];
+
+    if (oldImages) {
+      try {
+        images = JSON.parse(oldImages);
+      } catch (err) {
+        images = [];
+      }
+    }
+
+    // Upload new images
+    if (req.files?.length) {
+      for (const file of req.files) {
+        const result = await uploadToCloudinary(file.buffer);
+
+        images.push({
+          url: result.secure_url,
+          public_id: result.public_id,
+        });
+      }
+    }
+
+    // Delete removed Cloudinary images
+    const removedImages = existingCategory.images.filter(
+      (img) =>
+        !images.some(
+          (i) => i.public_id && i.public_id === img.public_id
+        )
     );
 
-    // Prepare update data
-    const updateData = {};
-    if (category) updateData.category = category;
+    for (const image of removedImages) {
+      if (image.public_id) {
+        try {
+          await cloudinary.uploader.destroy(image.public_id);
+        } catch (err) {
+          console.error(
+            "Cloudinary delete failed:",
+            image.public_id,
+            err.message
+          );
+        }
+      }
+    }
 
-    // If new images uploaded, replace; otherwise keep old ones
-    updateData.images =
-      imagePaths.length > 0 ? imagePaths : existingCategory.images;
+    existingCategory.category =
+      category || existingCategory.category;
 
-    const updatedCategory = await ProductCategory.findByIdAndUpdate(
-      id,
-      updateData,
-      { new: true, runValidators: true }
-    );
-  
-    res.status(200).json({
-      message: "Category updated successfully",
+    existingCategory.images = images;
+
+    await existingCategory.save();
+
+    res.json({
       response: "success",
-      data: updatedCategory,
+      message: "Category updated successfully",
+      data: existingCategory,
     });
   } catch (err) {
+    console.error(err);
+
     res.status(500).json({
-      message: "Server error",
-      error: err.message,
       response: "failed",
+      message: err.message,
     });
   }
 };
@@ -939,26 +972,41 @@ const updateCategory = async (req, res) => {
 // ➤ Delete Category
 const deleteCategory = async (req, res) => {
   try {
-    const { id } = req.params;
+    const category = await ProductCategory.findById(req.params.id);
 
-    const deletedCategory = await ProductCategory.findByIdAndDelete(id);
-
-    if (!deletedCategory) {
+    if (!category) {
       return res.status(404).json({
-        message: "Category not found",
         response: "failed",
+        message: "Category not found",
       });
     }
 
-    res.status(200).json({
-      message: "Category deleted successfully",
+    for (const image of category.images) {
+      if (image.public_id) {
+        try {
+          await cloudinary.uploader.destroy(image.public_id);
+        } catch (err) {
+          console.error(
+            "Cloudinary delete failed:",
+            image.public_id,
+            err.message
+          );
+        }
+      }
+    }
+
+    await category.deleteOne();
+
+    res.json({
       response: "success",
+      message: "Category deleted successfully",
     });
   } catch (err) {
+    console.error(err);
+
     res.status(500).json({
-      message: "Server error",
-      error: err.message,
       response: "failed",
+      message: err.message,
     });
   }
 };
@@ -966,52 +1014,55 @@ const deleteCategory = async (req, res) => {
 // ➤ Add Sub Category
 const addSubCategory = async (req, res) => {
   try {
-    const { sub_category, category_id, } = req.body;
+    const { sub_category, category_id } = req.body;
 
-    // Validate inputs
     if (!sub_category || !category_id) {
       return res.status(400).json({
-        message: "Sub-category name and category_id are required",
         response: "failed",
+        message: "Sub-category name and category_id are required",
       });
     }
 
-    // Handle uploaded images from multer
-    const imageFiles = req.files || [];
-    const imagePaths = imageFiles.map(
-      (file) => `/uploads/product/${file.filename}`
-    );
+    const existingSubCategory =
+      await ProductSubCategory.findOne({ sub_category });
 
-    // Check if subcategory already exists (optional but recommended)
-    const existingSubCategory = await ProductSubCategory.findOne({
-      sub_category,
-    });
     if (existingSubCategory) {
       return res.status(400).json({
-        message: "Sub-category already exists",
         response: "failed",
+        message: "Sub-category already exists",
       });
     }
 
-    // Create and save new subcategory
-    const newSubCategory = new ProductSubCategory({
+    const uploadedImages = [];
+
+    if (req.files?.length) {
+      for (const file of req.files) {
+        const result = await uploadToCloudinary(file.buffer);
+
+        uploadedImages.push({
+          url: result.secure_url,
+          public_id: result.public_id,
+        });
+      }
+    }
+
+    const newSubCategory = await ProductSubCategory.create({
       sub_category,
       category_id,
-      images: imagePaths,
+      images: uploadedImages,
     });
 
-    await newSubCategory.save();
-
     res.status(201).json({
-      message: "Sub-category added successfully",
       response: "success",
+      message: "Sub-category added successfully",
       data: newSubCategory,
     });
   } catch (err) {
+    console.error(err);
+
     res.status(500).json({
-      message: "Server error",
-      error: err.message,
       response: "failed",
+      message: err.message,
     });
   }
 };
@@ -1019,18 +1070,11 @@ const addSubCategory = async (req, res) => {
 // ➤ Get All Sub Categories
 const getSubCategories = async (req, res) => {
   try {
-    
-    const sub_categories = await ProductSubCategory.find().sort({
-      createdAt: -1,
-    });
-
-    if (!sub_categories || sub_categories.length === 0) {
-      return res.status(404).json({
-        message: "No categories found",
-        response: "failed",
-        data: [],
+    const sub_categories = await ProductSubCategory.find()
+      .populate("category_id", "category")
+      .sort({
+        createdAt: -1,
       });
-    }
 
     res.status(200).json({
       message: "Categories retrieved successfully",
@@ -1038,6 +1082,8 @@ const getSubCategories = async (req, res) => {
       data: sub_categories,
     });
   } catch (err) {
+    console.error("GET SUB CATEGORIES ERROR:", err);
+
     res.status(500).json({
       message: "Server error",
       error: err.message,
@@ -1050,7 +1096,10 @@ const getSubCategories = async (req, res) => {
 const getSubCategoryById = async (req, res) => {
   try {
     const { id } = req.params;
-    const sub_category = await ProductSubCategory.findById(id);
+
+    const sub_category =
+      await ProductSubCategory.findById(id)
+        .populate("category_id", "category");
 
     if (!sub_category) {
       return res.status(404).json({
@@ -1065,6 +1114,8 @@ const getSubCategoryById = async (req, res) => {
       data: sub_category,
     });
   } catch (err) {
+    console.error("GET SUB CATEGORY ERROR:", err);
+
     res.status(500).json({
       message: "Server error",
       error: err.message,
@@ -1077,49 +1128,93 @@ const getSubCategoryById = async (req, res) => {
 const updateSubCategory = async (req, res) => {
   try {
     const { id } = req.params;
-    const { sub_category, category_id, } = req.body;
 
-    // Find existing subcategory
-    const existingSubCategory = await ProductSubCategory.findById(id);
+    const {
+      sub_category,
+      category_id,
+      oldImages,
+    } = req.body;
+
+    const existingSubCategory =
+      await ProductSubCategory.findById(id);
+
     if (!existingSubCategory) {
       return res.status(404).json({
-        message: "Sub-category not found",
         response: "failed",
+        message: "Sub-category not found",
       });
     }
 
-    // Handle uploaded images
-    const imageFiles = req.files || [];
-    const imagePaths = imageFiles.map(
-      (file) => `/uploads/product/${file.filename}`
-    );
+    let images = [];
 
-    // Prepare update data
-    const updateData = {};
-    if (sub_category) updateData.sub_category = sub_category;
-    if (category_id) updateData.category_id = category_id;
+    if (oldImages) {
+      try {
+        images = JSON.parse(oldImages);
+      } catch {
+        images = [];
+      }
+    }
 
-    // If new images uploaded, replace; otherwise keep old ones
-    updateData.images =
-      imagePaths.length > 0 ? imagePaths : existingSubCategory.images;
+    if (req.files?.length) {
+      for (const file of req.files) {
+        const result =
+          await uploadToCloudinary(file.buffer);
 
-    // Update document
-    const updatedSubCategory = await ProductSubCategory.findByIdAndUpdate(
-      id,
-      updateData,
-      { new: true, runValidators: true }
-    );
+        images.push({
+          url: result.secure_url,
+          public_id: result.public_id,
+        });
+      }
+    }
+
+    const removedImages =
+      existingSubCategory.images.filter(
+        (img) =>
+          !images.some(
+            (i) =>
+              i.public_id &&
+              i.public_id === img.public_id
+          )
+      );
+
+    for (const image of removedImages) {
+      if (image.public_id) {
+        try {
+          await cloudinary.uploader.destroy(
+            image.public_id
+          );
+        } catch (err) {
+          console.error(
+            "Cloudinary delete error:",
+            err.message
+          );
+        }
+      }
+    }
+
+    existingSubCategory.sub_category =
+      sub_category ||
+      existingSubCategory.sub_category;
+
+    existingSubCategory.category_id =
+      category_id ||
+      existingSubCategory.category_id;
+
+    existingSubCategory.images = images;
+
+    await existingSubCategory.save();
 
     res.status(200).json({
-      message: "Sub-category updated successfully",
       response: "success",
-      data: updatedSubCategory,
+      message: "Sub-category updated successfully",
+      data: existingSubCategory,
     });
   } catch (err) {
+    console.error(err);
+
     res.status(500).json({
-      message: "Server error",
-      error: err.message,
       response: "failed",
+      message: err.message,
     });
   }
 };
@@ -1127,26 +1222,43 @@ const updateSubCategory = async (req, res) => {
 // ➤ Delete sub_category
 const deleteSubCategory = async (req, res) => {
   try {
-    const { id } = req.params;
+    const subCategory =
+      await ProductSubCategory.findById(req.params.id);
 
-    const deletedsub_category = await ProductSubCategory.findByIdAndDelete(id);
-
-    if (!deletedsub_category) {
+    if (!subCategory) {
       return res.status(404).json({
-        message: "Category not found",
         response: "failed",
+        message: "Sub-category not found",
       });
     }
 
+    for (const image of subCategory.images) {
+      if (image.public_id) {
+        try {
+          await cloudinary.uploader.destroy(
+            image.public_id
+          );
+        } catch (err) {
+          console.error(
+            "Cloudinary delete error:",
+            err.message
+          );
+        }
+      }
+    }
+
+    await subCategory.deleteOne();
+
     res.status(200).json({
-      message: "Category deleted successfully",
       response: "success",
+      message: "Sub-category deleted successfully",
     });
   } catch (err) {
+    console.error(err);
+
     res.status(500).json({
-      message: "Server error",
-      error: err.message,
       response: "failed",
+      message: err.message,
     });
   }
 };
@@ -1214,10 +1326,7 @@ const markNotificationRead = async (req, res) => {
 
 const markAllNotificationsRead = async (req, res) => {
   try {
-    await Notification.updateMany(
-      { read: false },
-      { read: true }
-    );
+    await Notification.updateMany({ read: false }, { read: true });
 
     res.status(200).json({
       message: "All notifications marked as read",
@@ -1259,7 +1368,7 @@ const createTestNotification = async (req, res) => {
 // Create Discount
 // ----------------------------------------
 const createDiscount = async (req, res) => {
-    console.log("🔥 CREATE DISCOUNT HIT");
+  console.log("🔥 CREATE DISCOUNT HIT");
   console.log("BODY:", req.body);
   console.log("USER:", req.user);
   try {
@@ -1388,33 +1497,33 @@ const getOrderById = async (req, res) => {
     const order = await Order.findById(req.params.id);
 
     if (!order) {
-      return res.status(404).json({ message: "Order not found", response : "failed" });
+      return res
+        .status(404)
+        .json({ message: "Order not found", response: "failed" });
     }
 
-    res.status(200).json({message: "Data Found", response : "success", order});
+    res.status(200).json({ message: "Data Found", response: "success", order });
   } catch (error) {
     console.error("Get Order Error:", error);
-    res.status(500).json({ message: "Server Error", response : "failed" });
+    res.status(500).json({ message: "Server Error", response: "failed" });
   }
 };
-
 
 // Update Only Delivery Status
 
 const updateDeliveryStatus = async (req, res) => {
-  
   try {
-    const {orderId} = req.params;
+    const { orderId } = req.params;
     const { deliveryStatus } = req.body;
 
     // Validate input
     if (!deliveryStatus) {
       return res.status(400).json({
         message: "deliveryStatus is required",
-        response: "failed"
+        response: "failed",
       });
     }
-    
+
     // Allowed delivery statuses
     const validStatuses = [
       "Pending",
@@ -1423,13 +1532,13 @@ const updateDeliveryStatus = async (req, res) => {
       "Out_for_delivery",
       "Delivered",
       "Cancelled",
-      "Returned"
+      "Returned",
     ];
 
     if (!validStatuses.includes(deliveryStatus)) {
       return res.status(400).json({
         message: `Invalid deliveryStatus. Allowed: ${validStatuses.join(", ")}`,
-        response: "failed"
+        response: "failed",
       });
     }
 
@@ -1437,28 +1546,26 @@ const updateDeliveryStatus = async (req, res) => {
     const updatedOrder = await Order.findByIdAndUpdate(
       orderId,
       { deliveryStatus },
-      { new: true }
+      { new: true },
     );
-
 
     if (!updatedOrder) {
       return res.status(404).json({
         message: "Order not found",
-        response: "failed"
+        response: "failed",
       });
     }
 
     return res.json({
       message: "Delivery status updated successfully",
       response: "success",
-      order: updatedOrder
+      order: updatedOrder,
     });
-
   } catch (error) {
     return res.status(500).json({
       message: "Internal server error",
       response: "failed",
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -1478,7 +1585,7 @@ const addCarousel = async (req, res) => {
     const imageFiles = req.files || [];
 
     const imagePaths = imageFiles.map(
-      (file) => `/uploads/product/${file.filename}`
+      (file) => `/uploads/product/${file.filename}`,
     );
 
     const newCarousel = new Carousel({
@@ -1560,7 +1667,7 @@ const updateCarousel = async (req, res) => {
     /* NEW IMAGES */
     const imageFiles = req.files || [];
     const newImages = imageFiles.map(
-      (file) => `/uploads/product/${file.filename}`
+      (file) => `/uploads/product/${file.filename}`,
     );
 
     /* EXISTING IMAGES */
@@ -1609,7 +1716,6 @@ const getAllCarousel = async (req, res) => {
 
 // Delete Carousel by ID (and remove image from /uploads/product)
 const deleteCarousel = async (req, res) => {
-
   try {
     const { id } = req.params;
 
@@ -1627,7 +1733,7 @@ const deleteCarousel = async (req, res) => {
       const imagePath = path.join(
         process.cwd(),
         "uploads/product", // adjust if your upload folder is different
-        path.basename(carousel.images[0])
+        path.basename(carousel.images[0]),
       );
 
       // Check if file exists, then delete
@@ -1653,57 +1759,75 @@ const deleteCarousel = async (req, res) => {
   }
 };
 
-
-
-
 // ================= ADD COLLECTION =================
 const addCollection = async (req, res) => {
   try {
-    const { name, slug, description, isActive, isFeatured, sortOrder } = req.body;
-
-    if (!name || !slug) {
-      return res.status(400).json({
-        message: "Name & Slug required",
-        response: "failed",
-      });
-    }
-
-    const existing = await Collection.findOne({ slug });
-    if (existing) {
-      return res.status(400).json({
-        message: "Slug already exists",
-        response: "failed",
-      });
-    }
-
-    const imageFiles = req.files || [];
-
-    const imagePaths = imageFiles.map(
-      (file) => `/uploads/product/${file.filename}`
-    );
-
-    const collection = new Collection({
+    const {
       name,
       slug,
       description,
       isActive,
       isFeatured,
       sortOrder,
-      image: imagePaths[0] || "",
-      thumbnail: imagePaths[1] || "",
+    } = req.body;
+
+    if (!name || !slug) {
+      return res.status(400).json({
+        response: "failed",
+        message: "Name & Slug required",
+      });
+    }
+
+    const existing = await Collection.findOne({ slug });
+
+    if (existing) {
+      return res.status(400).json({
+        response: "failed",
+        message: "Slug already exists",
+      });
+    }
+
+    let image = null;
+    let thumbnail = null;
+
+    if (req.files?.[0]) {
+      const result = await uploadToCloudinary(req.files[0].buffer);
+
+      image = {
+        url: result.secure_url,
+        public_id: result.public_id,
+      };
+    }
+
+    if (req.files?.[1]) {
+      const result = await uploadToCloudinary(req.files[1].buffer);
+
+      thumbnail = {
+        url: result.secure_url,
+        public_id: result.public_id,
+      };
+    }
+
+    const collection = await Collection.create({
+      name,
+      slug,
+      description,
+      isActive,
+      isFeatured,
+      sortOrder,
+      image,
+      thumbnail,
     });
 
-    await collection.save();
-
     res.status(201).json({
-      message: "Collection created successfully",
       response: "success",
+      message: "Collection created successfully",
       collection,
     });
   } catch (err) {
     res.status(500).json({
-      message: "Failed to create Collection",
-      error: err.message,
+      response: "failed",
+      message: err.message,
     });
   }
 };
@@ -1740,50 +1864,100 @@ const getCollectionById = async (req, res) => {
 const updateCollection = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, slug, description, isActive, isFeatured, sortOrder } = req.body;
+
+    const {
+      name,
+      slug,
+      description,
+      isActive,
+      isFeatured,
+      sortOrder,
+      oldImage,
+      oldThumbnail,
+    } = req.body;
 
     const collection = await Collection.findById(id);
 
     if (!collection) {
       return res.status(404).json({
-        message: "Collection not found",
         response: "failed",
+        message: "Collection not found",
       });
     }
 
     if (name) collection.name = name;
     if (slug) collection.slug = slug;
     if (description) collection.description = description;
-    if (typeof isActive !== "undefined") collection.isActive = isActive;
-    if (typeof isFeatured !== "undefined") collection.isFeatured = isFeatured;
-    if (sortOrder !== undefined) collection.sortOrder = sortOrder;
 
-    // NEW IMAGES
-    const imageFiles = req.files || [];
-    const newImages = imageFiles.map(
-      (file) => `/uploads/product/${file.filename}`
-    );
+    if (typeof isActive !== "undefined")
+      collection.isActive = isActive;
 
-    // EXISTING IMAGES
-    let existingImage = req.body.existingImage || collection.image;
+    if (typeof isFeatured !== "undefined")
+      collection.isFeatured = isFeatured;
 
-    if (newImages.length > 0) {
-      existingImage = newImages[0];
+    if (sortOrder !== undefined)
+      collection.sortOrder = sortOrder;
+
+    let image = oldImage
+      ? JSON.parse(oldImage)
+      : collection.image;
+
+    let thumbnail = oldThumbnail
+      ? JSON.parse(oldThumbnail)
+      : collection.thumbnail;
+
+    // IMAGE
+
+    if (req.files?.[0]) {
+      if (collection.image?.public_id) {
+        await cloudinary.uploader.destroy(
+          collection.image.public_id
+        );
+      }
+
+      const result = await uploadToCloudinary(
+        req.files[0].buffer
+      );
+
+      image = {
+        url: result.secure_url,
+        public_id: result.public_id,
+      };
     }
 
-    collection.image = existingImage;
+    // THUMBNAIL
 
-    const updated = await collection.save();
+    if (req.files?.[1]) {
+      if (collection.thumbnail?.public_id) {
+        await cloudinary.uploader.destroy(
+          collection.thumbnail.public_id
+        );
+      }
 
-    res.status(200).json({
-      message: "Collection updated successfully",
+      const result = await uploadToCloudinary(
+        req.files[1].buffer
+      );
+
+      thumbnail = {
+        url: result.secure_url,
+        public_id: result.public_id,
+      };
+    }
+
+    collection.image = image;
+    collection.thumbnail = thumbnail;
+
+    await collection.save();
+
+    res.json({
       response: "success",
-      collection: updated,
+      message: "Collection updated successfully",
+      collection,
     });
   } catch (err) {
     res.status(500).json({
-      message: "Failed to update Collection",
-      error: err.message,
+      response: "failed",
+      message: err.message,
     });
   }
 };
@@ -1791,17 +1965,18 @@ const updateCollection = async (req, res) => {
 // ================= GET ALL COLLECTIONS =================
 const getAllCollections = async (req, res) => {
   try {
-    const collections = await Collection.find().sort({ sortOrder: 1 });
+    const collections = await Collection.find().sort({
+      sortOrder: 1,
+    });
 
-    res.status(200).json({
-      message: "All collections fetched successfully",
+    res.json({
       response: "success",
       collections,
     });
   } catch (err) {
     res.status(500).json({
-      message: "Failed to fetch collections",
-      error: err.message,
+      response: "failed",
+      message: err.message,
     });
   }
 };
@@ -1815,32 +1990,43 @@ const deleteCollection = async (req, res) => {
 
     if (!collection) {
       return res.status(404).json({
-        message: "Collection not found",
         response: "failed",
+        message: "Collection not found",
       });
     }
 
-    await Collection.findByIdAndDelete(id);
+    if (collection.image?.public_id) {
+      await cloudinary.uploader.destroy(
+        collection.image.public_id
+      );
+    }
 
-    res.status(200).json({
-      message: "Collection deleted successfully",
+    if (collection.thumbnail?.public_id) {
+      await cloudinary.uploader.destroy(
+        collection.thumbnail.public_id
+      );
+    }
+
+    await collection.deleteOne();
+
+    res.json({
       response: "success",
+      message: "Collection deleted successfully",
     });
   } catch (err) {
     res.status(500).json({
-      message: "Failed to delete Collection",
-      error: err.message,
+      response: "failed",
+      message: err.message,
     });
   }
 };
 
 // EXPORT (same style as your project)
 
-
 // Add new Reel
 const addReel = async (req, res) => {
   try {
-    const { title, link,} = req.body;
+    const { title, link } = req.body;
 
     // Validate required fields
     if (!title) {
@@ -1853,7 +2039,7 @@ const addReel = async (req, res) => {
     // Handle uploaded images (via multer)
     const imageFiles = req.files || []; // 'images' matches your multer field name
     const imagePaths = imageFiles.map(
-      (file) => `/uploads/product/${file.filename}`
+      (file) => `/uploads/product/${file.filename}`,
     );
 
     // Create new Carousel
@@ -1886,8 +2072,7 @@ const getReelById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const reel = await Reel
-    .findById(id);
+    const reel = await Reel.findById(id);
 
     // If not found
     if (!reel) {
@@ -1918,7 +2103,7 @@ const getReelById = async (req, res) => {
 const updateReel = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, link} = req.body;
+    const { title, link } = req.body;
 
     // Find carousel
     const reel = await Reel.findById(id);
@@ -1933,11 +2118,10 @@ const updateReel = async (req, res) => {
     if (title !== undefined) reel.title = title;
     if (link !== undefined) reel.link = link;
 
-
     // Handle NEW uploaded images
     const imageFiles = req.files || [];
     const newImagePaths = imageFiles.map(
-      (file) => `/uploads/product/${file.filename}`
+      (file) => `/uploads/product/${file.filename}`,
     );
 
     // Handle EXISTING images (sent from frontend as JSON array)
@@ -1974,7 +2158,6 @@ const updateReel = async (req, res) => {
 
 // Delete Reel by ID (and remove image from /uploads/product)
 const deleteReel = async (req, res) => {
-
   try {
     const { id } = req.params;
 
@@ -1992,7 +2175,7 @@ const deleteReel = async (req, res) => {
       const imagePath = path.join(
         process.cwd(),
         "uploads/product", // adjust if your upload folder is different
-        path.basename(reel.images[0])
+        path.basename(reel.images[0]),
       );
 
       // Check if file exists, then delete
@@ -2018,13 +2201,6 @@ const deleteReel = async (req, res) => {
   }
 };
 
-
-
-
-
-
-
-
 // Get All Subscribers
 const getAllSubscribers = async (req, res) => {
   try {
@@ -2040,47 +2216,45 @@ const getAllSubscribers = async (req, res) => {
   }
 };
 
-
-
 module.exports = {
-    getUsers,
-    addProduct,
-    updateProduct,
-    deleteProduct,
-    addCategory,
-    getCategories,
-    getCategoryById,
-    updateCategory,
-    deleteCategory,
-    addSubCategory,
-    getSubCategories,
-    getSubCategoryById,
-    updateSubCategory,
-    deleteSubCategory,
-    getAllContactUs,
-    createDiscount,
-    updateDiscount,
-    getAllDiscounts,
-    getDiscountById,
-    deleteDiscount,
-    getOrderById,
-    updateDeliveryStatus,
-    addCarousel,
-    getCarouselById,
-    updateCarousel,
-    getAllCarousel,
-    deleteCarousel,
-    addReel,
-    getReelById,
-    updateReel,
-    deleteReel,
-    updateProductTag,
-        getNotifications,
+  getUsers,
+  addProduct,
+  updateProduct,
+  deleteProduct,
+  addCategory,
+  getCategories,
+  getCategoryById,
+  updateCategory,
+  deleteCategory,
+  addSubCategory,
+  getSubCategories,
+  getSubCategoryById,
+  updateSubCategory,
+  deleteSubCategory,
+  getAllContactUs,
+  createDiscount,
+  updateDiscount,
+  getAllDiscounts,
+  getDiscountById,
+  deleteDiscount,
+  getOrderById,
+  updateDeliveryStatus,
+  addCarousel,
+  getCarouselById,
+  updateCarousel,
+  getAllCarousel,
+  deleteCarousel,
+  addReel,
+  getReelById,
+  updateReel,
+  deleteReel,
+  updateProductTag,
+  getNotifications,
   markNotificationRead,
   markAllNotificationsRead,
   createTestNotification,
-    getAllSubscribers,
-      addCollection,
+  getAllSubscribers,
+  addCollection,
   getCollectionById,
   updateCollection,
   getAllCollections,

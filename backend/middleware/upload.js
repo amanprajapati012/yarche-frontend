@@ -1,31 +1,19 @@
 const multer = require("multer");
-const path = require("path");
 
-// ✅ Storage settings
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/product/"); // save inside /uploads/courses
-  },
-  filename: (req, file, cb) => {
-    const uniqueName =
-      Date.now() +
-      "-" +
-      Math.round(Math.random() * 1e9) +
-      path.extname(file.originalname);
+const storage = multer.memoryStorage();
 
-    cb(null, uniqueName);
-  }
-});
-
-// ✅ File filter (only images)
 const fileFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image/")) {
     cb(null, true);
   } else {
-    cb(new Error("Only image files are allowed!"), false);
+    cb(new Error("Only image files are allowed"), false);
   }
 };
 
-const upload = multer({ storage, fileFilter });
-
-module.exports = upload;
+module.exports = multer({
+  storage,
+  fileFilter,
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB
+  },
+});

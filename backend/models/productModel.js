@@ -112,10 +112,18 @@ const productSchema = new mongoose.Schema(
       default: 0,
     },
 
-    images: {
-      type: [String],
-      default: [],
+   images: [
+  {
+    url: {
+      type: String,
+      required: true,
     },
+    public_id: {
+      type: String,
+      required: true,
+    },
+  },
+],
 
     variants: {
       type: [variantSchema],
