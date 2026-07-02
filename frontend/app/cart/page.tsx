@@ -91,7 +91,7 @@ export default function CartPage() {
                         {items.map((item) => (
                             <div
                                 key={item._id}
-                                className="bg-[#ead7b8] rounded-[30px] border border-[#d8c2a0] p-5 shadow-md"
+                                className=" bg-[var(--background)] rounded-[30px] border border-[#d8c2a0] p-5 shadow-md"
                             >
                                 <div className="flex flex-col md:flex-row gap-5">
 
@@ -131,7 +131,7 @@ export default function CartPage() {
                                         {/* QUANTITY CONTROLS */}
                                         <div className="mt-6 flex items-center justify-between">
 
-                                            <div className="flex items-center overflow-hidden rounded-2xl border border-[#cbb28f] bg-[#e8d2ae]">
+                                            <div className="flex items-center overflow-hidden rounded-2xl border border-[#cbb28f]  bg-[var(--surface)]">
                                                 <button
                                                     onClick={() => decreaseQty(item._id)}
                                                     className="w-12 h-12 flex items-center justify-center"

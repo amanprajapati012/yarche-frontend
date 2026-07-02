@@ -117,7 +117,7 @@ export default function ShippingForm({
   };
 
   return (
-    <div className="bg-[#ead7b8] border border-[#d8c2a0] rounded-3xl p-6">
+    <div className="bg-background border border-[#d8c2a0] rounded-3xl p-6">
 
       <div className="flex items-center justify-between mb-6">
 

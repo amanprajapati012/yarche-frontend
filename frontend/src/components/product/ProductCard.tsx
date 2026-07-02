@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import { useCartStore } from "@/src/store/cartStore";
+import { useRouter } from "next/navigation";
 
-import { UPLOADS_BASE_URL } from "@/src/lib/constants";
+
 import { getImageUrl } from "@/src/lib/image";
 
 const slugify = (name: string) =>
@@ -14,6 +15,7 @@ const slugify = (name: string) =>
     .replace(/\s+/g, "-");
 
 export default function ProductCard({ product }: any) {
+  const router = useRouter();
   const discount =
     product.price > 0
       ? Math.round(
@@ -96,6 +98,7 @@ const imageSrc = getImageUrl(product.images?.[0]);
 
                 quantity: 1,
               });
+                router.push("/cart"); // ✅ Cart page par redirect
             }}
             className="w-12 h-12 rounded-full bg-[#3B281C] text-white flex items-center justify-center shadow-lg hover:scale-105 transition"
           >

@@ -33,7 +33,7 @@ export default function PaymentMethod({
   setPaymentMethod,
 }: PaymentMethodProps) {
   return (
-    <div className="bg-[#ead7b8] p-6 rounded-3xl border border-[#d8c2a0]">
+    <div className="bg-background p-6 rounded-3xl border border-bg-surface">
       <h2 className="text-xl font-bold text-[#3B281C] mb-5">
         Payment Method
       </h2>
@@ -47,8 +47,8 @@ export default function PaymentMethod({
               key={method.id}
               className={`flex justify-between items-center p-4 rounded-2xl cursor-pointer border transition-all ${
                 paymentMethod === method.id
-                  ? "border-[#3B281C] bg-[#dcc09a]"
-                  : "border-[#d8c2a0] bg-[#e0caa8] hover:border-[#3B281C]"
+                  ? "border-[#3B281C] bg-surface"
+                  : "border-[#d8c2a0] bg-surface hover:border-[#3B281C]"
               }`}
             >
               <div className="flex items-center gap-4">
@@ -80,7 +80,7 @@ export default function PaymentMethod({
         })}
       </div>
 
-      <div className="mt-5 rounded-xl bg-[#f4ead8] border border-[#d8c2a0] p-4">
+      <div className="mt-5 rounded-xl bg-surface border border-[#d8c2a0] p-4">
         {paymentMethod === "cod" && (
           <p className="text-sm text-[#6f5f52]">
             ✔ No advance payment required. Pay the delivery partner after receiving your order.

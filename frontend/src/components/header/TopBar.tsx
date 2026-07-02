@@ -95,10 +95,10 @@ export default function TopBar({
         <Image
           src="/logo3.png"
           alt="Yarche"
-          width={230}
-          height={90}
+          width={300}
+          height={120}
           priority
-          className="h-12 md:h-14 w-auto object-contain"
+          className="h-16 md:h-20 w-auto object-contain"
         />
       </Link>
 
@@ -107,9 +107,9 @@ export default function TopBar({
         ref={searchRef}
         className="hidden md:block flex-1 max-w-xl mx-8 relative"
       >
-        <div className="flex bg-white border border-[#28170D]/20 rounded-md overflow-hidden">
-          <button className="flex items-center gap-1 px-4 text-sm font-medium border-r border-[#28170D]/10 text-foreground">
-            All products
+        <div className="flex bg-surface border border-border rounded-xl overflow-hidden shadow-sm">
+          <button className="flex items-center gap-1 px-4 text-sm font-medium border-r border-border bg-background text-foreground hover:bg-surface transition-colors">
+            All Products
             <IconChevronDown size={14} />
           </button>
 
@@ -117,11 +117,11 @@ export default function TopBar({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => query && setOpenSearch(true)}
-            className="flex-1 px-4 py-2.5 outline-none text-sm placeholder:text-gray-400"
+            className="flex-1 bg-surface px-4 py-3 outline-none text-sm text-foreground placeholder:text-text-secondary"
             placeholder="What are you looking for?"
           />
 
-          <button className="bg-footer px-5 text-white">
+          <button className="bg-footer hover:opacity-90 px-5 text-white transition-colors">
             <IconSearch size={20} />
           </button>
         </div>

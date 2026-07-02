@@ -38,7 +38,7 @@ export default function OrderSummary({
 }: OrderSummaryProps) {
     return (
         <div className="lg:sticky lg:top-24">
-            <div className="bg-[#ead7b8] p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-[#d8c2a0]">
+            <div className="bg-surface p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-[#d8c2a0]">
 
                 {/* Heading */}
                 <h2 className="text-xl font-bold text-[#3B281C]">
@@ -87,7 +87,7 @@ export default function OrderSummary({
                             )
                         }
                         placeholder="Apply coupon"
-                        className="flex-1 px-3 py-2 rounded-lg bg-[#e0caa8] outline-none"
+                        className="flex-1 px-3 py-2 rounded-lg bg-footer outline-none"
                     />
 
                     <button 
