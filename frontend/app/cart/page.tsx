@@ -11,10 +11,29 @@ import {
     Truck,
     BadgeCheck,
 } from "lucide-react";
+import { useAuthStore } from "@/src/store/authStore";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";// ya sonner use kar rahe ho to sonner
 
 import { useCartStore } from "@/src/store/cartStore";
 
+
+
 export default function CartPage() {
+    const router = useRouter();
+
+const user = useAuthStore((state) => state.user);
+
+const handleCheckout = () => {
+  if (!user) {
+    toast.error("Please login first");
+
+    router.push("/auth/login");
+    return;
+  }
+
+  router.push("/checkout");
+};
     const {
         items,
         removeFromCart,
@@ -265,13 +284,13 @@ export default function CartPage() {
                             </div>
 
                             {/* CHECKOUT */}
-                            <Link
-                                href="/checkout"
-                                className="mt-8 h-14 w-full bg-[#2D1A10] text-[#f3e7d3] rounded-2xl font-semibold flex items-center justify-center gap-2 hover:scale-[1.02] transition-all shadow-lg"
-                            >
-                                Proceed To Checkout
-                                <ArrowRight size={18} />
-                            </Link>
+                           <button
+  onClick={handleCheckout}
+  className="mt-8 h-14 w-full bg-[#2D1A10] text-[#f3e7d3] rounded-2xl font-semibold flex items-center justify-center gap-2 hover:scale-[1.02] transition-all shadow-lg"
+>
+  Proceed To Checkout
+  <ArrowRight size={18} />
+</button>
 
                             <div className="flex items-center justify-center gap-2 mt-5 text-[#6f5f52] text-sm">
                                 <ShieldCheck size={14} />
