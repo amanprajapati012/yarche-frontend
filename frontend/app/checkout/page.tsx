@@ -306,7 +306,7 @@ export default function CheckoutPage() {
 
         <CheckoutHeader />
 
-        <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_420px]">
+        <div className="mt-6 lg:mt-8 grid grid-cols-1 gap-6 lg:gap-8 lg:grid-cols-[1fr_380px]">
 
           {/* LEFT */}
 

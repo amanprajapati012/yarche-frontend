@@ -37,8 +37,8 @@ export default function OrderSummary({
     onPlaceOrder,
 }: OrderSummaryProps) {
     return (
-        <div className="sticky top-24">
-            <div className="bg-[#ead7b8] p-6 rounded-3xl border border-[#d8c2a0]">
+        <div className="lg:sticky lg:top-24">
+            <div className="bg-[#ead7b8] p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-[#d8c2a0]">
 
                 {/* Heading */}
                 <h2 className="text-xl font-bold text-[#3B281C]">
@@ -76,7 +76,7 @@ export default function OrderSummary({
                 </div>
 
                 {/* Coupon */}
-                <div className="mt-5 flex gap-2">
+               <div className="mt-5 flex flex-col sm:flex-row gap-2"> 
                     <input
                         value={coupon}
                         onChange={(e) =>
