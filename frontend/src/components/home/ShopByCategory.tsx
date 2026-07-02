@@ -3,22 +3,13 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import API from "@/src/lib/api";
+import { getImageUrl, ImageType } from "@/src/lib/image";
 
 interface Category {
   _id: string;
   category: string;
-  images: string[];
+  images: ImageType[];
 }
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
-const getImage = (img?: string) => {
-  if (!img) return "/placeholder.png";
-
-  if (img.startsWith("http")) return img;
-
-  return `${BASE_URL}${img.startsWith("/") ? img : `/${img}`}`;
-};
 
 export default function ShopByCategory() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -41,107 +32,128 @@ export default function ShopByCategory() {
 
   if (loading) {
     return (
-      <section className="bg-background py-12 px-5 md:px-10 lg:px-16">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div
-              key={i}
-              className="h-44 rounded-[28px] bg-surface animate-pulse"
-            />
-          ))}
+      <section className="py-16 px-5 md:px-10 lg:px-16 bg-background">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex justify-between items-center mb-10">
+            <div className="h-12 w-72 rounded bg-[var(--border)] animate-pulse" />
+            <div className="h-6 w-40 rounded bg-[var(--border)] animate-pulse" />
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-7">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className="rounded-[28px] bg-surface border border-[var(--border)] overflow-hidden"
+              >
+                <div className="h-56 bg-[var(--border)] animate-pulse" />
+                <div className="p-5">
+                  <div className="h-5 rounded bg-[var(--border)] animate-pulse" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     );
   }
 
   return (
-    <section className="bg-background py-14 px-5 md:px-10 lg:px-16">
+    <section className="py-16 px-5 md:px-10 lg:px-16 bg-background">
       <div className="max-w-7xl mx-auto">
-        {/* HEADER */}
-        <div className="flex items-end justify-between mb-10">
+
+        {/* Header */}
+        <div className="flex items-center justify-between mb-10">
+
           <div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-foreground">
+            <h2 className="text-4xl font-bold text-foreground">
               Shop by Category
             </h2>
 
-            <div className="w-24 h-1 mt-3 rounded-full bg-[#ff6e23]" />
+            <div className="w-24 h-1 bg-[#ff6e23] rounded-full mt-3" />
           </div>
 
           <Link
             href="/categories"
-            className="text-sm md:text-base font-semibold text-foreground hover:opacity-80 transition"
+            className="
+              text-lg
+              font-semibold
+              text-foreground
+              hover:text-[#ff6e23]
+              transition
+            "
           >
-            View All →
+            Shop All Products →
           </Link>
+
         </div>
 
-        {/* GRID */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-7">
-          {categories.map((cat) => {
-            console.log(cat.category);
-            const image = getImage(cat.images?.[0]);
+        {/* Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6 gap-8">
 
-            return (
-              <Link
-                key={cat._id}
-                href={`/categories/${encodeURIComponent(cat.category)}`}
+          {categories.map((cat) => (
+            <Link
+              key={cat._id}
+              href={`/categories/${encodeURIComponent(cat.category)}`}
+              className="group"
+            >
+              <div
                 className="
-                  group
-                  relative
-                  block
-                  rounded-[32px]
-                  overflow-hidden
+                  h-full
+                  rounded-[28px]
                   bg-surface
-                  border border-[#ead9b8]
+                  border
+                  border-[var(--border)]
                   shadow-sm
-                  hover:shadow-2xl
+                  overflow-hidden
+                  transition-all
+                  duration-300
                   hover:-translate-y-2
-                  transition-all duration-300
+                  hover:shadow-xl
                 "
               >
-                {/* IMAGE */}
-                <div className="h-[150px] flex items-center justify-center p-4">
+                {/* Image */}
+                <div className="h-[240px] flex items-center justify-center p-5">
+
                   <img
-                    src={image}
+                    src={getImageUrl(cat.images?.[0])}
                     alt={cat.category}
                     className="
                       w-full
                       h-full
                       object-contain
+                      transition-transform
+                      duration-500
                       group-hover:scale-110
-                      transition duration-500
                     "
                     onError={(e) => {
                       (e.target as HTMLImageElement).src =
                         "/placeholder.png";
                     }}
                   />
+
                 </div>
 
-                {/* BADGE */}
-                <div className="pb-5 px-3 text-center">
-                  <div
+                {/* Name */}
+                <div className="px-4 pb-6 text-center">
+
+                  <h3
                     className="
-                      inline-block
-                      px-4 py-1.5
-                      rounded-full
-                      text-white
+                      text-lg
                       font-semibold
-                      text-sm
-                      shadow-md
-                      tracking-wide
+                      text-foreground
+                      leading-snug
+                      transition
+                      group-hover:text-[#ff6e23]
                     "
-                    style={{ backgroundColor: "#ff6e23" }}
                   >
                     {cat.category}
-                  </div>
-                </div>
+                  </h3>
 
-                {/* Bottom Glow */}
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#ff6e23]/40 to-transparent" />
-              </Link>
-            );
-          })}
+                </div>
+              </div>
+            </Link>
+          ))}
+
         </div>
       </div>
     </section>

@@ -53,7 +53,7 @@ export default function AccountSidebar() {
       w-full
       lg:w-[280px]
       shrink-0
-      bg-[#fff0d3]
+      bg-surface
       border
       border-[#28170d]/10
       rounded-[32px]
@@ -64,11 +64,11 @@ export default function AccountSidebar() {
       {/* Header */}
 
       <div className="p-6 border-b border-[#28170d]/10">
-        <h2 className="text-xl font-bold text-[#28170d]">
+        <h2 className="text-xl font-bold text-foreground">
           My Account
         </h2>
 
-        <p className="text-sm text-[#28170d]/60 mt-1">
+        <p className="text-sm text-foreground/60 mt-1">
           Manage your account
         </p>
       </div>
@@ -101,13 +101,13 @@ export default function AccountSidebar() {
                 ${
                   active
                     ? `
-                      bg-[#28170d]
+                      bg-footer
                       text-white
                       shadow-lg
                     `
                     : `
-                      text-[#28170d]
-                      hover:bg-[#fff6e2]
+                      text-foreground
+                      hover:bg-background
                     `
                 }
               `}

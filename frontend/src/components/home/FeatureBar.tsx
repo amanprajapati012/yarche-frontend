@@ -64,7 +64,7 @@ export default function FeatureBar() {
   ];
 
   return (
-    <section className="bg-[#28170D] py-10 md:py-24 overflow-hidden">
+    <section className="bg-footer py-10 md:py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* LEFT CONTENT */}
@@ -151,7 +151,7 @@ export default function FeatureBar() {
                   />
 
                   <div>
-                    <h4 className="font-semibold text-[#28170D] text-sm">
+                    <h4 className="font-semibold text-foreground text-sm">
                       {item.title}
                     </h4>
 

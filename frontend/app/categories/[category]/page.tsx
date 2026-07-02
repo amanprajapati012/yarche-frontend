@@ -7,15 +7,10 @@ import { Search } from "lucide-react";
 import API from "@/src/lib/api";
 import ProductCard from "@/src/components/product/ProductCard";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
-const getImage = (img?: string) => {
-    if (!img) return "";
+import { getImageUrl } from "@/src/lib/image";
 
-    if (img.startsWith("http")) return img;
 
-    return `${BASE_URL}${img}`;
-};
 
 export default function CategoryPage() {
     const params = useParams();
@@ -122,9 +117,9 @@ export default function CategoryPage() {
     ]);
 
     const categoryImage =
-        category?.images?.length > 0
-            ? getImage(category.images[0])
-            : "";
+  category?.images?.length > 0
+    ? getImageUrl(category.images[0])
+    : "/placeholder.png";
 
     return (
         <div className="min-h-screen bg-[#fff8eb]">

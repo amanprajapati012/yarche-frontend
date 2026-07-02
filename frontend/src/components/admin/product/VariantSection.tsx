@@ -5,6 +5,11 @@ import { Plus } from "lucide-react";
 import VariantCard from "./VariantCard";
 import { Variant } from "./types";
 
+type ImageType = {
+  url: string;
+  public_id: string;
+};
+
 type Props = {
   variants: Variant[];
 
@@ -31,15 +36,15 @@ type Props = {
   >;
 
   existingVariantImages: Record<
-    number,
-    string[]
-  >;
+  number,
+  ImageType[]
+>;
 
-  setExistingVariantImages: React.Dispatch<
-    React.SetStateAction<
-      Record<number, string[]>
-    >
-  >;
+setExistingVariantImages: React.Dispatch<
+  React.SetStateAction<
+    Record<number, ImageType[]>
+  >
+>;
 };
 
 export default function VariantSection({
@@ -63,7 +68,7 @@ export default function VariantSection({
 
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-semibold text-[#28170D]">
+          <h2 className="text-xl font-semibold text-foreground">
             Product Variants
           </h2>
 
@@ -80,7 +85,7 @@ export default function VariantSection({
           className="
             flex items-center gap-2
             rounded-xl
-            bg-[#28170D]
+            bg-footer
             px-4 py-2.5
             text-white
             transition

@@ -2,14 +2,16 @@
 
 import { Upload, X, ImageIcon } from "lucide-react";
 import { useRef } from "react";
-import { UPLOADS_BASE_URL } from "@/src/lib/constants";
+import { getImageUrl, ImageType } from "@/src/lib/image";
 
 interface ImageUploaderProps {
   images: File[];
   setImages: React.Dispatch<React.SetStateAction<File[]>>;
 
-  existingImages?: string[];
-  setExistingImages?: React.Dispatch<React.SetStateAction<string[]>>;
+  existingImages?: ImageType[];
+  setExistingImages?: React.Dispatch<
+    React.SetStateAction<ImageType[]>
+  >;
 
   label?: string;
 }
@@ -26,16 +28,18 @@ export default function ImageUploader({
   // ---------------------------
   // HANDLE FILE UPLOAD
   // ---------------------------
-  const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFiles = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const files = e.target.files;
 
     if (!files) return;
 
-    const newFiles = Array.from(files);
+    setImages((prev) => [
+      ...prev,
+      ...Array.from(files),
+    ]);
 
-    setImages((prev) => [...prev, ...newFiles]);
-
-    // reset input so same file can be selected again
     e.target.value = "";
   };
 
@@ -43,7 +47,9 @@ export default function ImageUploader({
   // REMOVE NEW IMAGE
   // ---------------------------
   const removeNewImage = (index: number) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
+    setImages((prev) =>
+      prev.filter((_, i) => i !== index)
+    );
   };
 
   // ---------------------------
@@ -76,7 +82,9 @@ export default function ImageUploader({
       >
         <Upload className="mb-3" size={28} />
 
-        <h3 className="font-medium">Upload Images</h3>
+        <h3 className="font-medium">
+          Upload Images
+        </h3>
 
         <p className="mt-1 text-sm text-gray-500">
           PNG, JPG, JPEG, WEBP
@@ -92,9 +100,7 @@ export default function ImageUploader({
         />
       </div>
 
-      {/* ---------------------------
-          EXISTING IMAGES
-      --------------------------- */}
+      {/* EXISTING IMAGES */}
       {existingImages.length > 0 && (
         <div className="space-y-2">
           <h4 className="text-sm font-medium text-foreground">
@@ -104,21 +110,29 @@ export default function ImageUploader({
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4 xl:grid-cols-5">
             {existingImages.map((image, index) => (
               <div
-                key={index}
+                key={
+                  image.public_id ||
+                  image.url ||
+                  index
+                }
                 className="group relative overflow-hidden rounded-xl border bg-white"
               >
                 <img
-                  src={`${UPLOADS_BASE_URL}${image}`}
+                  src={getImageUrl(image)}
                   alt="existing"
                   className="h-32 w-full object-cover"
                 />
 
                 <button
                   type="button"
-                  onClick={() => removeExistingImage(index)}
+                  onClick={() =>
+                    removeExistingImage(index)
+                  }
                   className="
-                    absolute right-2 top-2 rounded-full bg-white p-1 shadow
-                    opacity-0 transition group-hover:opacity-100
+                    absolute right-2 top-2 rounded-full
+                    bg-white p-1 shadow
+                    opacity-0 transition
+                    group-hover:opacity-100
                   "
                 >
                   <X size={16} />
@@ -129,9 +143,7 @@ export default function ImageUploader({
         </div>
       )}
 
-      {/* ---------------------------
-          NEW IMAGES
-      --------------------------- */}
+      {/* NEW IMAGES */}
       {images.length > 0 && (
         <div className="space-y-2">
           <h4 className="text-sm font-medium text-foreground">
@@ -152,10 +164,14 @@ export default function ImageUploader({
 
                 <button
                   type="button"
-                  onClick={() => removeNewImage(index)}
+                  onClick={() =>
+                    removeNewImage(index)
+                  }
                   className="
-                    absolute right-2 top-2 rounded-full bg-white p-1 shadow
-                    opacity-0 transition group-hover:opacity-100
+                    absolute right-2 top-2 rounded-full
+                    bg-white p-1 shadow
+                    opacity-0 transition
+                    group-hover:opacity-100
                   "
                 >
                   <X size={16} />
@@ -167,12 +183,13 @@ export default function ImageUploader({
       )}
 
       {/* EMPTY STATE */}
-      {images.length === 0 && existingImages.length === 0 && (
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <ImageIcon size={16} />
-          No images selected
-        </div>
-      )}
+      {images.length === 0 &&
+        existingImages.length === 0 && (
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <ImageIcon size={16} />
+            No images selected
+          </div>
+        )}
     </div>
   );
 }

@@ -4,12 +4,18 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import API from "@/src/lib/api";
 import ImageUploader from "@/src/components/admin/ImageUploader";
-import { API_BASE_URL } from "@/src/lib/constants";
+import { getImageUrl, ImageType } from "@/src/lib/image";
+import { X } from "lucide-react";
 
 type Props = {
   initialData?: any;
   categories: any[];
   onSuccess?: () => void;
+};
+
+type ExistingImage = {
+  url: string;
+  public_id: string;
 };
 
 export default function SubCategoryForm({
@@ -22,32 +28,20 @@ export default function SubCategoryForm({
   const [subCategory, setSubCategory] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [images, setImages] = useState<File[]>([]);
-  const [existingImages, setExistingImages] = useState<string[]>([]);
+  
+
+const [existingImages, setExistingImages] = useState<ExistingImage[]>([]);
 
   useEffect(() => {
-    if (!initialData) return;
+  if (!initialData) return;
 
-    setSubCategory(initialData.sub_category || "");
-    setCategoryId(initialData.category_id || "");
+  setSubCategory(initialData.sub_category || "");
+  setCategoryId(initialData.category_id || "");
 
-    const imgs = initialData.images || [];
+  setExistingImages(initialData.images || []);
+}, [initialData]);
 
-    setExistingImages(
-      Array.isArray(imgs)
-        ? imgs.map((img: any) =>
-            typeof img === "string"
-              ? img
-              : img?.url || img?.path || ""
-          )
-        : []
-    );
-  }, [initialData]);
-
-  const getImageUrl = (img: string) => {
-    if (!img) return "";
-    if (img.startsWith("http")) return img;
-    return `${API_BASE_URL}${img}`;
-  };
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,12 +50,20 @@ export default function SubCategoryForm({
       setLoading(true);
 
       const formData = new FormData();
-      formData.append("sub_category", subCategory);
-      formData.append("category_id", categoryId);
 
-      images.forEach((file) => {
-        formData.append("images", file);
-      });
+formData.append("sub_category", subCategory);
+formData.append("category_id", categoryId);
+
+if (initialData?._id) {
+  formData.append(
+    "oldImages",
+    JSON.stringify(existingImages)
+  );
+}
+
+images.forEach((file) => {
+  formData.append("images", file);
+});
 
       if (!initialData?._id) {
         await API.post("/admin/productsubcategory", formData, {
@@ -128,13 +130,45 @@ export default function SubCategoryForm({
         {/* EXISTING IMAGES */}
         {existingImages.length > 0 && (
           <div className="flex gap-3 flex-wrap">
-            {existingImages.map((img, i) => (
-              <img
-                key={i}
-                src={getImageUrl(img)}
-                className="w-16 h-16 object-cover rounded border"
-              />
-            ))}
+           {existingImages.map((img, i) => (
+  <div
+    key={img.public_id || i}
+    className="relative group"
+  >
+    <img
+      src={getImageUrl(img)}
+      alt="subcategory"
+      className="w-20 h-20 object-cover rounded-lg border"
+    />
+
+    <button
+      type="button"
+      onClick={() =>
+        setExistingImages((prev) =>
+          prev.filter((_, index) => index !== i)
+        )
+      }
+      className="
+        absolute
+        -top-2
+        -right-2
+        w-6
+        h-6
+        rounded-full
+        bg-red-500
+        text-white
+        flex
+        items-center
+        justify-center
+        opacity-0
+        group-hover:opacity-100
+        transition
+      "
+    >
+      <X size={14} />
+    </button>
+  </div>
+))}
           </div>
         )}
 
@@ -155,4 +189,4 @@ export default function SubCategoryForm({
       </form>
     </div>
   );
-}
+  }

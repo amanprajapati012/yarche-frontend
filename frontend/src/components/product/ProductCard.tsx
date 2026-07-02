@@ -5,6 +5,7 @@ import { ShoppingCart } from "lucide-react";
 import { useCartStore } from "@/src/store/cartStore";
 
 import { UPLOADS_BASE_URL } from "@/src/lib/constants";
+import { getImageUrl } from "@/src/lib/image";
 
 const slugify = (name: string) =>
   name
@@ -23,18 +24,9 @@ export default function ProductCard({ product }: any) {
       : 0;
 
   // ✅ SAFE IMAGE HANDLER (IMPORTANT)
-  const getImage = (img: string) => {
-    if (!img) return "/placeholder.png";
+ 
 
-    // already full URL
-    if (img.startsWith("http")) return img;
-
-    // normalize slashes
-    return `${UPLOADS_BASE_URL}${img.startsWith("/") ? img : `/${img}`
-      }`;
-  };
-
-  const imageSrc = getImage(product.images?.[0]);
+const imageSrc = getImageUrl(product.images?.[0]);
 
   const addToCart = useCartStore(
     (state) => state.addToCart

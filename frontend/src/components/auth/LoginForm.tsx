@@ -85,13 +85,13 @@ export default function LoginForm() {
 };
 
   return (
-  <div className="min-h-screen flex items-center justify-center bg-[#fff6e2] px-4 py-10">
+  <div className="min-h-screen flex items-center justify-center bg-background px-4 py-10">
     
     {/* Background card wrapper */}
     <div className="w-full max-w-md">
       
       {/* Card */}
-      <div className="bg-[#fff0d3] rounded-3xl shadow-2xl border border-[#28170d]/10 
+      <div className="bg-surface rounded-3xl shadow-2xl border border-[#28170d]/10 
                       max-h-[90vh] overflow-y-auto p-6 md:p-8">
         
         {/* Header */}
@@ -100,11 +100,11 @@ export default function LoginForm() {
             <User size={24} />
           </div>
 
-          <h2 className="text-2xl font-bold text-[#28170d] mt-4">
+          <h2 className="text-2xl font-bold text-foreground mt-4">
             Welcome Back
           </h2>
 
-          <p className="text-sm text-[#28170d]/70">
+          <p className="text-sm text-foreground/70">
             Login to continue shopping
           </p>
         </div>
@@ -132,7 +132,7 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#28170d] text-white py-3 rounded-xl font-semibold 
+            className="w-full bg-footer text-white py-3 rounded-xl font-semibold 
                        hover:opacity-90 transition"
           >
             {loading ? "Logging in..." : "Sign In"}
@@ -140,7 +140,7 @@ export default function LoginForm() {
         </form>
 
         {/* Register link */}
-        <p className="text-center text-sm mt-5 text-[#28170d]">
+        <p className="text-center text-sm mt-5 text-foreground">
           Don’t have an account?{" "}
           <Link href="/auth/register" className="text-[#ff6e32] font-semibold">
             Create Account

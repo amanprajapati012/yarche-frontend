@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import API from "@/src/lib/api";
 import ImageUploader from "./ImageUploader";
 import { API_BASE_URL } from "@/src/lib/constants";
+import { X } from "lucide-react";
 
 type Props = {
   initialData?: any;
@@ -18,7 +19,12 @@ export default function CategoryForm({ initialData, onSuccess }: Props) {
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState("");
   const [images, setImages] = useState<File[]>([]);
-  const [existingImages, setExistingImages] = useState<string[]>([]);
+  type ExistingImage = {
+    url: string;
+    public_id: string;
+  };
+
+  const [existingImages, setExistingImages] = useState<ExistingImage[]>([]);
 
   // ✅ Load edit data safely
   useEffect(() => {
@@ -26,27 +32,10 @@ export default function CategoryForm({ initialData, onSuccess }: Props) {
 
     setCategory(initialData.category || "");
 
-    const imgs = initialData.images || [];
-
-    const normalizedImages = Array.isArray(imgs)
-      ? imgs.map((img: any) =>
-          typeof img === "string"
-            ? img
-            : img?.url || img?.path || ""
-        )
-      : [];
-
-    setExistingImages(normalizedImages.filter(Boolean));
+    setExistingImages(initialData.images || []);
   }, [initialData]);
 
-  // ✅ FIXED IMAGE URL (IMPORTANT)
-  const getImageUrl = (img: string) => {
-    if (!img) return "";
 
-    if (img.startsWith("http")) return img;
-
-    return `${API_BASE_URL}${img}`;
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,6 +45,12 @@ export default function CategoryForm({ initialData, onSuccess }: Props) {
 
       const formData = new FormData();
       formData.append("category", category);
+      if (initialData?._id) {
+        formData.append(
+          "oldImages",
+          JSON.stringify(existingImages)
+        );
+      }
 
       images.forEach((file) => {
         formData.append("images", file);
@@ -123,16 +118,43 @@ export default function CategoryForm({ initialData, onSuccess }: Props) {
         {existingImages.length > 0 && (
           <div className="flex gap-3 flex-wrap">
             {existingImages.map((img, i) => (
-              <img
-                key={i}
-                src={getImageUrl(img)}
-                alt="category"
-                className="w-16 h-16 object-cover rounded border"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display =
-                    "none";
-                }}
-              />
+              <div
+                key={img.public_id || i}
+                className="relative group"
+              >
+                <img
+                  src={img.url}
+                  alt="category"
+                  className="w-20 h-20 object-cover rounded-lg border"
+                />
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setExistingImages((prev) =>
+                      prev.filter((_, index) => index !== i)
+                    )
+                  }
+                  className="
+        absolute
+        -top-2
+        -right-2
+        w-6
+        h-6
+        rounded-full
+        bg-red-500
+        text-white
+        flex
+        items-center
+        justify-center
+        opacity-0
+        group-hover:opacity-100
+        transition
+      "
+                >
+                  <X size={14} />
+                </button>
+              </div>
             ))}
           </div>
         )}
@@ -149,8 +171,8 @@ export default function CategoryForm({ initialData, onSuccess }: Props) {
           {loading
             ? "Saving..."
             : initialData
-            ? "Update Category"
-            : "Save Category"}
+              ? "Update Category"
+              : "Save Category"}
         </button>
       </form>
     </div>

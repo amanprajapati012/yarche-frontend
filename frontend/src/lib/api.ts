@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from "./constants";
+import { useLoadingStore } from "@/src/store/loadingStore";
 
 const API = axios.create({
   baseURL: API_BASE_URL,
@@ -8,6 +9,9 @@ const API = axios.create({
 // ================= REQUEST INTERCEPTOR =================
 API.interceptors.request.use(
   (config) => {
+    // Start Global Loader
+    useLoadingStore.getState().startLoading();
+
     if (typeof window !== "undefined") {
       // User token OR Admin token
       const token =
@@ -31,16 +35,27 @@ API.interceptors.request.use(
 
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    // Stop Loader if request fails
+    useLoadingStore.getState().stopLoading();
+    return Promise.reject(error);
+  }
 );
 
 // ================= RESPONSE INTERCEPTOR =================
 API.interceptors.response.use(
   (response) => {
+    // Stop Global Loader
+    useLoadingStore.getState().stopLoading();
+
     console.log("✅ RESPONSE SUCCESS:", response.config.url);
+
     return response;
   },
   (error) => {
+    // Stop Global Loader
+    useLoadingStore.getState().stopLoading();
+
     console.log("❌ RESPONSE ERROR:", {
       url: error.config?.url,
       status: error.response?.status,

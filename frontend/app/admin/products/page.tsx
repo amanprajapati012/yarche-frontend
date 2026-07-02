@@ -125,7 +125,7 @@ export default function ProductsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[#28170D]">
+          <h1 className="text-2xl font-bold text-foreground">
             Products
           </h1>
           <p className="mt-1 text-sm text-gray-500">
@@ -137,7 +137,7 @@ export default function ProductsPage() {
           onClick={() => router.push("/admin/products/create")}
           className="
             rounded-xl
-            bg-[#28170D]
+            bg-footer
             px-5 py-3
             text-white
             transition

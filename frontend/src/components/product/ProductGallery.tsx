@@ -7,14 +7,8 @@ import {
   Sparkles,
 } from "lucide-react";
 
-const IMAGE_BASE = process.env.NEXT_PUBLIC_API_URL;
-const getImage = (img: string) => {
-  if (!img) return "/placeholder.png";
+import { getImageUrl } from "@/src/lib/image";
 
-  if (img.startsWith("http")) return img;
-
-  return `${IMAGE_BASE}${img.startsWith("/") ? img : `/${img}`}`;
-};
 
 export default function ProductGallery({
   product,
@@ -23,10 +17,10 @@ export default function ProductGallery({
 }: any) {
   const [index, setIndex] = useState(0);
 
-  const images =
-    selectedVariant?.images?.length > 0
-      ? selectedVariant.images.map(getImage)
-      : product?.images?.map(getImage) || [];
+ const images =
+  selectedVariant?.images?.length > 0
+    ? selectedVariant.images.map(getImageUrl)
+    : product?.images?.map(getImageUrl) || [];
 
   useEffect(() => {
     setIndex(0);
@@ -78,7 +72,7 @@ export default function ProductGallery({
                 flex
                 items-center
                 gap-2
-                bg-[#28170D]
+                bg-footer
                 text-[#FF6E23]
                 px-3
                 py-2
@@ -116,7 +110,7 @@ export default function ProductGallery({
                   sm:w-11
                   sm:h-11
                   rounded-full
-                  bg-[#28170D]
+                  bg-footer
                   text-white
                   flex
                   items-center
@@ -146,7 +140,7 @@ export default function ProductGallery({
                   sm:w-11
                   sm:h-11
                   rounded-full
-                  bg-[#28170D]
+                  bg-footer
                   text-white
                   flex
                   items-center
@@ -218,7 +212,7 @@ export default function ProductGallery({
         <div className="bg-[#f5e6c6] border border-[#28170D]/10 rounded-[28px] p-5">
 
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-black text-[#28170D] text-lg">
+            <h3 className="font-black text-foreground text-lg">
               Choose Variant
             </h3>
 
@@ -240,8 +234,8 @@ export default function ProductGallery({
           border
           transition-all
           ${!selectedVariant
-                  ? "bg-[#28170D] text-white border-[#28170D]"
-                  : "bg-white border-[#28170D]/10 text-[#28170D]"
+                  ? "bg-footer text-white border-[#28170D]"
+                  : "bg-white border-[#28170D]/10 text-foreground"
                 }
         `}
             >
@@ -272,8 +266,8 @@ export default function ProductGallery({
             text-left
             transition-all
             ${selectedVariant?._id === v._id
-                    ? "bg-[#28170D] text-white border-[#28170D]"
-                    : "bg-white border-[#28170D]/10 text-[#28170D]"
+                    ? "bg-footer text-white border-[#28170D]"
+                    : "bg-white border-[#28170D]/10 text-foreground"
                   }
           `}
               >
@@ -302,7 +296,7 @@ export default function ProductGallery({
               Selected:
             </span>
 
-            <p className="font-bold text-[#28170D] mt-1">
+            <p className="font-bold text-foreground mt-1">
               {selectedVariant
                 ? selectedVariant.title
                 : "Main Product"}

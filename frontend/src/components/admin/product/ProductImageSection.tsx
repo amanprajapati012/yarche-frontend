@@ -2,15 +2,20 @@
 
 import ImageUploader from "@/src/components/admin/ImageUploader";
 
+export type ExistingImage = {
+  url: string;
+  public_id: string;
+};
+
 type Props = {
   images: File[];
   setImages: React.Dispatch<
     React.SetStateAction<File[]>
   >;
 
-  existingImages: string[];
+  existingImages: ExistingImage[];
   setExistingImages: React.Dispatch<
-    React.SetStateAction<string[]>
+    React.SetStateAction<ExistingImage[]>
   >;
 };
 
@@ -37,9 +42,7 @@ export default function ProductImageSection({
         images={images}
         setImages={setImages}
         existingImages={existingImages}
-        setExistingImages={
-          setExistingImages
-        }
+        setExistingImages={setExistingImages}
       />
     </div>
   );

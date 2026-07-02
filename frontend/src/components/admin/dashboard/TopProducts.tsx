@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Trophy, TrendingUp, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { getImageUrl } from "@/src/lib/image";
 
 interface Props {
   products: any[];
@@ -67,8 +68,6 @@ export default function TopProducts({ products }: Props) {
           const revenue = stock * price;
 
           const imageUrl = product?.images?.[0]
-            ? `${process.env.NEXT_PUBLIC_API_URL}${product.images[0]}`
-            : "/placeholder-product.png";
 
           const sku =
             product?.variants?.[0]?.sku ||

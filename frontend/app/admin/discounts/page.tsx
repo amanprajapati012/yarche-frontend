@@ -50,7 +50,7 @@ export default function DiscountsPage() {
       key: "code",
       label: "Code",
       render: (row: any) => (
-        <span className="font-semibold text-[#28170D]">
+        <span className="font-semibold text-foreground">
           {row.code}
         </span>
       ),
@@ -121,7 +121,7 @@ export default function DiscountsPage() {
 
         <button
           onClick={handleAdd}
-          className="bg-[#28170D] text-white px-4 py-2 rounded-lg"
+          className="bg-footer text-white px-4 py-2 rounded-lg"
         >
           + Add Discount
         </button>

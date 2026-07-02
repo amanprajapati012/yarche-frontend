@@ -74,9 +74,14 @@ export default function ProductForm({
   ] = useState<File[]>([]);
 
   const [
-    existingProductImages,
-    setExistingProductImages,
-  ] = useState<string[]>([]);
+  existingProductImages,
+  setExistingProductImages,
+] = useState<
+  {
+    url: string;
+    public_id: string;
+  }[]
+>([]);
 
   // Variant Images
 
@@ -87,12 +92,18 @@ export default function ProductForm({
     {}
   );
 
-  const [
-    existingVariantImages,
-    setExistingVariantImages,
-  ] = useState<
-    Record<number, string[]>
-  >({});
+ const [
+  existingVariantImages,
+  setExistingVariantImages,
+] = useState<
+  Record<
+    number,
+    {
+      url: string;
+      public_id: string;
+    }[]
+  >
+>({});
 
   useEffect(() => {
     if (!initialData) return;
@@ -132,9 +143,12 @@ export default function ProductForm({
     );
 
     const variantImageMap: Record<
-      number,
-      string[]
-    > = {};
+  number,
+  {
+    url: string;
+    public_id: string;
+  }[]
+> = {};
 
     (
       initialData.variants || []
@@ -144,7 +158,7 @@ export default function ProductForm({
         index: number
       ) => {
         variantImageMap[index] =
-          variant.images || [];
+  variant.images || [];
       }
     );
 

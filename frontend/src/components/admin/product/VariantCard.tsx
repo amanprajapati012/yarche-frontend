@@ -5,6 +5,11 @@ import { Trash2 } from "lucide-react";
 import ImageUploader from "@/src/components/admin/ImageUploader";
 import { Variant } from "./types";
 
+type ImageType = {
+  url: string;
+  public_id: string;
+};
+
 type Props = {
   index: number;
 
@@ -21,11 +26,14 @@ type Props = {
     React.SetStateAction<File[]>
   >;
 
-  existingImages: string[];
-  setExistingImages: React.Dispatch<
-    React.SetStateAction<string[]>
-  >;
+  existingImages: ImageType[];
+
+setExistingImages: React.Dispatch<
+  React.SetStateAction<ImageType[]>
+>;
 };
+
+
 
 export default function VariantCard({
   index,

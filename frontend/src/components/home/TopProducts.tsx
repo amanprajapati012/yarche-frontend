@@ -49,10 +49,10 @@ export default function TopProducts() {
         {/* HEADER */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-3xl font-serif text-[#28170D]">
+            <h2 className="text-3xl font-serif text-foreground">
               Top Products
             </h2>
-            <div className="w-16 h-[2px] bg-[#28170D] mt-2" />
+            <div className="w-16 h-[2px] bg-footer mt-2" />
           </div>
 
           {/* ARROWS */}

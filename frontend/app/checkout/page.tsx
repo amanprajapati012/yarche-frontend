@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useCartStore } from "@/src/store/cartStore";
 import { useAuthStore } from "@/src/store/authStore";
 import API from "@/src/lib/api";
+import { useRouter } from "next/navigation";
 
 import CheckoutHeader from "@/src/components/checkout/CheckoutHeader";
 import ShippingForm from "@/src/components/checkout/ShippingForm";
@@ -38,6 +39,8 @@ declare global {
 }
 
 export default function CheckoutPage() {
+  const router = useRouter();
+
   const { items } = useCartStore();
 
   const { user } = useAuthStore();
@@ -131,12 +134,12 @@ export default function CheckoutPage() {
   };
 
   const handlePlaceOrder = async () => {
-   
+
     try {
       if (!form.addressId) {
-  alert("Please select address");
-  return;
-}
+        alert("Please select address");
+        return;
+      }
       console.log("========== CHECKOUT DEBUG ==========");
 
       const paymentMode =
@@ -162,22 +165,22 @@ export default function CheckoutPage() {
       console.log("Final Total =>", total);
 
       const body = {
-  fullName: form.name,
-  mobile: form.phone,
-  user_id: userId,
-  shipping,
-  couponCode: appliedCoupon,
-  discount: couponDiscount,
-  paymentMode,
+        fullName: form.name,
+        mobile: form.phone,
+        user_id: userId,
+        shipping,
+        couponCode: appliedCoupon,
+        discount: couponDiscount,
+        paymentMode,
 
-  // ✅ Sirf addressId bhejna hai
-  addressId: form.addressId,
+        // ✅ Sirf addressId bhejna hai
+        addressId: form.addressId,
 
-  items: items.map((item) => ({
-    product_id: item._id,
-    quantity: item.quantity,
-  })),
-};
+        items: items.map((item) => ({
+          product_id: item._id,
+          quantity: item.quantity,
+        })),
+      };
 
       console.log("============= REQUEST BODY =============");
 
@@ -244,14 +247,11 @@ export default function CheckoutPage() {
         try {
 
           await API.patch("/updatepayment", {
-
             id: data.order._id,
-
             transactionNo: response.razorpay_payment_id,
-
           });
 
-          alert("Payment Successful");
+          router.push(`/order-success/${data.order._id}`);
 
         } catch (e) {
 

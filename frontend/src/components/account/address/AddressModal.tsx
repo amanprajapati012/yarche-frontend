@@ -221,7 +221,7 @@ export default function AddressModal({
 
                 {/* Header */}
                 <div className="sticky top-0 bg-[#f2d9b1] border-b border-[#d8b98c] px-6 py-4 flex items-center justify-between rounded-t-3xl">
-                    <h2 className="text-2xl font-bold text-[#28170d]">
+                    <h2 className="text-2xl font-bold text-foreground">
                         {editData ? "Edit Address" : "Add New Address"}
                     </h2>
 
@@ -239,7 +239,7 @@ export default function AddressModal({
                     {/* Type */}
 
                     <div className="mb-5">
-                        <label className="block text-sm font-semibold mb-2 text-[#28170d]">
+                        <label className="block text-sm font-semibold mb-2 text-foreground">
                             Address Type
                         </label>
 
@@ -343,7 +343,7 @@ export default function AddressModal({
                         type="button"
                         onClick={getCurrentLocation}
                         disabled={loading}
-                        className="mt-6 w-full flex items-center justify-center gap-2 rounded-xl bg-[#28170d] text-white py-3 font-semibold hover:bg-[#3a2415] transition"
+                        className="mt-6 w-full flex items-center justify-center gap-2 rounded-xl bg-footer text-white py-3 font-semibold hover:bg-[#3a2415] transition"
                     >
                         <MapPin size={18} />
 
@@ -356,14 +356,14 @@ export default function AddressModal({
 
                         <button
                             onClick={onClose}
-                            className="flex-1 rounded-xl border border-[#28170d] py-3 font-semibold text-[#28170d] hover:bg-[#28170d] hover:text-white transition"
+                            className="flex-1 rounded-xl border border-[#28170d] py-3 font-semibold text-foreground hover:bg-footer hover:text-white transition"
                         >
                             Cancel
                         </button>
 
                         <button
                             onClick={handleSave}
-                            className="flex-1 rounded-xl bg-[#28170d] py-3 font-semibold text-white hover:bg-[#3a2415] transition"
+                            className="flex-1 rounded-xl bg-footer py-3 font-semibold text-white hover:bg-[#3a2415] transition"
                         >
                             {editData ? "Update Address" : "Save Address"}
                         </button>
@@ -397,7 +397,7 @@ function Input({
     return (
         <div>
 
-            <label className="block text-sm font-semibold text-[#28170d] mb-2">
+            <label className="block text-sm font-semibold text-foreground mb-2">
                 {label}
             </label>
 
@@ -415,7 +415,7 @@ function Input({
           outline-none
           transition
           bg-[#efd6ad]
-          text-[#28170d]
+          text-foreground
           placeholder:text-[#7d5d38]
           ${error
                         ? "border-red-500"

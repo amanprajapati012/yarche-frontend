@@ -1,19 +1,28 @@
 import { UPLOADS_BASE_URL } from "./constants";
 
-/**
- * Universal image resolver
- * handles:
- * - /uploads/abc.jpg
- * - uploads/abc.jpg
- * - full http url
- */
-export const getImageUrl = (img?: string | null) => {
+export type ImageType = {
+  url: string;
+  public_id?: string;
+};
+
+export const getImageUrl = (
+  img?: string | ImageType | null
+) => {
   if (!img) return "/placeholder.png";
 
-  // already absolute URL
-  if (img.startsWith("http")) return img;
+  // Cloudinary object
+  if (typeof img === "object") {
+    if (img.url) return img.url;
 
-  // normalize path
+    return "/placeholder.png";
+  }
+
+  // Absolute URL
+  if (img.startsWith("http")) {
+    return img;
+  }
+
+  // Local upload
   const path = img.startsWith("/") ? img : `/${img}`;
 
   return `${UPLOADS_BASE_URL}${path}`;

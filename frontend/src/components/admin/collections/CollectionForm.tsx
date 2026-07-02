@@ -5,6 +5,7 @@ import API from "@/src/lib/api";
 import { X, Tag, Link2, FileText, Hash, Star, Eye } from "lucide-react";
 import { toast } from "sonner";
 import ImageUploader from "@/src/components/admin/ImageUploader";
+import { getImageUrl, ImageType } from "@/src/lib/image";
 
 export default function CollectionForm({
   open,
@@ -22,11 +23,16 @@ export default function CollectionForm({
   });
 
   const [images, setImages] = useState<File[]>([]);
-  const [existingImages, setExistingImages] = useState<string[]>([]);
+ const [existingImages, setExistingImages] = useState<ImageType[]>([]);
 
   // ---------------- EDIT MODE ----------------
   useEffect(() => {
     if (editData) {
+      setImages([]);
+
+setExistingImages([]);
+
+
       setForm({
         name: editData.name || "",
         slug: editData.slug || "",
@@ -36,7 +42,14 @@ export default function CollectionForm({
         sortOrder: Number(editData.sortOrder || 0),
       });
 
-      setExistingImages(editData.images || []);
+      setExistingImages(
+  editData
+    ? [
+        ...(editData.image ? [editData.image] : []),
+        ...(editData.thumbnail ? [editData.thumbnail] : []),
+      ]
+    : []
+);
     }
   }, [editData]);
 
@@ -123,13 +136,13 @@ export default function CollectionForm({
 
         {/* IMAGE UPLOADER */}
         <div className="bg-white/40 p-4 rounded-xl">
-          <ImageUploader
-            images={images}
-            setImages={setImages}
-            existingImages={existingImages}
-            setExistingImages={setExistingImages}
-            label="Collection Images"
-          />
+         <ImageUploader
+  images={images}
+  setImages={setImages}
+  existingImages={existingImages}
+  setExistingImages={setExistingImages}
+  label="Collection Images"
+/>
         </div>
 
         {/* NAME */}

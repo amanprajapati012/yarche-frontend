@@ -1,3 +1,8 @@
+export interface ImageType {
+  url: string;
+  public_id: string;
+}
+
 export interface Variant {
   _id?: string;
 
@@ -11,7 +16,7 @@ export interface Variant {
 
   description: string;
 
-  images?: string[];
+  images?: ImageType[];
 
   useProductImages?: boolean;
 }
