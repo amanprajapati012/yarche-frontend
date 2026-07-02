@@ -1,21 +1,15 @@
 "use client";
 
 import ImageUploader from "@/src/components/admin/ImageUploader";
-
-export type ExistingImage = {
-  url: string;
-  public_id: string;
-};
+import type { ImageType } from "./types";
 
 type Props = {
   images: File[];
-  setImages: React.Dispatch<
-    React.SetStateAction<File[]>
-  >;
+  setImages: React.Dispatch<React.SetStateAction<File[]>>;
 
-  existingImages: ExistingImage[];
+  existingImages: ImageType[];
   setExistingImages: React.Dispatch<
-    React.SetStateAction<ExistingImage[]>
+    React.SetStateAction<ImageType[]>
   >;
 };
 

@@ -5,7 +5,11 @@ import API from "@/src/lib/api";
 import { X, Tag, Link2, FileText, Hash, Star, Eye } from "lucide-react";
 import { toast } from "sonner";
 import ImageUploader from "@/src/components/admin/ImageUploader";
-import { getImageUrl, ImageType } from "@/src/lib/image";
+
+type ExistingImage = {
+  url: string;
+  public_id: string;
+};
 
 export default function CollectionForm({
   open,
@@ -23,35 +27,28 @@ export default function CollectionForm({
   });
 
   const [images, setImages] = useState<File[]>([]);
- const [existingImages, setExistingImages] = useState<ImageType[]>([]);
+ const [existingImages, setExistingImages] = useState<ExistingImage[]>([]);
 
   // ---------------- EDIT MODE ----------------
-  useEffect(() => {
-    if (editData) {
-      setImages([]);
+ useEffect(() => {
+  if (editData) {
+    setForm({
+      name: editData.name || "",
+      slug: editData.slug || "",
+      description: editData.description || "",
+      isActive: Boolean(editData.isActive),
+      isFeatured: Boolean(editData.isFeatured),
+      sortOrder: Number(editData.sortOrder || 0),
+    });
 
-setExistingImages([]);
-
-
-      setForm({
-        name: editData.name || "",
-        slug: editData.slug || "",
-        description: editData.description || "",
-        isActive: Boolean(editData.isActive),
-        isFeatured: Boolean(editData.isFeatured),
-        sortOrder: Number(editData.sortOrder || 0),
-      });
-
-      setExistingImages(
-  editData
-    ? [
-        ...(editData.image ? [editData.image] : []),
-        ...(editData.thumbnail ? [editData.thumbnail] : []),
-      ]
-    : []
-);
-    }
-  }, [editData]);
+    setExistingImages(
+      (editData.images || []).map((img: string) => ({
+        url: img,
+        public_id: "", // safe fallback (required by type)
+      }))
+    );
+  }
+}, [editData]);
 
   // ---------------- SLUG GENERATOR ----------------
   const handleName = (value: string) => {
@@ -136,13 +133,13 @@ setExistingImages([]);
 
         {/* IMAGE UPLOADER */}
         <div className="bg-white/40 p-4 rounded-xl">
-         <ImageUploader
-  images={images}
-  setImages={setImages}
-  existingImages={existingImages}
-  setExistingImages={setExistingImages}
-  label="Collection Images"
-/>
+          <ImageUploader
+            images={images}
+            setImages={setImages}
+            existingImages={existingImages}
+            setExistingImages={setExistingImages}
+            label="Collection Images"
+          />
         </div>
 
         {/* NAME */}
