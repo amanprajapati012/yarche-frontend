@@ -14,7 +14,16 @@ const orderItemSchema = new mongoose.Schema({
   price: { type: Number, required: true },             // base price
   discountedPrice: { type: Number, required: true },   // discounted value
   itemTotalPrice: { type: Number, required: true },    // qty * discountedPrice
-  image: { type: String },
+  image: {
+  url: {
+    type: String,
+    default: "",
+  },
+  public_id: {
+    type: String,
+    default: "",
+  },
+},
 
   quantity: { type: Number, required: true }
 });

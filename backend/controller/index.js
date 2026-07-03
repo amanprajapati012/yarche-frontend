@@ -1154,16 +1154,21 @@ const createOrder = async (req, res) => {
       const itemTotal = discounted * item.quantity;
 
       formattedItems.push({
-        product_id: product._id,
-        product_name: product.name,
-        category: product.category,
-        subcategory: product.subcategory,
-        price: product.price,
-        discountedPrice: discounted,
-        itemTotalPrice: itemTotal,
-        image: product.images?.[0] || "",
-        quantity: item.quantity,
-      });
+  product_id: product._id,
+  product_name: product.name,
+  category: product.category,
+  subcategory: product.sub_category, // agar schema me sub_category hai
+  price: product.price,
+  discountedPrice: discounted,
+  itemTotalPrice: itemTotal,
+
+  image: {
+    url: product.images?.[0]?.url || "",
+    public_id: product.images?.[0]?.public_id || "",
+  },
+
+  quantity: item.quantity,
+});
 
       totalPrice += itemTotal;
       itemQuantity += item.quantity;
