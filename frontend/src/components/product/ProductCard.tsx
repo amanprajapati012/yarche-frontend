@@ -61,16 +61,16 @@ const imageSrc = getImageUrl(product.images?.[0]);
           {product.sub_category}
         </p>
 
-        <h3 className="text-lg sm:text-[24px] font-bold text-[#3F2A1D] line-clamp-2 min-h-[56px]">
+       <h3 className="text-xl font-bold text-[#3F2A1D] leading-tight line-clamp-2">
   {product.name}
 </h3>
 
-        <p className="text-sm text-[#74685A] mt-1 line-clamp-1">
-          {product.title}
-        </p>
+        <p className="mt-1 text-[15px] text-[#74685A] line-clamp-1">
+  {product.title}
+</p>
 
         {/* PRICE */}
-       <div className="flex items-center justify-between gap-2 mt-auto pt-4">
+       <div className="flex items-center justify-between gap-3 mt-4">
   <div className="flex-1 min-w-0">
     <div className="flex items-end gap-1 flex-wrap">
       <span className="text-xl sm:text-3xl font-extrabold text-[#2D1A10] leading-none">
@@ -114,7 +114,7 @@ const imageSrc = getImageUrl(product.images?.[0]);
 </div>
 
         {/* STOCK STATUS */}
-        <div className="mt-3 min-h-[42px] flex items-start">
+       <div className="mt-2 h-5">
           {product.quantity <= 0 ? (
             <div className="flex items-center gap-2 text-sm font-medium text-red-600">
               <div className="w-2 h-2 rounded-full bg-red-600" />
@@ -131,7 +131,7 @@ const imageSrc = getImageUrl(product.images?.[0]);
               Low Stock ({product.quantity} remaining)
             </div>
           ) : (
-            <div className="h-[20px]" />
+            <div />
           )}
         </div>
       </div>
