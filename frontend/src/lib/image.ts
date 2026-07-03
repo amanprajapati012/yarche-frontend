@@ -1,5 +1,6 @@
 import { UPLOADS_BASE_URL } from "./constants";
 
+
 export type ImageType = {
   url: string;
   public_id?: string;

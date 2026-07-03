@@ -20,7 +20,7 @@ const menus = [
   {
     name: "Orders",
     icon: Package,
-    href: "/account/order",
+    href: "/account/orders",
   },
   {
     name: "Addresses",

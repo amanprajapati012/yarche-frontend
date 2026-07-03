@@ -1,13 +1,15 @@
 "use client";
 
 import { ArrowRight, ShieldCheck } from "lucide-react";
+import { getImageUrl } from "@/src/lib/image"; // apna actual path
+
 
 type CartItem = {
-    _id: string;
-    name: string;
-    image?: string;
-    price: number;
-    quantity: number;
+  _id: string;
+  name: string;
+  image?: string;
+  price: number;
+  quantity: number;
 };
 
 type OrderSummaryProps = {
@@ -53,10 +55,10 @@ export default function OrderSummary({
                             className="flex gap-3 items-center"
                         >
                             <img
-                                src={item.image}
-                                alt={item.name}
-                                className="w-12 h-12 rounded-lg object-cover border"
-                            />
+  src={getImageUrl(item.image)}
+  alt={item.name}
+  className="w-12 h-12 rounded-lg object-cover border"
+/>
 
                             <div className="flex-1">
                                 <p className="text-sm font-medium">

@@ -1,84 +1,88 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 import AccountSidebar from "@/src/components/AccountSidebar/AccountSidebar";
 
-const orders = [
-  {
-    id: "#ORD1001",
-    date: "23 Jun 2026",
-    amount: "₹12,999",
-    status: "Delivered",
-  },
-  {
-    id: "#ORD1002",
-    date: "15 Jun 2026",
-    amount: "₹8,499",
-    status: "Processing",
-  },
-  {
-    id: "#ORD1003",
-    date: "09 Jun 2026",
-    amount: "₹2,199",
-    status: "Cancelled",
-  },
-];
+import OrderCard from "@/src/components/order/OrderCard";
+import OrderSkeleton from "@/src/components/order/OrderSkeleton";
+import OrderEmpty from "@/src/components/order/OrderEmpty";
+
+import { useAuthStore } from "@/src/store/authStore";
+import { getOrdersByUser } from "@/src/services/order";
+import { Order } from "@/src/types/order";
 
 export default function OrdersPage() {
+  const user = useAuthStore((state) => state.user);
+  const hydrate = useAuthStore((state) => state.hydrate);
+
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    hydrate();
+  }, [hydrate]);
+
+  useEffect(() => {
+    if (user?.id) {
+      loadOrders();
+    }
+  }, [user]);
+
+  const loadOrders = async () => {
+    try {
+      setLoading(true);
+
+      const res = await getOrdersByUser(user!.id);
+
+      if (res.response === "success") {
+        setOrders(res.orders);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="bg-[#f8f8fb] min-h-screen p-8">
-      <div className="max-w-7xl mx-auto flex gap-6">
+    <section className="min-h-screen bg-background py-10">
+      <div className="max-w-7xl mx-auto px-4 flex flex-col lg:flex-row gap-8">
 
         <AccountSidebar />
 
         <div className="flex-1">
 
-          <h1 className="text-4xl font-bold mb-8">
+          <h1 className="text-4xl font-bold text-foreground">
             My Orders
           </h1>
 
-          <div className="space-y-5">
+          <p className="text-foreground/60 mt-2">
+            {orders.length} Order{orders.length !== 1 ? "s" : ""}
+          </p>
 
-            {orders.map((order) => (
-              <div
-                key={order.id}
-                className="bg-white border rounded-3xl p-6 flex justify-between items-center"
-              >
-                <div>
-                  <h3 className="font-bold text-lg">
-                    {order.id}
-                  </h3>
+          <div className="mt-8">
 
-                  <p className="text-gray-500">
-                    {order.date}
-                  </p>
-                </div>
-
-                <div className="font-semibold">
-                  {order.amount}
-                </div>
-
-                <div>
-                  <span
-                    className={`px-4 py-2 rounded-full text-sm
-                    ${
-                      order.status === "Delivered"
-                        ? "bg-green-100 text-green-700"
-                        : order.status === "Processing"
-                        ? "bg-orange-100 text-orange-700"
-                        : "bg-red-100 text-red-700"
-                    }`}
-                  >
-                    {order.status}
-                  </span>
-                </div>
-
-                <button className="border rounded-xl px-4 py-2">
-                  View Details
-                </button>
+            {loading ? (
+              <OrderSkeleton />
+            ) : orders.length === 0 ? (
+              <OrderEmpty />
+            ) : (
+              <div className="space-y-6">
+                {orders.map((order) => (
+                  <OrderCard
+                    key={order._id}
+                    order={order}
+                  />
+                ))}
               </div>
-            ))}
+            )}
 
           </div>
+
         </div>
+
       </div>
-    </div>
+    </section>
   );
 }

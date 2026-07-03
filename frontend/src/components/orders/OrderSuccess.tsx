@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { getImageUrl } from "@/src/lib/image";
 
 import {
     CheckCircle2,
@@ -93,10 +94,10 @@ export default function OrderSuccess({ order }: Props) {
                                         >
 
                                             <img
-                                                src={item.image}
-                                                alt={item.product_name}
-                                                className="w-24 h-24 rounded-2xl object-cover border"
-                                            />
+  src={getImageUrl(item.image)}
+  alt={item.product_name}
+  className="w-24 h-24 rounded-2xl object-cover border"
+/>
 
                                             <div className="flex-1">
 
@@ -346,7 +347,7 @@ export default function OrderSuccess({ order }: Props) {
 
                                 <Link
 
-                                    href="/orders"
+                                    href="/account/orders"
 
                                     className="bg-[#28170d] text-white rounded-2xl py-4 flex justify-center items-center gap-2"
 

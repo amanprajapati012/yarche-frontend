@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { compressImage } from "@/src/lib/compressImage";
 
 import API from "@/src/lib/api";
 
@@ -246,27 +247,38 @@ export default function ProductForm({
 
       // Product Images
 
-      productImages.forEach(
-        (file) => {
-          fd.append(
-            "productImages",
-            file
-          );
-        }
-      );
+     // Product Images (Compressed)
+
+for (const file of productImages) {
+  const compressedFile = await compressImage(file);
+
+  console.log(
+    "Original:",
+    (file.size / 1024 / 1024).toFixed(2),
+    "MB"
+  );
+
+  console.log(
+    "Compressed:",
+    (compressedFile.size / 1024).toFixed(0),
+    "KB"
+  );
+
+  fd.append("productImages", compressedFile);
+}
 
       // Variant Images
 
-      Object.entries(variantImages).forEach(
-        ([index, files]) => {
-          files.forEach((file) => {
-            fd.append(
-              `variantImages_${index}`,
-              file
-            );
-          });
-        }
-      );
+      for (const [index, files] of Object.entries(variantImages)) {
+  for (const file of files) {
+    const compressedFile = await compressImage(file);
+
+    fd.append(
+      `variantImages_${index}`,
+      compressedFile
+    );
+  }
+}
 
       // ===== DEBUG START =====
 
