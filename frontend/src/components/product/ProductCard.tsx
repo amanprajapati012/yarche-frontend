@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import { useCartStore } from "@/src/store/cartStore";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 
 import { getImageUrl } from "@/src/lib/image";
@@ -83,23 +84,27 @@ const imageSrc = getImageUrl(product.images?.[0]);
           </div>
 
           <button
-            onClick={(e) => {
-              e.preventDefault();
+           onClick={(e) => {
+  e.preventDefault();
 
-              addToCart({
-                _id: product._id,
-                name: product.name,
-                price: product.discountedPrice,
-                originalPrice: product.price,
-                image: imageSrc,
-                title: product.title,
+  if (product.quantity <= 0) {
+    toast.error("Product is out of stock");
+    return;
+  }
 
-                stock: product.quantity, // ADD THIS
+  addToCart({
+    _id: product._id,
+    name: product.name,
+    price: product.discountedPrice,
+    originalPrice: product.price,
+    image: imageSrc,
+    title: product.title,
+    stock: product.quantity,
+    quantity: 1,
+  });
 
-                quantity: 1,
-              });
-                router.push("/cart"); // ✅ Cart page par redirect
-            }}
+  router.push("/cart");
+}}
             className="w-12 h-12 rounded-full bg-[#3B281C] text-white flex items-center justify-center shadow-lg hover:scale-105 transition"
           >
             <ShoppingCart size={20} />

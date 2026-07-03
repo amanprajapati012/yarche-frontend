@@ -5,7 +5,13 @@ import API from "@/src/lib/api";
 import ProductCard from "@/src/components/product/ProductCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-export default function TopProducts() {
+interface TopProductsProps {
+  isPage?: boolean;
+}
+
+export default function TopProducts({
+  isPage = false,
+}: TopProductsProps) {
   const [products, setProducts] = useState<any[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -18,10 +24,7 @@ export default function TopProducts() {
       const res = await API.get("/products");
 
       if (res.data.response === "success") {
-        const allProducts = res.data.products || [];
-
-        // TOP PRODUCTS FILTER
-        const topProducts = allProducts.filter((p: any) =>
+        const topProducts = (res.data.products || []).filter((p: any) =>
           p.tags?.includes("top-product")
         );
 
@@ -33,20 +36,18 @@ export default function TopProducts() {
   };
 
   const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const scrollAmount = 300;
+    if (!scrollRef.current) return;
 
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
+    scrollRef.current.scrollBy({
+      left: direction === "left" ? -300 : 300,
+      behavior: "smooth",
+    });
   };
 
   return (
     <section className="bg-background py-16">
       <div className="max-w-7xl mx-auto px-5">
-        {/* HEADER */}
+        {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-3xl font-serif text-foreground">
@@ -55,47 +56,62 @@ export default function TopProducts() {
             <div className="w-16 h-[2px] bg-footer mt-2" />
           </div>
 
-          {/* ARROWS */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => scroll("left")}
-              className="p-2 border rounded-lg bg-white hover:bg-gray-100"
-            >
-              <ChevronLeft size={18} />
-            </button>
+          {!isPage && (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => scroll("left")}
+                className="p-2 border rounded-lg bg-white hover:bg-gray-100"
+              >
+                <ChevronLeft size={18} />
+              </button>
 
-            <button
-              onClick={() => scroll("right")}
-              className="p-2 border rounded-lg bg-white hover:bg-gray-100"
-            >
-              <ChevronRight size={18} />
-            </button>
-          </div>
-        </div>
-
-        {/* SCROLL AREA */}
-        <div
-          ref={scrollRef}
-          className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide"
-        >
-          {products.length > 0 ? (
-            products.map((product) => (
-              <div key={product._id} className="min-w-[280px]">
-                <ProductCard product={product} />
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-500">No top products found.</p>
+              <button
+                onClick={() => scroll("right")}
+                className="p-2 border rounded-lg bg-white hover:bg-gray-100"
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
           )}
         </div>
-      </div>
 
-      {/* hide scrollbar */}
-      <style jsx>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
+        {products.length === 0 ? (
+          <p className="text-gray-500">No top products found.</p>
+        ) : isPage ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {products.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+        ) : (
+          <>
+            <div
+              ref={scrollRef}
+              className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide"
+            >
+              {products.map((product) => (
+                <div
+                  key={product._id}
+                  className="min-w-[280px] max-w-[280px] shrink-0"
+                >
+                  <ProductCard product={product} />
+                </div>
+              ))}
+            </div>
+
+            <style jsx>{`
+              .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+              }
+
+              .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+              }
+            `}</style>
+          </>
+        )}
+      </div>
     </section>
   );
 }

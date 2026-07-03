@@ -28,39 +28,53 @@ export const useCartStore = create<CartState>()(
     (set, get) => ({
       items: [],
 
-      addToCart: (item) =>
-        set((state) => {
-          const existing = state.items.find(
-            (i) => i._id === item._id
-          );
+     addToCart: (item) => {
+  // Product out of stock
+  if (item.stock <= 0) {
+    return false;
+  }
 
-          if (existing) {
-            if (existing.quantity >= existing.stock) {
-              return state;
-            }
+  let added = false;
 
-            return {
-              items: state.items.map((i) =>
-                i._id === item._id
-                  ? {
-                      ...i,
-                      quantity: i.quantity + 1,
-                    }
-                  : i
-              ),
-            };
-          }
+  set((state) => {
+    const existing = state.items.find(
+      (i) => i._id === item._id
+    );
 
-          return {
-            items: [
-              ...state.items,
-              {
-                ...item,
-                quantity: 1,
-              },
-            ],
-          };
-        }),
+    if (existing) {
+      if (existing.quantity >= existing.stock) {
+        return state;
+      }
+
+      added = true;
+
+      return {
+        items: state.items.map((i) =>
+          i._id === item._id
+            ? {
+                ...i,
+                quantity: i.quantity + 1,
+              }
+            : i
+        ),
+      };
+    }
+
+    added = true;
+
+    return {
+      items: [
+        ...state.items,
+        {
+          ...item,
+          quantity: 1,
+        },
+      ],
+    };
+  });
+
+  return added;
+},
 
       removeFromCart: (id) =>
         set((state) => ({

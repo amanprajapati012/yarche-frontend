@@ -6,6 +6,7 @@ import API from "@/src/lib/api";
 import ImageUploader from "@/src/components/admin/ImageUploader";
 import { getImageUrl, ImageType } from "@/src/lib/image";
 import { X } from "lucide-react";
+import { compressImage } from "@/src/lib/compressImage";
 
 type Props = {
   initialData?: any;
@@ -61,9 +62,24 @@ if (initialData?._id) {
   );
 }
 
-images.forEach((file) => {
-  formData.append("images", file);
-});
+// Upload Compressed Images
+for (const file of images) {
+  const compressedFile = await compressImage(file);
+
+  console.log(
+    "Original:",
+    (file.size / 1024 / 1024).toFixed(2),
+    "MB"
+  );
+
+  console.log(
+    "Compressed:",
+    (compressedFile.size / 1024).toFixed(0),
+    "KB"
+  );
+
+  formData.append("images", compressedFile);
+}
 
       if (!initialData?._id) {
         await API.post("/admin/productsubcategory", formData, {

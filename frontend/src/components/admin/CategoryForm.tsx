@@ -7,6 +7,7 @@ import API from "@/src/lib/api";
 import ImageUploader from "./ImageUploader";
 import { API_BASE_URL } from "@/src/lib/constants";
 import { X } from "lucide-react";
+import { compressImage } from "@/src/lib/compressImage";
 
 type Props = {
   initialData?: any;
@@ -52,9 +53,23 @@ export default function CategoryForm({ initialData, onSuccess }: Props) {
         );
       }
 
-      images.forEach((file) => {
-        formData.append("images", file);
-      });
+     for (const file of images) {
+  const compressedFile = await compressImage(file);
+
+  console.log(
+    "Category Original:",
+    (file.size / 1024).toFixed(0),
+    "KB"
+  );
+
+  console.log(
+    "Category Compressed:",
+    (compressedFile.size / 1024).toFixed(0),
+    "KB"
+  );
+
+  formData.append("images", compressedFile);
+}
 
       // CREATE
       if (!initialData?._id) {

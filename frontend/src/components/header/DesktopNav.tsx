@@ -26,14 +26,14 @@ export default function DesktopNav({
 
         <div className="absolute top-full left-0 w-64 bg-background shadow-xl border border-[#28170D]/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
           {categories.map((cat) => (
-            <Link
-              key={cat}
-              href={`/category/${cat.toLowerCase()}`}
-              className="block px-6 py-3 text-sm text-foreground hover:bg-[#F5E9CC] border-b border-[#28170D]/5"
-            >
-              {cat}
-            </Link>
-          ))}
+  <Link
+    key={cat}
+    href={`/categories/${encodeURIComponent(cat)}`}
+    className="block px-6 py-3 text-sm text-foreground hover:bg-[#F5E9CC] border-b border-[#28170D]/5"
+  >
+    {cat}
+  </Link>
+))}
         </div>
       </div>
 

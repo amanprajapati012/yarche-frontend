@@ -12,12 +12,24 @@ import {
   Star,
   CheckCircle2,
 } from "lucide-react";
-
+import { useCartStore } from "@/src/store/cartStore";
+import { useRouter } from "next/navigation";
+import { getImageUrl } from "@/src/lib/image";
+import { toast } from "sonner";
 export default function ProductInfo({
   product,
   selectedVariant,
 }: any) {
   const active = selectedVariant || product;
+  const router = useRouter();
+
+const addToCart = useCartStore(
+  (state) => state.addToCart
+);
+
+const imageSrc = getImageUrl(
+  active.images?.[0] || product.images?.[0]
+);
 
   const discount =
     active?.price > 0
@@ -221,10 +233,31 @@ export default function ProductInfo({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-        <button className="h-14 md:h-16 rounded-2xl border-2 border-[#28170D] bg-[#fff3e2] text-foreground font-black flex items-center justify-center gap-2 hover:bg-footer hover:text-white transition-all">
-          <ShoppingCart size={18} />
-          Add To Cart
-        </button>
+        <button
+  onClick={() => {
+  if ((active.quantity ?? product.quantity) <= 0) {
+    toast.error("Product is out of stock");
+    return;
+  }
+
+  addToCart({
+    _id: active._id ?? product._id,
+    name: product.name,
+    price: active.discountedPrice,
+    originalPrice: active.price,
+    image: imageSrc,
+    title: active.title || product.title,
+    stock: active.quantity ?? product.quantity,
+    quantity: 1,
+  });
+
+  router.push("/cart");
+}}
+  className="h-14 md:h-16 rounded-2xl border-2 border-[#28170D] bg-[#fff3e2] text-foreground font-black flex items-center justify-center gap-2 hover:bg-footer hover:text-white transition-all"
+>
+  <ShoppingCart size={18} />
+  Add To Cart
+</button>
 
         <button className="h-14 md:h-16 rounded-2xl bg-footer text-white font-black flex items-center justify-center gap-2 hover:scale-[1.03] hover:shadow-xl transition-all">
           <Zap size={18} />
