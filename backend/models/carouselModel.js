@@ -25,18 +25,26 @@ const carouselSchema = new mongoose.Schema(
     },
 
     caption: {
-      type: String, // small top text (like "Oriental Collection")
+      type: String,
       default: "",
     },
 
-    images: {
-      type: [String], // multiple images
-      default: [],
-    },
+    images: [
+      {
+        url: {
+          type: String,
+          required: true,
+        },
+        public_id: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
 
     isActive: {
       type: Boolean,
-      default: true, // show/hide control from admin
+      default: true,
     },
   },
   {

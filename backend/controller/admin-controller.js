@@ -1577,37 +1577,44 @@ const addCarousel = async (req, res) => {
 
     if (!title || !link) {
       return res.status(400).json({
-        message: "Title & Link required",
         response: "failed",
+        message: "Title & Link required",
       });
     }
 
-    const imageFiles = req.files || [];
+    const uploadedImages = [];
 
-    const imagePaths = imageFiles.map(
-      (file) => `/uploads/product/${file.filename}`,
-    );
+    if (req.files?.length) {
+      for (const file of req.files) {
+        const result = await uploadToCloudinary(file.buffer);
 
-    const newCarousel = new Carousel({
+        uploadedImages.push({
+          url: result.secure_url,
+          public_id: result.public_id,
+        });
+      }
+    }
+
+    const carousel = await Carousel.create({
       title,
       description,
       buttonText,
       link,
       caption,
-      images: imagePaths,
+      images: uploadedImages,
     });
-
-    await newCarousel.save();
 
     res.status(201).json({
-      message: "Carousel added successfully",
       response: "success",
-      carousel: newCarousel,
+      message: "Carousel added successfully",
+      carousel,
     });
   } catch (err) {
+    console.error(err);
+
     res.status(500).json({
-      message: "Failed to add Carousel",
-      error: err.message,
+      response: "failed",
+      message: err.message,
     });
   }
 };
@@ -1648,50 +1655,82 @@ const getCarouselById = async (req, res) => {
 const updateCarousel = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, buttonText, link, caption } = req.body;
+    const { title, description, buttonText, link, caption, existingImages } =
+      req.body;
 
     const carousel = await Carousel.findById(id);
 
     if (!carousel) {
       return res.status(404).json({
+        response: "failed",
         message: "Carousel not found",
       });
     }
 
-    if (title) carousel.title = title;
-    if (description) carousel.description = description;
-    if (buttonText) carousel.buttonText = buttonText;
-    if (link) carousel.link = link;
-    if (caption) carousel.caption = caption;
+    let images = [];
 
-    /* NEW IMAGES */
-    const imageFiles = req.files || [];
-    const newImages = imageFiles.map(
-      (file) => `/uploads/product/${file.filename}`,
-    );
-
-    /* EXISTING IMAGES */
-    let existingImages = [];
-    if (req.body.existingImages) {
+    if (existingImages) {
       try {
-        existingImages = JSON.parse(req.body.existingImages);
-      } catch {
-        existingImages = [];
+        images = JSON.parse(existingImages);
+      } catch (err) {
+        images = [];
       }
     }
 
-    carousel.images = [...existingImages, ...newImages];
+    // Upload new images
+    if (req.files?.length) {
+      for (const file of req.files) {
+        const result = await uploadToCloudinary(file.buffer);
 
-    const updated = await carousel.save();
+        images.push({
+          url: result.secure_url,
+          public_id: result.public_id,
+        });
+      }
+    }
 
-    res.status(200).json({
-      message: "Carousel updated",
-      carousel: updated,
+    // Delete removed images
+    const removedImages = carousel.images.filter(
+      (img) =>
+        !images.some(
+          (i) => i.public_id && i.public_id === img.public_id
+        )
+    );
+
+    for (const image of removedImages) {
+      if (image.public_id) {
+        try {
+          await cloudinary.uploader.destroy(image.public_id);
+        } catch (err) {
+          console.error(
+            "Cloudinary delete failed:",
+            image.public_id,
+            err.message
+          );
+        }
+      }
+    }
+
+    carousel.title = title || carousel.title;
+    carousel.description = description || carousel.description;
+    carousel.buttonText = buttonText || carousel.buttonText;
+    carousel.link = link || carousel.link;
+    carousel.caption = caption || carousel.caption;
+    carousel.images = images;
+
+    await carousel.save();
+
+    res.json({
+      response: "success",
+      message: "Carousel updated successfully",
+      carousel,
     });
   } catch (err) {
+    console.error(err);
+
     res.status(500).json({
-      message: "Update failed",
-      error: err.message,
+      response: "failed",
+      message: err.message,
     });
   }
 };
@@ -1717,44 +1756,41 @@ const getAllCarousel = async (req, res) => {
 // Delete Carousel by ID (and remove image from /uploads/product)
 const deleteCarousel = async (req, res) => {
   try {
-    const { id } = req.params;
+    const carousel = await Carousel.findById(req.params.id);
 
-    // Find the carousel first
-    const carousel = await Carousel.findById(id);
     if (!carousel) {
       return res.status(404).json({
-        message: "Carousel not found",
         response: "failed",
+        message: "Carousel not found",
       });
     }
 
-    // Remove image from /uploads/product folder
-    if (carousel.images && carousel.images[0]) {
-      const imagePath = path.join(
-        process.cwd(),
-        "uploads/product", // adjust if your upload folder is different
-        path.basename(carousel.images[0]),
-      );
-
-      // Check if file exists, then delete
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath);
+    for (const image of carousel.images) {
+      if (image.public_id) {
+        try {
+          await cloudinary.uploader.destroy(image.public_id);
+        } catch (err) {
+          console.error(
+            "Cloudinary delete failed:",
+            image.public_id,
+            err.message
+          );
+        }
       }
     }
 
-    // Delete carousel from database
-    await Carousel.findByIdAndDelete(id);
+    await carousel.deleteOne();
 
-    res.status(200).json({
-      message: "Carousel deleted successfully",
+    res.json({
       response: "success",
+      message: "Carousel deleted successfully",
     });
   } catch (err) {
     console.error(err);
+
     res.status(500).json({
-      message: "Failed to delete Carousel",
       response: "failed",
-      error: err.message,
+      message: err.message,
     });
   }
 };
