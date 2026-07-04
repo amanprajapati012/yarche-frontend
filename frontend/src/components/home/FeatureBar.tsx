@@ -1,236 +1,210 @@
+
+
+
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 import API from "@/src/lib/api";
 import { getImageUrl } from "@/src/lib/image";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ArrowRight,
-} from "lucide-react";
 
-export default function Banner() {
-  const [banners, setBanners] = useState<any[]>([]);
-  const [currentBanner, setCurrentBanner] = useState(0);
-  const [currentImage, setCurrentImage] = useState(0);
+
+type CarouselImage = {
+  _id: string;
+  url: string;
+  public_id?: string;
+};
+
+type Carousel = {
+  _id: string;
+  title: string;
+  description: string;
+  caption: string;
+  buttonText: string;
+  link: string;
+  images: CarouselImage[];
+};
+
+
+
+export default function FeatureBar() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [carousel, setCarousel] = useState<Carousel | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch Banners
+  const images =
+    carousel?.images?.length
+      ? [...carousel.images, ...carousel.images]
+      : [];
+
   useEffect(() => {
-    const fetchBanners = async () => {
+    const fetchCarousel = async () => {
       try {
         const res = await API.get("/carousels");
-        console.log(res.data.carousels[0].images);
-        setBanners(res.data.carousels || []);
-      } catch (err) {
-        console.log(err);
+
+        console.log(res.data);
+
+        if (res.data?.carousels?.length) {
+          setCarousel(res.data.carousels[0]);
+        }
+      } catch (error) {
+        console.log(error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBanners();
+    fetchCarousel();
   }, []);
 
-  const banner = banners[currentBanner];
-  useEffect(() => {
-   
-  }, [currentImage, banner]);
-  // Auto Change Banner
-  useEffect(() => {
-    if (!banner?.images?.length) return;
 
-    const interval = setInterval(() => {
-      setCurrentImage((prev) => {
-        if (prev >= banner.images.length - 1) {
-          return 0;
-        }
-
-        return prev + 1;
-      });
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [currentBanner]);
 
   useEffect(() => {
-    setCurrentImage(0);
-  }, [currentBanner]);
+    const slider = scrollRef.current;
 
-  // Auto Change Images inside Banner
-  useEffect(() => {
-    if (!banner || banner.images.length <= 1) return;
+    if (!slider || images.length === 0) return;
 
-    const interval = setInterval(() => {
-      setCurrentImage((prev) => {
-        return (prev + 1) % banner.images.length;
-      });
-    }, 3000);
+    let animationFrame: number;
+    let position = 0;
 
-    return () => clearInterval(interval);
-  }, [banner]);
+    const singleSetWidth = slider.scrollWidth / 2;
 
-  const nextBanner = () => {
-    setCurrentBanner((prev) => {
-      const next = (prev + 1) % banners.length;
-      setCurrentImage(0);
-      return next;
-    });
-  };
+    const autoScroll = () => {
+      position += 0.8;
 
-  const prevBanner = () => {
-    setCurrentBanner((prev) => {
-      const next = prev === 0 ? banners.length - 1 : prev - 1;
-      setCurrentImage(0);
-      return next;
-    });
-  };
+      if (position >= singleSetWidth) {
+        position = 0;
+      }
+
+      slider.scrollLeft = position;
+
+      animationFrame = requestAnimationFrame(autoScroll);
+    };
+
+    animationFrame = requestAnimationFrame(autoScroll);
+
+    return () => cancelAnimationFrame(animationFrame);
+  }, [images]);;
+
+  const features = [
+    {
+      image: "https://cdn-icons-png.flaticon.com/512/2917/2917995.png",
+      title: "100% Handmade",
+      desc: "Crafted by skilled artisans",
+    },
+    {
+      image: "https://cdn-icons-png.flaticon.com/512/1046/1046857.png",
+      title: "Eco Friendly",
+      desc: "Sustainable materials",
+    },
+    {
+      image: "https://cdn-icons-png.flaticon.com/512/1828/1828884.png",
+      title: "Unique Design",
+      desc: "Every piece is special",
+    },
+    {
+      image: "https://cdn-icons-png.flaticon.com/512/679/679720.png",
+      title: "Safe Delivery",
+      desc: "Packed with care",
+    },
+  ];
 
   if (loading) {
-    return (
-      <section className="h-[620px] bg-footer animate-pulse" />
-    );
+    return null;
   }
 
-  if (!banner) return null;
-
-  const image =
-  banner?.images?.[currentImage]?.url ?? "/placeholder.png";
-
- 
-
   return (
-    <section className="relative h-[560px] md:h-[650px] bg-footer overflow-hidden">
-      <AnimatePresence initial={false}>
-        <motion.div
-          key={`${currentBanner}-${currentImage}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8 }}
-          className="absolute inset-0"
-        >
-          <img
-  src={image}
-  alt={banner.title}
-  className="absolute inset-0 w-full h-full object-contain bg-[#28170d]"
+    <section className="bg-footer py-10 md:py-24 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+          {/* LEFT CONTENT */}
+          <div>
+            <p className="uppercase tracking-[0.25em] text-[#C58B63] text-xs font-semibold mb-5">
+              {carousel?.title}
+            </p>
+
+            <h1 className="font-serif text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight whitespace-pre-line">
+              {carousel?.caption}
+            </h1>
+            <p className="mt-5 text-gray-300 text-[15px] leading-7 w-full max-w-full md:max-w-lg">
+              {carousel?.description}
+            </p>
+
+            <div className="mt-8">
+              <Link href={carousel?.link || "/"}>
+                <button className="w-full md:w-auto bg-[#C58B63] text-white font-medium py-4 px-8 rounded-full">
+                  {carousel?.buttonText}
+                </button>
+              </Link>
+            </div>
+          </div>
+
+          {/* RIGHT CAROUSEL */}
+          <div className="relative">
+            <div className="absolute w-[300px] h-[300px] md:w-[650px] md:h-[650px] bg-[#C58B63]/15 rounded-full blur-[140px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+
+            <div
+              ref={scrollRef}
+              className="flex gap-4 overflow-hidden relative z-10 pb-2"
+            >
+              {images.map((img, index) => (
+                <div
+                  key={img._id}
+                  className="group relative min-w-[75%] sm:min-w-[280px] md:min-w-[320px] h-[280px] sm:h-[380px] md:h-[500px] rounded-[32px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.45)] flex-shrink-0"
+                >
+                  <>
+                   <img
+  src={getImageUrl(img)}
+  alt={carousel?.title || ""}
+  className="w-full h-full object-cover group-hover:scale-110 transition-all duration-1000"
 />
 
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/20" />
-        </motion.div>
-      </AnimatePresence>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#28170D] via-[#28170D]/20 to-transparent" />
 
-      <div className="relative z-20 max-w-7xl mx-auto h-full px-6 lg:px-10 flex items-center">
-      <div className="max-w-3xl text-left">
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <span className="text-[#FFF6E2]/70 text-xs uppercase tracking-[0.25em]">
+                        Artisan Crafted
+                      </span>
 
-  {/* Small Caption */}
-  <motion.p
-    key={banner.caption}
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
-    className="uppercase tracking-[0.30em] text-[11px] md:text-xs font-medium text-[#EFD6AD] mb-6"
-  >
-    ✦ {banner.caption || "CRAFTED BY HAND, LOVED EVERYDAY."}
-  </motion.p>
-
-  {/* Heading */}
-  <motion.h1
-    key={banner.title}
-    initial={{ opacity: 0, y: 30 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.7 }}
-    className="font-serif font-semibold leading-[0.95] text-5xl md:text-7xl lg:text-8xl text-[#FFFBF5]"
-  >
-    {banner.title}
-  </motion.h1>
-
-  {/* Description */}
-  <motion.p
-    key={banner.description}
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.7, delay: 0.2 }}
-    className="mt-8 max-w-xl text-[#E8D9BD] text-base md:text-lg leading-8"
-  >
-    {banner.description}
-  </motion.p>
-
-  {/* Button */}
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.7, delay: 0.35 }}
-    className="mt-10"
-  >
-    <Link
-      href={banner.link || "/shop"}
-      className="inline-flex items-center gap-3 rounded-full bg-[#FFF6E8] px-8 py-4 text-[#28170D] font-semibold hover:bg-[#EFD6AD] transition-all duration-300"
-    >
-      {banner.buttonText || "Explore Collection"}
-
-      <ArrowRight
-        size={18}
-        className="transition-transform group-hover:translate-x-1"
-      />
-    </Link>
-  </motion.div>
-
-</div>
-
-      </div>
-
-      {/* Left Arrow */}
-      <button
-        onClick={prevBanner}
-        className="absolute left-5 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white hover:text-footer transition-all duration-300"
-      >
-        <ChevronLeft className="mx-auto" />
-      </button>
-
-      {/* Right Arrow */}
-      <button
-        onClick={nextBanner}
-        className="absolute right-5 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white hover:text-footer transition-all duration-300"
-      >
-        <ChevronRight className="mx-auto" />
-      </button>
-      {/* Banner Dots */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3">
-        {banners.map((_: any, index: number) => (
-          <button
-            key={index}
-            onClick={() => {
-              setCurrentBanner(index);
-            }}
-            className={`transition-all duration-300 rounded-full ${currentBanner === index
-                ? "w-10 h-3 bg-white"
-                : "w-3 h-3 bg-white/40 hover:bg-white/70"
-              }`}
-          />
-        ))}
-      </div>
-
-      {/* Images Indicator (only if banner has multiple images) */}
-      {banner.images?.length > 1 && (
-        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-30 flex gap-2">
-          {banner.images.map((_: any, index: number) => (
-            <button
-              key={index}
-              onClick={() => setCurrentImage(index)}
-              className={`rounded-full transition-all duration-300 ${currentImage === index
-                  ? "w-8 h-2 bg-[#FFF6E2]"
-                  : "w-2 h-2 bg-white/40 hover:bg-white/70"
-                }`}
-            />
-          ))}
+                      <h3 className="text-white font-serif text-xl mt-2">
+                        Handmade Elegance
+                      </h3>
+                    </div>
+                  </>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      )}
 
-      {/* Bottom Fade */}
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-footer to-transparent pointer-events-none" />
+        {/* FEATURES */}
+        <div className="mt-12 md:mt-16">
+          <div className="bg-background rounded-3xl overflow-hidden shadow-xl border border-[#E7D7C3]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+              {features.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col md:flex-row items-center text-center md:text-left gap-3 p-5 border-b md:border-b-0 md:border-r border-gray-200 last:border-r-0"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-12 h-12 object-contain"
+                  />
+
+                  <div>
+                    <h4 className="font-semibold text-foreground text-sm">
+                      {item.title}
+                    </h4>
+
+                    <p className="text-xs text-gray-500 mt-1">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
