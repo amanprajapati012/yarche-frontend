@@ -5,6 +5,7 @@ import API from "@/src/lib/api";
 import DataTable from "@/src/components/admin/DataTable";
 import BannerForm from "@/src/components/admin/banner/BannerForm";
 import { ImageIcon } from "lucide-react";
+import { getImageUrl } from "@/src/lib/image";
 
 export default function BannerPage() {
   const [data, setData] = useState<any[]>([]);
@@ -57,12 +58,12 @@ export default function BannerPage() {
       key: "image",
       label: "Image",
       render: (row: any) => (
-        <img
-          src={`http://localhost:5000${row.images?.[0]}`}
-          alt=""
-          className="w-24 h-16 object-cover rounded-lg border"
-        />
-      ),
+  <img
+    src={getImageUrl(row.images?.[0])}
+    alt=""
+    className="w-24 h-16 object-cover rounded-lg border"
+  />
+),
     },
     {
       key: "title",

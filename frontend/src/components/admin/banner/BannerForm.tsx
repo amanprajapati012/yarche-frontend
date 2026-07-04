@@ -10,6 +10,8 @@ import {
   FileText,
 } from "lucide-react";
 import BackButton from "@/src/components/admin/BackButton";
+import { compressImage } from "@/src/lib/compressImage";
+import { getImageUrl, ImageType } from "@/src/lib/image";
 
 interface Props {
   open: boolean;
@@ -35,7 +37,21 @@ export default function BannerForm({
   });
 
   const [images, setImages] = useState<File[]>([]);
-  const [existingImages, setExistingImages] = useState<string[]>([]);
+const [existingImages, setExistingImages] = useState<ImageType[]>([]);
+
+const handleImageChange = async (
+  e: React.ChangeEvent<HTMLInputElement>
+) => {
+  const files = Array.from(e.target.files || []);
+
+  const compressed = await Promise.all(
+    files.map((file) => compressImage(file) as Promise<File>)
+  );
+
+  setImages((prev) => [...prev, ...compressed]);
+
+  e.target.value = "";
+};
 
   useEffect(() => {
     if (editData) {
@@ -72,6 +88,10 @@ export default function BannerForm({
   const removeExistingImage = (index: number) => {
     setExistingImages((prev) => prev.filter((_, i) => i !== index));
   };
+
+  const removeNewImage = (index: number) => {
+  setImages((prev) => prev.filter((_, i) => i !== index));
+};
 
   const handleSubmit = async () => {
     try {
@@ -210,7 +230,7 @@ export default function BannerForm({
               multiple
               type="file"
               accept="image/*"
-              onChange={(e) => setImages(Array.from(e.target.files || []))}
+              onChange={handleImageChange}
               className="w-full text-sm"
             />
           </div>
@@ -226,9 +246,9 @@ export default function BannerForm({
                 {existingImages.map((img, index) => (
                   <div key={index} className="relative">
                     <img
-                      src={`http://localhost:5000${img}`}
-                      className="w-full h-20 sm:h-28 object-cover rounded-xl border"
-                    />
+  src={getImageUrl(img)}
+  className="w-full h-20 sm:h-28 object-cover rounded-xl border"
+/>
 
                     <button
                       onClick={() => removeExistingImage(index)}
@@ -250,13 +270,22 @@ export default function BannerForm({
               </h3>
 
               <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-3">
-                {images.map((file, index) => (
-                  <img
-                    key={index}
-                    src={URL.createObjectURL(file)}
-                    className="w-full h-20 sm:h-28 object-cover rounded-xl border"
-                  />
-                ))}
+               {images.map((file, index) => (
+  <div key={index} className="relative">
+    <img
+      src={URL.createObjectURL(file)}
+      className="w-full h-20 sm:h-28 object-cover rounded-xl border"
+    />
+
+    <button
+      type="button"
+      onClick={() => removeNewImage(index)}
+      className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs"
+    >
+      ×
+    </button>
+  </div>
+))}
               </div>
             </div>
           )}
