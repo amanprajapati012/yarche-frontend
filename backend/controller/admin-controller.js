@@ -176,7 +176,7 @@ const addProduct = async (req, res) => {
             url: result.secure_url,
             public_id: result.public_id,
           };
-        })
+        }),
     );
 
     // ============================
@@ -186,7 +186,7 @@ const addProduct = async (req, res) => {
     const finalVariants = await Promise.all(
       parsedVariants.map(async (variant, index) => {
         const variantFiles = files.filter(
-          (file) => file.fieldname === `variantImages_${index}`
+          (file) => file.fieldname === `variantImages_${index}`,
         );
 
         const variantImages = await Promise.all(
@@ -197,7 +197,7 @@ const addProduct = async (req, res) => {
               url: result.secure_url,
               public_id: result.public_id,
             };
-          })
+          }),
         );
 
         return {
@@ -205,7 +205,7 @@ const addProduct = async (req, res) => {
           images: variantImages,
           useProductImages: variantImages.length === 0,
         };
-      })
+      }),
     );
 
     const product = await Product.create({
@@ -499,8 +499,6 @@ const addProduct = async (req, res) => {
 //   }
 // };
 
-
-
 const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
@@ -531,19 +529,17 @@ const updateProduct = async (req, res) => {
       tags,
     } = req.body;
 
-    const parsedVariants =
-      variants
-        ? typeof variants === "string"
-          ? JSON.parse(variants)
-          : variants
-        : [];
+    const parsedVariants = variants
+      ? typeof variants === "string"
+        ? JSON.parse(variants)
+        : variants
+      : [];
 
-    const parsedTags =
-      tags
-        ? typeof tags === "string"
-          ? JSON.parse(tags)
-          : tags
-        : [];
+    const parsedTags = tags
+      ? typeof tags === "string"
+        ? JSON.parse(tags)
+        : tags
+      : [];
 
     const files = req.files || [];
 
@@ -551,12 +547,11 @@ const updateProduct = async (req, res) => {
     // Existing Product Images
     // ==========================
 
-    const existingImages =
-      oldImages
-        ? typeof oldImages === "string"
-          ? JSON.parse(oldImages)
-          : oldImages
-        : [];
+    const existingImages = oldImages
+      ? typeof oldImages === "string"
+        ? JSON.parse(oldImages)
+        : oldImages
+      : [];
 
     // ==========================
     // Upload New Product Images
@@ -572,7 +567,7 @@ const updateProduct = async (req, res) => {
             url: result.secure_url,
             public_id: result.public_id,
           };
-        })
+        }),
     );
 
     product.images = [...existingImages, ...uploadedProductImages];
@@ -583,9 +578,8 @@ const updateProduct = async (req, res) => {
 
     product.variants = await Promise.all(
       parsedVariants.map(async (variant, index) => {
-
         const variantFiles = files.filter(
-          (file) => file.fieldname === `variantImages_${index}`
+          (file) => file.fieldname === `variantImages_${index}`,
         );
 
         const uploadedVariantImages = await Promise.all(
@@ -596,7 +590,7 @@ const updateProduct = async (req, res) => {
               url: result.secure_url,
               public_id: result.public_id,
             };
-          })
+          }),
         );
 
         const finalImages =
@@ -609,7 +603,7 @@ const updateProduct = async (req, res) => {
           images: finalImages,
           useProductImages: finalImages.length === 0,
         };
-      })
+      }),
     );
 
     // ==========================
@@ -638,7 +632,6 @@ const updateProduct = async (req, res) => {
       message: "Product updated successfully",
       product,
     });
-
   } catch (error) {
     console.log(error);
 
@@ -647,7 +640,7 @@ const updateProduct = async (req, res) => {
       message: error.message,
     });
   }
-}
+};
 
 const updateProductTag = async (req, res) => {
   const { id } = req.params;
@@ -780,7 +773,6 @@ const deleteProduct = async (req, res) => {
       success: true,
       message: "Product deleted successfully",
     });
-
   } catch (err) {
     console.log(err);
 
@@ -928,9 +920,7 @@ const updateCategory = async (req, res) => {
     // Delete removed Cloudinary images
     const removedImages = existingCategory.images.filter(
       (img) =>
-        !images.some(
-          (i) => i.public_id && i.public_id === img.public_id
-        )
+        !images.some((i) => i.public_id && i.public_id === img.public_id),
     );
 
     for (const image of removedImages) {
@@ -941,14 +931,13 @@ const updateCategory = async (req, res) => {
           console.error(
             "Cloudinary delete failed:",
             image.public_id,
-            err.message
+            err.message,
           );
         }
       }
     }
 
-    existingCategory.category =
-      category || existingCategory.category;
+    existingCategory.category = category || existingCategory.category;
 
     existingCategory.images = images;
 
@@ -989,7 +978,7 @@ const deleteCategory = async (req, res) => {
           console.error(
             "Cloudinary delete failed:",
             image.public_id,
-            err.message
+            err.message,
           );
         }
       }
@@ -1023,8 +1012,9 @@ const addSubCategory = async (req, res) => {
       });
     }
 
-    const existingSubCategory =
-      await ProductSubCategory.findOne({ sub_category });
+    const existingSubCategory = await ProductSubCategory.findOne({
+      sub_category,
+    });
 
     if (existingSubCategory) {
       return res.status(400).json({
@@ -1097,9 +1087,10 @@ const getSubCategoryById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const sub_category =
-      await ProductSubCategory.findById(id)
-        .populate("category_id", "category");
+    const sub_category = await ProductSubCategory.findById(id).populate(
+      "category_id",
+      "category",
+    );
 
     if (!sub_category) {
       return res.status(404).json({
@@ -1129,14 +1120,9 @@ const updateSubCategory = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const {
-      sub_category,
-      category_id,
-      oldImages,
-    } = req.body;
+    const { sub_category, category_id, oldImages } = req.body;
 
-    const existingSubCategory =
-      await ProductSubCategory.findById(id);
+    const existingSubCategory = await ProductSubCategory.findById(id);
 
     if (!existingSubCategory) {
       return res.status(404).json({
@@ -1157,8 +1143,7 @@ const updateSubCategory = async (req, res) => {
 
     if (req.files?.length) {
       for (const file of req.files) {
-        const result =
-          await uploadToCloudinary(file.buffer);
+        const result = await uploadToCloudinary(file.buffer);
 
         images.push({
           url: result.secure_url,
@@ -1167,38 +1152,26 @@ const updateSubCategory = async (req, res) => {
       }
     }
 
-    const removedImages =
-      existingSubCategory.images.filter(
-        (img) =>
-          !images.some(
-            (i) =>
-              i.public_id &&
-              i.public_id === img.public_id
-          )
-      );
+    const removedImages = existingSubCategory.images.filter(
+      (img) =>
+        !images.some((i) => i.public_id && i.public_id === img.public_id),
+    );
 
     for (const image of removedImages) {
       if (image.public_id) {
         try {
-          await cloudinary.uploader.destroy(
-            image.public_id
-          );
+          await cloudinary.uploader.destroy(image.public_id);
         } catch (err) {
-          console.error(
-            "Cloudinary delete error:",
-            err.message
-          );
+          console.error("Cloudinary delete error:", err.message);
         }
       }
     }
 
     existingSubCategory.sub_category =
-      sub_category ||
-      existingSubCategory.sub_category;
+      sub_category || existingSubCategory.sub_category;
 
     existingSubCategory.category_id =
-      category_id ||
-      existingSubCategory.category_id;
+      category_id || existingSubCategory.category_id;
 
     existingSubCategory.images = images;
 
@@ -1222,8 +1195,7 @@ const updateSubCategory = async (req, res) => {
 // ➤ Delete sub_category
 const deleteSubCategory = async (req, res) => {
   try {
-    const subCategory =
-      await ProductSubCategory.findById(req.params.id);
+    const subCategory = await ProductSubCategory.findById(req.params.id);
 
     if (!subCategory) {
       return res.status(404).json({
@@ -1235,14 +1207,9 @@ const deleteSubCategory = async (req, res) => {
     for (const image of subCategory.images) {
       if (image.public_id) {
         try {
-          await cloudinary.uploader.destroy(
-            image.public_id
-          );
+          await cloudinary.uploader.destroy(image.public_id);
         } catch (err) {
-          console.error(
-            "Cloudinary delete error:",
-            err.message
-          );
+          console.error("Cloudinary delete error:", err.message);
         }
       }
     }
@@ -1514,57 +1481,221 @@ const getOrderById = async (req, res) => {
 const updateDeliveryStatus = async (req, res) => {
   try {
     const { orderId } = req.params;
-    const { deliveryStatus } = req.body;
+    const {
+      deliveryStatus,
+      trackingId,
+      courierName,
+      expectedDelivery,
+      rtoReason,
+    } = req.body;
 
-    // Validate input
-    if (!deliveryStatus) {
-      return res.status(400).json({
-        message: "deliveryStatus is required",
-        response: "failed",
-      });
-    }
-
-    // Allowed delivery statuses
     const validStatuses = [
       "Pending",
       "Processing",
+      "Packed",
       "Shipped",
-      "Out_for_delivery",
+      "Out for Delivery",
       "Delivered",
       "Cancelled",
-      "Returned",
+      "RTO Initiated",
+      "RTO In Transit",
+      "RTO Delivered",
     ];
+
+    if (!deliveryStatus) {
+      return res.status(400).json({
+        response: "failed",
+        message: "Delivery status is required",
+      });
+    }
 
     if (!validStatuses.includes(deliveryStatus)) {
       return res.status(400).json({
-        message: `Invalid deliveryStatus. Allowed: ${validStatuses.join(", ")}`,
         response: "failed",
+        message: "Invalid delivery status",
       });
     }
 
-    // Update status only
-    const updatedOrder = await Order.findByIdAndUpdate(
-      orderId,
-      { deliveryStatus },
-      { new: true },
-    );
+    // Tracking details required for shipped orders
 
-    if (!updatedOrder) {
+    if (["Shipped", "Out for Delivery"].includes(deliveryStatus)) {
+      if (!trackingId || !courierName) {
+        return res.status(400).json({
+          response: "failed",
+          message: "Courier name and Tracking ID are required.",
+        });
+      }
+    }
+
+    // RTO reason required
+
+    if (
+      ["RTO Initiated", "RTO In Transit", "RTO Delivered"].includes(
+        deliveryStatus,
+      )
+    ) {
+      if (!rtoReason) {
+        return res.status(400).json({
+          response: "failed",
+          message: "RTO Reason is required.",
+        });
+      }
+    }
+
+   const order = await Order.findById(orderId);
+
+if (!order) {
+  return res.status(404).json({
+    response: "failed",
+    message: "Order not found",
+  });
+}
+
+const allowedTransitions = {
+  Pending: ["Processing", "Cancelled"],
+  Processing: ["Packed", "Cancelled"],
+  Packed: ["Shipped", "Cancelled"],
+  Shipped: ["Out for Delivery", "RTO Initiated"],
+  "Out for Delivery": ["Delivered", "RTO Initiated"],
+  Delivered: [],
+  Cancelled: [],
+  "RTO Initiated": ["RTO In Transit"],
+  "RTO In Transit": ["RTO Delivered"],
+  "RTO Delivered": [],
+};
+
+const currentStatus = order.deliveryStatus;
+
+if (
+  currentStatus !== deliveryStatus &&
+  !allowedTransitions[currentStatus]?.includes(deliveryStatus)
+) {
+  return res.status(400).json({
+    response: "failed",
+    message: `Cannot change status from "${currentStatus}" to "${deliveryStatus}"`,
+  });
+}
+
+    if (!order) {
       return res.status(404).json({
-        message: "Order not found",
         response: "failed",
+        message: "Order not found",
       });
     }
 
-    return res.json({
-      message: "Delivery status updated successfully",
+    // ========= RTO STOCK RESTORE =========
+    // ========= RTO STOCK RESTORE =========
+    if (deliveryStatus === "RTO Delivered" && order.restockDone === false) {
+      for (const item of order.items) {
+        // ================= Variant Product =================
+        if (item.isVariant && item.variant_id) {
+          await Product.findOneAndUpdate(
+            {
+              _id: item.product_id,
+              "variants._id": item.variant_id,
+            },
+            {
+              $inc: {
+                "variants.$.quantity": item.quantity,
+              },
+            },
+          );
+        }
+
+        // ================= Normal Product =================
+        else {
+          await Product.findByIdAndUpdate(item.product_id, {
+            $inc: {
+              quantity: item.quantity,
+            },
+          });
+        }
+      }
+
+      order.restockDone = true;
+    }
+
+    // ================= Tracking Details =================
+
+    if (trackingId !== undefined) {
+      order.trackingId = trackingId;
+    }
+
+    if (courierName !== undefined) {
+      order.courierName = courierName;
+    }
+
+    if (expectedDelivery) {
+      order.expectedDelivery = expectedDelivery;
+    }
+
+    if (rtoReason !== undefined) {
+      order.rtoReason = rtoReason;
+    }
+
+    // Update current status
+    // ================= Update Current Status =================
+
+    order.deliveryStatus = deliveryStatus;
+
+    if (deliveryStatus === "Delivered") {
+      order.deliveredAt = new Date();
+    }
+
+    if (deliveryStatus === "Cancelled") {
+      order.cancelledAt = new Date();
+    }
+
+    if (deliveryStatus === "RTO Delivered") {
+      order.rtoCompletedAt = new Date();
+    }
+
+    // Timeline create if not exists
+    if (!order.deliveryTimeline) {
+      order.deliveryTimeline = [];
+    }
+
+    // Friendly messages
+    const statusMessages = Object.freeze({
+      Pending: "Order has been placed.",
+      Processing: "Order is being processed.",
+      Packed: "Your order has been packed.",
+      Shipped: "Order has been shipped.",
+      "Out for Delivery": "Delivery partner is on the way.",
+      Delivered: "Order delivered successfully.",
+      Cancelled: "Order has been cancelled.",
+      "RTO Initiated": "Return process has started.",
+      "RTO In Transit": "Order is returning to warehouse.",
+      "RTO Delivered": "Returned order received in warehouse.",
+    });
+
+    // Prevent duplicate timeline entry
+    const lastStatus =
+      order.deliveryTimeline.length > 0
+        ? order.deliveryTimeline[order.deliveryTimeline.length - 1].status
+        : null;
+
+    if (lastStatus !== deliveryStatus) {
+      order.deliveryTimeline.push({
+        status: deliveryStatus,
+        message: statusMessages[deliveryStatus] || deliveryStatus,
+        date: new Date(),
+      });
+    }
+
+    await order.save();
+
+    return res.status(200).json({
       response: "success",
-      order: updatedOrder,
+      message: "Delivery status updated successfully",
+      order,
     });
   } catch (error) {
+    console.error(error);
+
     return res.status(500).json({
-      message: "Internal server error",
       response: "failed",
+      message: "Internal Server Error",
       error: error.message,
     });
   }
@@ -1692,9 +1823,7 @@ const updateCarousel = async (req, res) => {
     // Delete removed images
     const removedImages = carousel.images.filter(
       (img) =>
-        !images.some(
-          (i) => i.public_id && i.public_id === img.public_id
-        )
+        !images.some((i) => i.public_id && i.public_id === img.public_id),
     );
 
     for (const image of removedImages) {
@@ -1705,7 +1834,7 @@ const updateCarousel = async (req, res) => {
           console.error(
             "Cloudinary delete failed:",
             image.public_id,
-            err.message
+            err.message,
           );
         }
       }
@@ -1773,7 +1902,7 @@ const deleteCarousel = async (req, res) => {
           console.error(
             "Cloudinary delete failed:",
             image.public_id,
-            err.message
+            err.message,
           );
         }
       }
@@ -1798,14 +1927,8 @@ const deleteCarousel = async (req, res) => {
 // ================= ADD COLLECTION =================
 const addCollection = async (req, res) => {
   try {
-    const {
-      name,
-      slug,
-      description,
-      isActive,
-      isFeatured,
-      sortOrder,
-    } = req.body;
+    const { name, slug, description, isActive, isFeatured, sortOrder } =
+      req.body;
 
     if (!name || !slug) {
       return res.status(400).json({
@@ -1925,18 +2048,13 @@ const updateCollection = async (req, res) => {
     if (slug) collection.slug = slug;
     if (description) collection.description = description;
 
-    if (typeof isActive !== "undefined")
-      collection.isActive = isActive;
+    if (typeof isActive !== "undefined") collection.isActive = isActive;
 
-    if (typeof isFeatured !== "undefined")
-      collection.isFeatured = isFeatured;
+    if (typeof isFeatured !== "undefined") collection.isFeatured = isFeatured;
 
-    if (sortOrder !== undefined)
-      collection.sortOrder = sortOrder;
+    if (sortOrder !== undefined) collection.sortOrder = sortOrder;
 
-    let image = oldImage
-      ? JSON.parse(oldImage)
-      : collection.image;
+    let image = oldImage ? JSON.parse(oldImage) : collection.image;
 
     let thumbnail = oldThumbnail
       ? JSON.parse(oldThumbnail)
@@ -1946,14 +2064,10 @@ const updateCollection = async (req, res) => {
 
     if (req.files?.[0]) {
       if (collection.image?.public_id) {
-        await cloudinary.uploader.destroy(
-          collection.image.public_id
-        );
+        await cloudinary.uploader.destroy(collection.image.public_id);
       }
 
-      const result = await uploadToCloudinary(
-        req.files[0].buffer
-      );
+      const result = await uploadToCloudinary(req.files[0].buffer);
 
       image = {
         url: result.secure_url,
@@ -1965,14 +2079,10 @@ const updateCollection = async (req, res) => {
 
     if (req.files?.[1]) {
       if (collection.thumbnail?.public_id) {
-        await cloudinary.uploader.destroy(
-          collection.thumbnail.public_id
-        );
+        await cloudinary.uploader.destroy(collection.thumbnail.public_id);
       }
 
-      const result = await uploadToCloudinary(
-        req.files[1].buffer
-      );
+      const result = await uploadToCloudinary(req.files[1].buffer);
 
       thumbnail = {
         url: result.secure_url,
@@ -2032,15 +2142,11 @@ const deleteCollection = async (req, res) => {
     }
 
     if (collection.image?.public_id) {
-      await cloudinary.uploader.destroy(
-        collection.image.public_id
-      );
+      await cloudinary.uploader.destroy(collection.image.public_id);
     }
 
     if (collection.thumbnail?.public_id) {
-      await cloudinary.uploader.destroy(
-        collection.thumbnail.public_id
-      );
+      await cloudinary.uploader.destroy(collection.thumbnail.public_id);
     }
 
     await collection.deleteOne();

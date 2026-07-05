@@ -1141,31 +1141,77 @@ const createOrder = async (req, res) => {
           response: "failed",
         });
       }
+      // ================= GET SELECTED VARIANT =================
 
-      if (item.quantity > product.stock) {
-        return res.status(400).json({
-          message: `Only ${product.stock} items available`,
-          response: "failed",
-        });
-      }
+let selectedVariant = null;
 
-      const discounted = product.discountedPrice || product.price;
+if (item.variant_id) {
+  selectedVariant = product.variants.id(item.variant_id);
+
+  if (!selectedVariant) {
+    return res.status(404).json({
+      message: "Selected variant not found",
+      response: "failed",
+    });
+  }
+}
+
+    // ================= CHECK STOCK =================
+
+if (selectedVariant) {
+  if (item.quantity > selectedVariant.quantity) {
+    return res.status(400).json({
+      message: `Only ${selectedVariant.quantity} items available`,
+      response: "failed",
+    });
+  }
+} else {
+  if (item.quantity > product.quantity) {
+    return res.status(400).json({
+      message: `Only ${product.quantity} items available`,
+      response: "failed",
+    });
+  }
+}
+
+      // ================= PRICE =================
+
+const price = selectedVariant
+  ? selectedVariant.price
+  : product.price;
+
+const discounted = selectedVariant
+  ? (selectedVariant.discountedPrice || selectedVariant.price)
+  : (product.discountedPrice || product.price);
 
       const itemTotal = discounted * item.quantity;
 
       formattedItems.push({
   product_id: product._id,
+  variant_id: selectedVariant?._id || null,
+
+variant_title: selectedVariant?.title || "",
+
+isVariant: !!selectedVariant,
   product_name: product.name,
   category: product.category,
   subcategory: product.sub_category, // agar schema me sub_category hai
-  price: product.price,
+ price: price,
   discountedPrice: discounted,
   itemTotalPrice: itemTotal,
 
-  image: {
-    url: product.images?.[0]?.url || "",
-    public_id: product.images?.[0]?.public_id || "",
-  },
+ image:
+  selectedVariant &&
+  !selectedVariant.useProductImages &&
+  selectedVariant.images?.length
+    ? {
+        url: selectedVariant.images[0].url,
+        public_id: selectedVariant.images[0].public_id,
+      }
+    : {
+        url: product.images?.[0]?.url || "",
+        public_id: product.images?.[0]?.public_id || "",
+      },
 
   quantity: item.quantity,
 });
@@ -1175,6 +1221,11 @@ const createOrder = async (req, res) => {
     }
 
     const finalTotal = totalPrice + shipping - discount;
+
+    // ================= DELIVERY DETAILS =================
+
+const expectedDelivery = new Date();
+expectedDelivery.setDate(expectedDelivery.getDate() + 5); // 5 days delivery
 
     // ================= ORDER ADDRESS =================
 
@@ -1211,31 +1262,42 @@ const createOrder = async (req, res) => {
         receipt: `order_rcptid_${Date.now()}`,
       });
 
-      const newOrder = await Order.create({
-        fullName,
-        mobile,
-        user_id,
+     const newOrder = await Order.create({
+  fullName,
+  mobile,
+  user_id,
 
-        items: formattedItems,
+  items: formattedItems,
 
-        totalPrice: finalTotal,
+  totalPrice: finalTotal,
 
-        itemQuantity,
+  itemQuantity,
 
-        shipping,
+  shipping,
 
-        couponCode,
+  couponCode,
 
-        couponDiscount: discount,
+  couponDiscount: discount,
 
-        paymentMode,
+  paymentMode,
 
-        address: orderAddress,
+  address: orderAddress,
 
-        paymentStatus: "pending",
+  paymentStatus: "pending",
 
-        razorpayOrderId: razorpayOrder.id,
-      });
+  razorpayOrderId: razorpayOrder.id,
+
+  deliveryStatus: "Pending",
+
+  expectedDelivery,
+
+  deliveryTimeline: [
+    {
+      status: "Pending",
+      message: "Order placed successfully.",
+    },
+  ],
+});
 
       return res.status(200).json({
         message: "Razorpay order created",
@@ -1248,29 +1310,40 @@ const createOrder = async (req, res) => {
 
     // ================= COD =================
 
-    const newOrder = await Order.create({
-      fullName,
-      mobile,
-      user_id,
+   const newOrder = await Order.create({
+  fullName,
+  mobile,
+  user_id,
 
-      items: formattedItems,
+  items: formattedItems,
 
-      totalPrice: finalTotal,
+  totalPrice: finalTotal,
 
-      itemQuantity,
+  itemQuantity,
 
-      shipping,
+  shipping,
 
-      couponCode,
+  couponCode,
 
-      couponDiscount: discount,
+  couponDiscount: discount,
 
-      paymentMode,
+  paymentMode,
 
-      address: orderAddress,
+  address: orderAddress,
 
-      paymentStatus: "pending",
-    });
+  paymentStatus: "pending",
+
+  deliveryStatus: "Pending",
+
+  expectedDelivery,
+
+  deliveryTimeline: [
+    {
+      status: "Pending",
+      message: "Order placed successfully.",
+    },
+  ],
+});
 
     return res.status(201).json({
       message: "Order created successfully",
@@ -1568,15 +1641,40 @@ const updatePaymentStatus = async (req, res) => {
     }
 
     // ✅ 3. Reduce Product Stock (NO package_size)
-    for (const item of order.items) {
-      await Product.findByIdAndUpdate(
-        item.product_id,
-        {
-          $inc: { quantity: -item.quantity },
+   for (const item of order.items) {
+
+  // ================= Variant Product =================
+  if (item.isVariant && item.variant_id) {
+
+    await Product.findOneAndUpdate(
+      {
+        _id: item.product_id,
+        "variants._id": item.variant_id,
+      },
+      {
+        $inc: {
+          "variants.$.quantity": -item.quantity,
         },
-        { new: true },
-      );
-    }
+      }
+    );
+
+  }
+
+  // ================= Normal Product =================
+  else {
+
+    await Product.findByIdAndUpdate(
+      item.product_id,
+      {
+        $inc: {
+          quantity: -item.quantity,
+        },
+      }
+    );
+
+  }
+
+}
 
     // ✅ 4. Apply coupon usage AFTER success
     if (order.couponCode) {

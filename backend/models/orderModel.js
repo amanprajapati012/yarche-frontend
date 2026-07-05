@@ -2,32 +2,71 @@ const mongoose = require("mongoose");
 
 // ==================== ORDER ITEM SCHEMA ====================
 const orderItemSchema = new mongoose.Schema({
-  product_id: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: "Product", 
-    required: true 
+  product_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Product",
+    required: true,
   },
 
-  product_name: { type: String, required: true },
-  category: { type: String, required: true },
-  subcategory: { type: String },
-  price: { type: Number, required: true },             // base price
-  discountedPrice: { type: Number, required: true },   // discounted value
-  itemTotalPrice: { type: Number, required: true },    // qty * discountedPrice
+  // NEW
+  variant_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    default: null,
+  },
+
+  variant_title: {
+    type: String,
+    default: "",
+  },
+
+  isVariant: {
+    type: Boolean,
+    default: false,
+  },
+
+  product_name: {
+    type: String,
+    required: true,
+  },
+
+  category: {
+    type: String,
+    required: true,
+  },
+
+  subcategory: String,
+
+  price: {
+    type: Number,
+    required: true,
+  },
+
+  discountedPrice: {
+    type: Number,
+    required: true,
+  },
+
+  itemTotalPrice: {
+    type: Number,
+    required: true,
+  },
+
   image: {
-  url: {
-    type: String,
-    default: "",
+    url: {
+      type: String,
+      default: "",
+    },
+    public_id: {
+      type: String,
+      default: "",
+    },
   },
-  public_id: {
-    type: String,
-    default: "",
-  },
-},
 
-  quantity: { type: Number, required: true }
+  quantity: {
+    type: Number,
+    required: true,
+  },
 });
-
 
 // ==================== ORDER SCHEMA ====================
 const orderSchema = new mongoose.Schema(
@@ -50,56 +89,129 @@ const orderSchema = new mongoose.Schema(
 
     couponCode: { type: String },
     couponDiscount: { type: Number, default: 0 },
-    
-    paymentMode : {
-    type : String,
-    required: true,
-  },
 
-    deliveryStatus: {
+    paymentMode: {
       type: String,
-      default: "Pending",
+      required: true,
     },
 
-    address: {
-  addressId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Address",
-  },
-
-  fullName: String,
-
-  mobile: String,
-
-  email: String,
-
-  addressLine: String,
-
-  landmark: String,
-
-  district: String,
-
-  city: String,
-
-  state: String,
-
-  country: String,
-
-  pincode: String,
+    deliveryStatus: {
+  type: String,
+  enum: [
+    "Pending",
+    "Processing",
+    "Packed",
+    "Shipped",
+    "Out for Delivery",
+    "Delivered",
+    "Cancelled",
+    "RTO Initiated",
+    "RTO In Transit",
+    "RTO Delivered",
+  ],
+  default: "Pending",
 },
+
+deliveryTimeline: [
+  {
+    status: {
+      type: String,
+      required: true,
+    },
+
+    message: {
+      type: String,
+      required: true,
+    },
+
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+],
+
+trackingId: {
+  type: String,
+  default: "",
+},
+
+courierName: {
+  type: String,
+  default: "",
+},
+
+expectedDelivery: {
+  type: Date,
+  default: null,
+},
+
+
+
+    address: {
+      addressId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Address",
+      },
+
+      fullName: String,
+
+      mobile: String,
+
+      email: String,
+
+      addressLine: String,
+
+      landmark: String,
+
+      district: String,
+
+      city: String,
+
+      state: String,
+
+      country: String,
+
+      pincode: String,
+    },
+
+    rtoReason: {
+      type: String,
+      default: "",
+    },
+
+    restockDone: {
+      type: Boolean,
+      default: false,
+    },
 
     // Payment fields
     transactionNo: {
       type: String,
       default: null,
     },
-  paymentStatus: {
-  type: String,
-  enum: ["pending", "success", "failed"], // ✅ add all states
-  default: "pending",
-}
+
+    cancelledAt: {
+  type: Date,
+  default: null,
+},
+
+deliveredAt: {
+  type: Date,
+  default: null,
+},
+
+rtoCompletedAt: {
+  type: Date,
+  default: null,
+},
+    paymentStatus: {
+      type: String,
+      enum: ["pending", "success", "failed"], // ✅ add all states
+      default: "pending",
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Order", orderSchema);
