@@ -9,17 +9,19 @@ import {
   CreditCard,
   Package,
   ShoppingBag,
+  Truck,
 } from "lucide-react";
 
 import { Order } from "@/src/types/order";
 import OrderDetails from "./OrderDetails";
-
+import { useRouter } from "next/navigation";
 
 interface Props {
   order: Order;
 }
 
 export default function OrderCard({ order }: Props) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
 
   const paymentColor = () => {
@@ -164,18 +166,16 @@ export default function OrderCard({ order }: Props) {
                 "
               >
                 <img
-  src={getImageUrl(item.image)}
-  alt={item.product_name}
-  className="w-full h-full object-cover"
-/>
+                  src={getImageUrl(item.image)}
+                  alt={item.variant_title || item.product_name}
+                  className="w-full h-full object-cover"
+                />
               </div>
 
               <div>
 
                 <h4 className="font-semibold text-foreground line-clamp-1">
-
-                  {item.product_name}
-
+                  {item.variant_title || item.product_name}
                 </h4>
 
                 <p className="text-sm text-[var(--text-secondary)]">
@@ -221,67 +221,83 @@ export default function OrderCard({ order }: Props) {
         <div className="mt-7 flex flex-col lg:flex-row justify-between gap-5">
 
           <div className="flex gap-8">
-
             <div>
-
               <p className="text-sm text-[var(--text-secondary)]">
-
                 Total Items
-
               </p>
 
               <h3 className="font-bold text-lg text-foreground">
-
                 {order.itemQuantity}
-
               </h3>
-
             </div>
 
             <div>
-
               <p className="text-sm text-[var(--text-secondary)]">
-
                 Grand Total
-
               </p>
 
               <h3 className="font-bold text-2xl text-foreground">
-
                 ₹{order.totalPrice}
-
               </h3>
-
             </div>
-
           </div>
 
-          <button
-            onClick={() => setOpen(!open)}
-            className="
-            flex
-            items-center
-            gap-2
-            px-6
-            py-3
-            rounded-2xl
-            bg-footer
-            text-white
-            font-semibold
-            hover:opacity-90
-            transition
-            "
-          >
-            <Package size={18} />
+          {/* RIGHT BUTTONS */}
+          <div className="flex flex-wrap gap-3">
 
-            {open ? "Hide Details" : "View Details"}
+            {/* Track Order */}
+            <button
+              onClick={() => router.push(`/track-order/${order._id}`)}
+              className="
+      flex
+      items-center
+      gap-2
+      px-6
+      py-3
+      rounded-2xl
+      border-2
+      border-[#ff6b1a]
+      text-[#ff6b1a]
+      font-semibold
+      hover:bg-[#ff6b1a]
+      hover:text-white
+      transition-all
+      duration-300
+      "
+            >
+              <Truck size={18} />
+              Track Order
+            </button>
 
-            {open ? (
-              <ChevronUp size={18} />
-            ) : (
-              <ChevronDown size={18} />
-            )}
-          </button>
+            {/* View Details */}
+            <button
+              onClick={() => setOpen(!open)}
+              className="
+      flex
+      items-center
+      gap-2
+      px-6
+      py-3
+      rounded-2xl
+      bg-footer
+      text-white
+      font-semibold
+      hover:opacity-90
+      transition
+      "
+            >
+              <Package size={18} />
+
+              {open ? "Hide Details" : "View Details"}
+
+              {open ? (
+                <ChevronUp size={18} />
+              ) : (
+                <ChevronDown size={18} />
+              )}
+            </button>
+
+          </div>
 
         </div>
 

@@ -60,9 +60,9 @@ export default function OrderDetails({
                 shrink-0
                 "
               >
-               <img
+              <img
   src={getImageUrl(item.image)}
-  alt={item.product_name}
+  alt={item.variant_title || item.product_name}
   className="w-full h-full object-cover"
 />
               </div>
@@ -72,7 +72,7 @@ export default function OrderDetails({
               <div className="flex-1">
 
                 <h4 className="font-bold text-lg text-foreground">
-                  {item.product_name}
+                 {item.variant_title || item.product_name}
                 </h4>
 
                 {item.category && (

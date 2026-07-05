@@ -2,28 +2,36 @@
 
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { getImageUrl } from "@/src/lib/image"; // apna actual path
+import { toast } from "sonner";
 
 
 type CartItem = {
-  _id: string;
-  name: string;
-  image?: string;
-  price: number;
-  quantity: number;
+    _id: string;
+
+    variant_id?: string | null;
+    isVariant?: boolean;
+
+    name: string;
+    title?: string;
+
+    image?: string;
+
+    price: number;
+    quantity: number;
 };
 
 type OrderSummaryProps = {
-  items: CartItem[];
-  subtotal: number;
-  shipping: number;
-  total: number;
-  coupon: string;
-  setCoupon: React.Dispatch<React.SetStateAction<string>>;
-  appliedCoupon: string | null;
-  couponDiscount: number;
-  applyCoupon: () => void;
+    items: CartItem[];
+    subtotal: number;
+    shipping: number;
+    total: number;
+    coupon: string;
+    setCoupon: React.Dispatch<React.SetStateAction<string>>;
+    appliedCoupon: string | null;
+    couponDiscount: number;
+    applyCoupon: () => void;
 
-  onPlaceOrder: () => void; // NEW
+    onPlaceOrder: () => void; // NEW
 };
 
 export default function OrderSummary({
@@ -55,14 +63,16 @@ export default function OrderSummary({
                             className="flex gap-3 items-center"
                         >
                             <img
-  src={getImageUrl(item.image)}
-  alt={item.name}
-  className="w-12 h-12 rounded-lg object-cover border"
-/>
+                                src={getImageUrl(item.image)}
+                                alt={item.name}
+                                className="w-12 h-12 rounded-lg object-cover border"
+                            />
 
                             <div className="flex-1">
                                 <p className="text-sm font-medium">
-                                    {item.name}
+                                    {item.isVariant && item.title
+                                        ? item.title
+                                        : item.name}
                                 </p>
 
                                 <p className="text-xs text-gray-600">
@@ -78,7 +88,7 @@ export default function OrderSummary({
                 </div>
 
                 {/* Coupon */}
-               <div className="mt-5 flex flex-col sm:flex-row gap-2"> 
+                <div className="mt-5 flex flex-col sm:flex-row gap-2">
                     <input
                         value={coupon}
                         onChange={(e) =>
@@ -92,7 +102,7 @@ export default function OrderSummary({
                         className="flex-1 px-3 py-2 rounded-lg bg-footer outline-none"
                     />
 
-                    <button 
+                    <button
                         disabled={!coupon}
                         onClick={applyCoupon}
                         className="px-4 py-2 bg-[#3B281C] text-white rounded-lg disabled:opacity-50"
@@ -136,12 +146,12 @@ export default function OrderSummary({
 
                 {/* Place Order */}
                 <button
-    onClick={onPlaceOrder}
-    className="mt-6 w-full bg-[#2D1A10] text-white py-4 rounded-2xl flex justify-center items-center gap-2 hover:bg-[#3B281C] transition"
->
-    Place Order
-    <ArrowRight size={18} />
-</button>
+                    onClick={onPlaceOrder}
+                    className="mt-6 w-full bg-[#2D1A10] text-white py-4 rounded-2xl flex justify-center items-center gap-2 hover:bg-[#3B281C] transition"
+                >
+                    Place Order
+                    <ArrowRight size={18} />
+                </button>
 
                 {/* Secure Checkout */}
                 <div className="flex items-center gap-2 mt-3 text-xs text-gray-600">

@@ -1,8 +1,6 @@
 
 
-
 "use client";
-
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import API from "@/src/lib/api";
@@ -149,15 +147,15 @@ export default function FeatureBar() {
             >
               {images.map((img, index) => (
                 <div
-                  key={img._id}
+                  key={`${img._id}-${index}`}
                   className="group relative min-w-[75%] sm:min-w-[280px] md:min-w-[320px] h-[280px] sm:h-[380px] md:h-[500px] rounded-[32px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.45)] flex-shrink-0"
                 >
                   <>
-                   <img
-  src={getImageUrl(img)}
-  alt={carousel?.title || ""}
-  className="w-full h-full object-cover group-hover:scale-110 transition-all duration-1000"
-/>
+                    <img
+                      src={getImageUrl(img)}
+                      alt={carousel?.title || ""}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-all duration-1000"
+                    />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-[#28170D] via-[#28170D]/20 to-transparent" />
 

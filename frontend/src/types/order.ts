@@ -1,6 +1,11 @@
 export interface OrderItem {
   product_id: string;
 
+  // NEW
+  variant_id?: string;
+  variant_title?: string;
+  isVariant?: boolean;
+
   product_name: string;
 
   category?: string;
@@ -73,6 +78,38 @@ export interface Order {
     | "paid"
     | "failed"
     | "success";
+
+  deliveryStatus:
+    | "Pending"
+    | "Processing"
+    | "Packed"
+    | "Shipped"
+    | "Out for Delivery"
+    | "Delivered"
+    | "Cancelled"
+    | "RTO Initiated"
+    | "RTO In Transit"
+    | "RTO Delivered";
+
+  // ===== NEW Tracking Fields =====
+
+  trackingId?: string;
+
+  courierName?: string;
+
+  expectedDelivery?: string;
+
+  rtoReason?: string;
+
+  restockDone?: boolean;
+
+  deliveryTimeline?: {
+    status: string;
+    message: string;
+    date: string;
+  }[];
+
+  // ==============================
 
   razorpayOrderId?: string;
 

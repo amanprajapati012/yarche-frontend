@@ -5,11 +5,7 @@ import { X, Truck, PackageCheck, Package, Clock, Ban, CheckCircle2 } from "lucid
 import API from "@/src/lib/api";
 import { toast } from "sonner";
 
-type Order = {
-  _id: string;
-  orderId: string;
-  deliveryStatus: string;
-};
+import { Order } from "@/src/types/order";
 
 type Props = {
   open: boolean;
@@ -26,7 +22,22 @@ const STATUS_FLOW = [
   { label: "Out for Delivery", icon: Truck, color: "#f97316" },
   { label: "Delivered", icon: CheckCircle2, color: "#16a34a" },
   { label: "Cancelled", icon: Ban, color: "#ef4444" },
+  { label: "RTO Initiated", icon: Truck, color: "#dc2626" },
+  { label: "RTO In Transit", icon: Truck, color: "#b91c1c" },
+  { label: "RTO Delivered", icon: PackageCheck, color: "#991b1b" },
 ];
+const ALLOWED_TRANSITIONS: Record<string, string[]> = {
+  Pending: ["Processing", "Cancelled"],
+  Processing: ["Packed", "Cancelled"],
+  Packed: ["Shipped", "Cancelled"],
+  Shipped: ["Out for Delivery", "RTO Initiated"],
+  "Out for Delivery": ["Delivered", "RTO Initiated"],
+  Delivered: [],
+  Cancelled: [],
+  "RTO Initiated": ["RTO In Transit"],
+  "RTO In Transit": ["RTO Delivered"],
+  "RTO Delivered": [],
+};
 
 export default function DeliveryStatusModal({
   open,
@@ -36,19 +47,62 @@ export default function DeliveryStatusModal({
 }: Props) {
   const [status, setStatus] = useState("Pending");
   const [loading, setLoading] = useState(false);
+  const [trackingId, setTrackingId] = useState("");
+  const [courierName, setCourierName] = useState("");
+  const [expectedDelivery, setExpectedDelivery] = useState("");
+  const [rtoReason, setRtoReason] = useState("");
 
   useEffect(() => {
-    if (order) setStatus(order.deliveryStatus);
+    if (!order) return;
+
+    setStatus(order.deliveryStatus);
+
+    setTrackingId(order.trackingId || "");
+
+    setCourierName(order.courierName || "");
+
+    setExpectedDelivery(
+      order.expectedDelivery
+        ? order.expectedDelivery.slice(0, 10)
+        : ""
+    );
+
+    setRtoReason(order.rtoReason || "");
   }, [order]);
 
   if (!open || !order) return null;
 
+  const availableStatuses = [
+  order.deliveryStatus,
+  ...(ALLOWED_TRANSITIONS[order.deliveryStatus] || []),
+];
+
   const handleUpdate = async () => {
+    if (
+  ["Shipped", "Out for Delivery"].includes(status) &&
+  (!courierName.trim() || !trackingId.trim())
+) {
+  toast.error("Courier Name and Tracking ID are required.");
+  return;
+}
+
+if (
+  ["RTO Initiated", "RTO In Transit", "RTO Delivered"].includes(status) &&
+  !rtoReason.trim()
+) {
+  toast.error("Please enter RTO reason.");
+  return;
+}
     try {
+      
       setLoading(true);
 
-      await API.patch(`/orders/${order._id}/delivery-status`, {
+      await API.patch(`/admin/udpatedelivery/${order._id}`, {
         deliveryStatus: status,
+        trackingId,
+        courierName,
+        expectedDelivery,
+        rtoReason,
       });
 
       toast.success("Delivery status updated");
@@ -72,8 +126,9 @@ export default function DeliveryStatusModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-      <div className="w-full max-w-lg rounded-2xl border bg-white shadow-2xl overflow-hidden">
+  <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4">
+  
+  <div className="w-full max-w-lg h-[95vh] sm:h-[90vh] rounded-2xl border bg-white shadow-2xl flex flex-col overflow-hidden">
 
         {/* HEADER */}
         <div className="flex items-center justify-between px-6 py-4 border-b bg-gradient-to-r from-orange-50 to-amber-50">
@@ -82,7 +137,7 @@ export default function DeliveryStatusModal({
               Update Delivery Status
             </h2>
             <p className="text-xs text-gray-500">
-              Order #{order.orderId}
+              Order #{order._id}
             </p>
           </div>
 
@@ -95,7 +150,7 @@ export default function DeliveryStatusModal({
         </div>
 
         {/* BODY */}
-        <div className="p-6 space-y-5">
+        <div className="p-4 sm:p-6 space-y-5 overflow-y-auto flex-1">
 
           {/* CURRENT STATUS CARD */}
           <div className="rounded-xl border bg-gray-50 p-4 flex items-center justify-between">
@@ -127,12 +182,61 @@ export default function DeliveryStatusModal({
               onChange={(e) => setStatus(e.target.value)}
               className="w-full rounded-xl border px-3 py-3 outline-none focus:ring-2 focus:ring-orange-300"
             >
-              {STATUS_FLOW.map((s) => (
+              {STATUS_FLOW.filter((s) =>
+  availableStatuses.includes(s.label)
+).map((s) => (
                 <option key={s.label} value={s.label}>
                   {s.label}
                 </option>
               ))}
             </select>
+            {/* Courier Details */}
+
+            {["Shipped", "Out for Delivery"].includes(status) && (
+              <div className="space-y-3 mt-4">
+
+                <input
+                  type="text"
+                  placeholder="Courier Name"
+                  value={courierName}
+                  onChange={(e) => setCourierName(e.target.value)}
+                  className="w-full rounded-xl border px-3 py-3"
+                />
+
+                <input
+                  type="text"
+                  placeholder="Tracking ID"
+                  value={trackingId}
+                  onChange={(e) => setTrackingId(e.target.value)}
+                  className="w-full rounded-xl border px-3 py-3"
+                />
+
+                <input
+                  type="date"
+                  value={expectedDelivery}
+                  onChange={(e) => setExpectedDelivery(e.target.value)}
+                  className="w-full rounded-xl border px-3 py-3"
+                />
+
+              </div>
+            )}
+            {[
+              "RTO Initiated",
+              "RTO In Transit",
+              "RTO Delivered",
+            ].includes(status) && (
+                <div className="mt-4">
+
+                  <textarea
+                    rows={4}
+                    placeholder="Enter RTO Reason..."
+                    value={rtoReason}
+                    onChange={(e) => setRtoReason(e.target.value)}
+                    className="w-full rounded-xl border px-3 py-3 resize-none"
+                  />
+
+                </div>
+              )}
           </div>
 
           {/* STATUS TIMELINE */}
@@ -142,7 +246,9 @@ export default function DeliveryStatusModal({
             </p>
 
             <div className="grid grid-cols-2 gap-2">
-              {STATUS_FLOW.map((s) => {
+              {STATUS_FLOW.filter((s) =>
+  availableStatuses.includes(s.label)
+).map((s) => {
                 const Icon = s.icon;
                 const active = status === s.label;
 

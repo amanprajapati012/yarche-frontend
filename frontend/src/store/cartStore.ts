@@ -3,23 +3,45 @@ import { persist } from "zustand/middleware";
 
 
 type CartItem = {
-  _id: string;
+  _id: string;                 // Product ID
+
+  variant_id?: string | null;
+  isVariant?: boolean;
+
   name: string;
+
+  title?: string;              // Variant Title
+
   price: number;
   originalPrice?: number;
+
   image?: string;
-  title?: string;
+
   stock: number;
+
   quantity: number;
 };
 
 type CartState = {
   items: CartItem[];
 
-  addToCart: (item: CartItem) => void;
-  removeFromCart: (id: string) => void;
-  increaseQty: (id: string) => void;
-  decreaseQty: (id: string) => void;
+  addToCart: (item: CartItem) => boolean;
+
+  removeFromCart: (
+    id: string,
+    variantId?: string | null
+  ) => void;
+
+  increaseQty: (
+    id: string,
+    variantId?: string | null
+  ) => void;
+
+  decreaseQty: (
+    id: string,
+    variantId?: string | null
+  ) => void;
+
   clearCart: () => void;
 };
 
@@ -38,8 +60,10 @@ export const useCartStore = create<CartState>()(
 
   set((state) => {
     const existing = state.items.find(
-      (i) => i._id === item._id
-    );
+    (i) =>
+        i._id === item._id &&
+        (i.variant_id || null) === (item.variant_id || null)
+);
 
     if (existing) {
       if (existing.quantity >= existing.stock) {
@@ -49,14 +73,15 @@ export const useCartStore = create<CartState>()(
       added = true;
 
       return {
-        items: state.items.map((i) =>
-          i._id === item._id
-            ? {
-                ...i,
-                quantity: i.quantity + 1,
-              }
-            : i
-        ),
+       items: state.items.map((i) =>
+  i._id === item._id &&
+  (i.variant_id || null) === (item.variant_id || null)
+    ? {
+        ...i,
+        quantity: i.quantity + 1,
+      }
+    : i
+),
       };
     }
 
@@ -76,15 +101,25 @@ export const useCartStore = create<CartState>()(
   return added;
 },
 
-      removeFromCart: (id) =>
+      removeFromCart: (id, variantId = null) =>
         set((state) => ({
-          items: state.items.filter((i) => i._id !== id),
+         items: state.items.filter(
+    (i) =>
+        !(
+            i._id === id &&
+            (i.variant_id || null) === variantId
+        )
+),
         })),
 
-      increaseQty: (id) =>
+     increaseQty: (id, variantId = null) =>
         set((state) => ({
           items: state.items.map((i) => {
-            if (i._id !== id) return i;
+            if (
+    i._id !== id ||
+    (i.variant_id || null) !== variantId
+)
+    return i;
 
             if (i.quantity >= i.stock) return i;
 
@@ -95,11 +130,12 @@ export const useCartStore = create<CartState>()(
           }),
         })),
 
-      decreaseQty: (id) =>
+      decreaseQty: (id, variantId = null) =>
         set((state) => ({
           items: state.items
             .map((i) =>
-              i._id === id
+              i._id === id &&
+(i.variant_id || null) === variantId
                 ? { ...i, quantity: i.quantity - 1 }
                 : i
             )

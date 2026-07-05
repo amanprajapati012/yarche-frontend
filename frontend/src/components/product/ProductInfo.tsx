@@ -21,6 +21,8 @@ export default function ProductInfo({
   selectedVariant,
 }: any) {
   const active = selectedVariant || product;
+
+const isVariant = !!selectedVariant;
   const router = useRouter();
 
 const addToCart = useCartStore(
@@ -66,19 +68,29 @@ const imageSrc = getImageUrl(
         </div>
 
         <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black text-foreground leading-tight break-words">
-          {product.name}
-        </h1>
+  {isVariant ? active.title : product.name}
+</h1>
 
-        <p className="text-[#6c5b4f] text-sm md:text-lg mt-3 leading-7 break-words">
-          {product.title}
-        </p>
+{!isVariant && (
+  <p className="text-[#6c5b4f] text-sm md:text-lg mt-3 leading-7 break-words">
+    {product.title}
+  </p>
+)}
 
         <div className="flex flex-wrap items-center gap-4 mt-5">
 
-          <div className="flex items-center gap-2 text-green-700 font-semibold text-sm">
-            <CheckCircle2 size={16} />
-            In Stock
-          </div>
+          <div
+  className={`flex items-center gap-2 text-sm font-semibold ${
+    active.quantity > 0
+      ? "text-green-700"
+      : "text-red-600"
+  }`}
+>
+  <CheckCircle2 size={16} />
+  {active.quantity > 0
+    ? `In Stock (${active.quantity})`
+    : "Out of Stock"}
+</div>
 
           <div className="text-[#6c5b4f] text-sm">
             Ready To Dispatch
@@ -241,15 +253,30 @@ const imageSrc = getImageUrl(
   }
 
   addToCart({
-    _id: active._id ?? product._id,
-    name: product.name,
-    price: active.discountedPrice,
-    originalPrice: active.price,
-    image: imageSrc,
-    title: active.title || product.title,
-    stock: active.quantity ?? product.quantity,
-    quantity: 1,
-  });
+  _id: product._id,
+
+  variant_id: isVariant ? active._id : null,
+
+  isVariant,
+
+  name: isVariant
+  ? active.title
+  : product.name,
+
+title: isVariant
+  ? active.title
+  : product.title,
+
+  price: active.discountedPrice,
+
+  originalPrice: active.price,
+
+  image: imageSrc,
+
+  stock: active.quantity,
+
+  quantity: 1,
+});
 
   router.push("/cart");
 }}

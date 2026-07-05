@@ -318,19 +318,28 @@ export default function OrderDetailsPage() {
                                                     />
 
                                                     <div>
-                                                        <p
-                                                            className="font-medium"
-                                                            style={{ color: "var(--foreground)" }}
-                                                        >
-                                                            {item.product_name || item.name}
-                                                        </p>
+                                                       <p
+  className="font-medium"
+  style={{ color: "var(--foreground)" }}
+>
+  {item.variant_title || item.product_name}
+</p>
 
-                                                        <p
-                                                            className="text-xs"
-                                                            style={{ color: "var(--text-secondary)" }}
-                                                        >
-                                                            {item.category || ""}
-                                                        </p>
+{item.variant_title && (
+  <p
+    className="text-xs"
+    style={{ color: "var(--text-secondary)" }}
+  >
+    Product: {item.product_name}
+  </p>
+)}
+
+<p
+  className="text-xs"
+  style={{ color: "var(--text-secondary)" }}
+>
+  {item.category || ""}
+</p>
                                                     </div>
                                                 </div>
                                             </td>

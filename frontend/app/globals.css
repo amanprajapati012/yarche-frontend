@@ -77,16 +77,22 @@ select:-webkit-autofill {
 }
 
 
-@keyframes loading {
-  0% {
-    transform: translateX(-100%);
-  }
 
-  100% {
-    transform: translateX(300%);
-  }
+
+
+.loader-ring {
+  position: absolute;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(0, 0, 0, 0.08);
+  border-top-color: #ff6e23;
+  border-right-color: #28170d;
+  animation: smoothSpin 1s linear infinite;
 }
 
-.loading-bar {
-  animation: loading 1s linear infinite;
+@keyframes smoothSpin {
+  100% {
+    transform: rotate(360deg);
+  }
 }

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 import { useCartStore } from "@/src/store/cartStore";
 import { useAuthStore } from "@/src/store/authStore";
@@ -85,7 +86,7 @@ export default function CheckoutPage() {
   const applyCoupon = async () => {
     try {
       if (!coupon.trim()) {
-        alert("Enter Coupon Code");
+        toast.error("Enter Coupon Code");
         return;
       }
 
@@ -100,7 +101,7 @@ export default function CheckoutPage() {
       console.log("User ID =>", userId);
 
       if (!userId) {
-        alert("User not found. Please login again.");
+        toast.error("User not found. Please login again.");
         return;
       }
 
@@ -117,7 +118,7 @@ export default function CheckoutPage() {
 
         setCouponDiscount(Number(res.data.discountApplied));
 
-        alert(res.data.message);
+        toast.error(res.data.message);
       }
     } catch (err: any) {
       console.error(err);
@@ -125,7 +126,7 @@ export default function CheckoutPage() {
       setAppliedCoupon(null);
       setCouponDiscount(0);
 
-      alert(
+      toast.error(
         err?.response?.data?.message ||
         err?.message ||
         "Unable to apply coupon"
@@ -137,7 +138,7 @@ export default function CheckoutPage() {
 
     try {
       if (!form.addressId) {
-        alert("Please select address");
+        toast.error("Please select address");
         return;
       }
       console.log("========== CHECKOUT DEBUG ==========");
@@ -178,6 +179,9 @@ export default function CheckoutPage() {
 
         items: items.map((item) => ({
           product_id: item._id,
+
+          variant_id: item.variant_id || null,
+
           quantity: item.quantity,
         })),
       };
@@ -192,7 +196,11 @@ export default function CheckoutPage() {
       console.log(res.data);
 
       if (paymentMode === "COD") {
-        alert("Order Placed Successfully");
+
+        useCartStore.getState().clearCart();
+
+        router.push(`/order-success/${res.data.order._id}`);
+
         return;
       }
 
@@ -212,7 +220,7 @@ export default function CheckoutPage() {
       console.log(err);
       console.log(err?.response?.data);
 
-      alert(err?.response?.data?.message || "Something went wrong");
+      toast.error(err?.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -247,9 +255,13 @@ export default function CheckoutPage() {
         try {
 
           await API.patch("/updatepayment", {
-            id: data.order._id,
-            transactionNo: response.razorpay_payment_id,
-          });
+  id: data.order._id,
+  transactionNo: response.razorpay_payment_id,
+});
+
+useCartStore.getState().clearCart();
+
+router.push(`/order-success/${data.order._id}`);
 
           router.push(`/order-success/${data.order._id}`);
 
@@ -273,7 +285,7 @@ export default function CheckoutPage() {
 
     razorpay.on("payment.failed", function () {
 
-      alert("Payment Failed");
+      toast.error("Payment Failed");
 
     });
 

@@ -9,22 +9,24 @@ export default function GlobalLoader() {
   if (!loading) return null;
 
   return (
-    <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-white/80 backdrop-blur-sm">
-      <div className="flex flex-col items-center gap-5">
-        {/* Logo */}
-        <Image
-          src="/logo3.png"
-          alt="Loading..."
-          width={90}
-          height={90}
-          priority
-          className="animate-pulse"
-        />
+    <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-white/85 backdrop-blur-sm">
+      <div className="relative flex items-center justify-center">
 
-        {/* Progress Bar */}
-        <div className="h-1.5 w-44 overflow-hidden rounded-full bg-gray-200">
-          <div className="loading-bar h-full w-1/2 rounded-full bg-black" />
+        {/* Rotating Ring */}
+        <div className="loader-ring" />
+
+        {/* Logo Circle */}
+        <div className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-xl">
+          <Image
+            src="/logo3.png"
+            alt="Loading"
+            width={52}
+            height={52}
+            priority
+            className="object-contain"
+          />
         </div>
+
       </div>
     </div>
   );

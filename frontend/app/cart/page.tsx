@@ -22,18 +22,18 @@ import { useCartStore } from "@/src/store/cartStore";
 export default function CartPage() {
     const router = useRouter();
 
-const user = useAuthStore((state) => state.user);
+    const user = useAuthStore((state) => state.user);
 
-const handleCheckout = () => {
-  if (!user) {
-    toast.error("Please login first");
+    const handleCheckout = () => {
+        if (!user) {
+            toast.error("Please login first");
 
-    router.push("/auth/login");
-    return;
-  }
+            router.push("/auth/login");
+            return;
+        }
 
-  router.push("/checkout");
-};
+        router.push("/checkout");
+    };
     const {
         items,
         removeFromCart,
@@ -109,7 +109,7 @@ const handleCheckout = () => {
 
                         {items.map((item) => (
                             <div
-                                key={item._id}
+                                key={`${item._id}-${item.variant_id || "default"}`}
                                 className=" bg-[var(--background)] rounded-[30px] border border-[#d8c2a0] p-5 shadow-md"
                             >
                                 <div className="flex flex-col md:flex-row gap-5">
@@ -124,15 +124,13 @@ const handleCheckout = () => {
 
                                     <div className="flex-1">
 
-                                        <h3 className="text-2xl font-bold text-[#3F2A1D]">
-                                            {item.name}
-                                        </h3>
+                                       <h3 className="text-2xl font-bold text-[#3F2A1D]">
+    {item.isVariant && item.title
+        ? item.title
+        : item.name}
+</h3>
 
-                                        {item.title && (
-                                            <p className="text-sm text-[#6f5f52] mt-1">
-                                                {item.title}
-                                            </p>
-                                        )}
+                                       
 
                                         <div className="mt-4 flex items-center gap-3">
                                             <span className="text-3xl font-extrabold text-[#2D1A10]">
@@ -152,7 +150,12 @@ const handleCheckout = () => {
 
                                             <div className="flex items-center overflow-hidden rounded-2xl border border-[#cbb28f]  bg-[var(--surface)]">
                                                 <button
-                                                    onClick={() => decreaseQty(item._id)}
+                                                    onClick={() =>
+                                                        decreaseQty(
+                                                            item._id,
+                                                            item.variant_id || null
+                                                        )
+                                                    }
                                                     className="w-12 h-12 flex items-center justify-center"
                                                 >
                                                     <Minus size={18} />
@@ -164,7 +167,12 @@ const handleCheckout = () => {
 
                                                 <button
                                                     disabled={item.quantity >= item.stock}
-                                                    onClick={() => increaseQty(item._id)}
+                                                    onClick={() =>
+                                                        increaseQty(
+                                                            item._id,
+                                                            item.variant_id || null
+                                                        )
+                                                    }
                                                     className={`w-12 h-12 flex items-center justify-center transition
                                                         ${item.quantity >= item.stock
                                                             ? "opacity-40 cursor-not-allowed"
@@ -176,7 +184,12 @@ const handleCheckout = () => {
                                             </div>
 
                                             <button
-                                                onClick={() => removeFromCart(item._id)}
+                                                onClick={() =>
+                                                    removeFromCart(
+                                                        item._id,
+                                                        item.variant_id || null
+                                                    )
+                                                }
                                                 className="w-12 h-12 rounded-xl bg-[#e3c1b8] text-[#7a2e2e] flex items-center justify-center"
                                             >
                                                 <Trash2 size={18} />
@@ -284,13 +297,13 @@ const handleCheckout = () => {
                             </div>
 
                             {/* CHECKOUT */}
-                           <button
-  onClick={handleCheckout}
-  className="mt-8 h-14 w-full bg-[#2D1A10] text-[#f3e7d3] rounded-2xl font-semibold flex items-center justify-center gap-2 hover:scale-[1.02] transition-all shadow-lg"
->
-  Proceed To Checkout
-  <ArrowRight size={18} />
-</button>
+                            <button
+                                onClick={handleCheckout}
+                                className="mt-8 h-14 w-full bg-[#2D1A10] text-[#f3e7d3] rounded-2xl font-semibold flex items-center justify-center gap-2 hover:scale-[1.02] transition-all shadow-lg"
+                            >
+                                Proceed To Checkout
+                                <ArrowRight size={18} />
+                            </button>
 
                             <div className="flex items-center justify-center gap-2 mt-5 text-[#6f5f52] text-sm">
                                 <ShieldCheck size={14} />

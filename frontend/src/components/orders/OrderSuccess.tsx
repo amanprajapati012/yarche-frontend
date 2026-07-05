@@ -101,11 +101,11 @@ export default function OrderSuccess({ order }: Props) {
 
                                             <div className="flex-1">
 
-                                                <h3 className="font-semibold">
-
-                                                    {item.product_name}
-
-                                                </h3>
+                                               <h3 className="font-semibold">
+    {item.isVariant && item.variant_title
+        ? item.variant_title
+        : item.product_name}
+</h3>
 
                                                 <p className="text-sm text-gray-500">
 
