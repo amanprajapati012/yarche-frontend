@@ -89,25 +89,35 @@ export default function TopBar({
   }, [query]);
 
   return (
-    <div className="flex items-center justify-between px-4 py-4 md:px-8 md:py-5">
+    <div className="flex items-center justify-between h-[72px] md:h-[76px] px-4 md:px-8">
       {/* LOGO */}
-      <Link href="/" className="flex items-center">
-        <Image
-          src="/logo3.png"
-          alt="Yarche"
-          width={300}
-          height={120}
-          priority
-          className="h-16 md:h-20 w-auto object-contain"
-        />
-      </Link>
+     <Link
+  href="/"
+  className="flex items-center justify-start w-[165px] md:w-[190px] py-2"
+>
+ <Image
+  src="/logo5.png"
+  alt="Yarche"
+  width={420}
+  height={170}
+  priority
+  className="
+    w-[120px]
+    md:w-[145px]
+    lg:w-[155px]
+    h-auto
+    object-contain
+    object-left
+  "
+/>
+</Link>
 
       {/* DESKTOP SEARCH */}
       <div
         ref={searchRef}
         className="hidden md:block flex-1 max-w-xl mx-8 relative"
       >
-        <div className="flex bg-surface border border-border rounded-xl overflow-hidden shadow-sm">
+        <div className="h-[48px] flex bg-surface border border-[#e8d9c7] rounded-2xl overflow-hidden shadow-md">
           <button className="flex items-center gap-1 px-4 text-sm font-medium border-r border-border bg-background text-foreground hover:bg-surface transition-colors">
             All Products
             <IconChevronDown size={14} />
@@ -117,11 +127,11 @@ export default function TopBar({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => query && setOpenSearch(true)}
-            className="flex-1 bg-surface px-4 py-3 outline-none text-sm text-foreground placeholder:text-text-secondary"
+            className="flex-1 bg-surface px-4 text-sm outline-none"
             placeholder="What are you looking for?"
           />
 
-          <button className="bg-footer hover:opacity-90 px-5 text-white transition-colors">
+          <button className="bg-footer hover:opacity-90 px-6 flex items-center justify-center text-white transition-colors">
             <IconSearch size={20} />
           </button>
         </div>
@@ -185,7 +195,7 @@ export default function TopBar({
 
 
       {/* ICONS */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-5">
         <button
           className="md:hidden text-foreground"
           onClick={() => setShowSearch(true)}
@@ -193,7 +203,7 @@ export default function TopBar({
           <IconSearch size={28} />
         </button>
 
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-4">
           {user ? (
             <Link
               href="/account/profile"

@@ -16,10 +16,10 @@ export default function DesktopNav({
   navLinks,
 }: Props) {
   return (
-    <nav className="hidden md:flex items-center px-4 md:px-8">
+   <nav className="hidden md:flex items-center h-[56px] px-4 md:px-8 border-t border-[#28170D]/5">
       {/* Categories Dropdown */}
       <div className="relative group">
-        <button className="bg-footer text-[#FFF6E2] px-6 py-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide">
+        <button className="bg-footer text-[#FFF6E2] h-[58px] px-7 flex items-center gap-2 text-sm font-bold uppercase tracking-wide">
           <IconMenu2 size={18} />
           Shop By Categories
         </button>
@@ -42,7 +42,7 @@ export default function DesktopNav({
         <Link
           key={link.name}
           href={link.href}
-          className="px-6 py-4 text-sm font-semibold text-foreground hover:text-foreground/70 transition-all"
+          className="h-[58px] px-7 flex items-center text-[15px] font-semibold text-foreground hover:text-[#6F4A2D] transition-colors"
         >
           {link.name}
         </Link>
