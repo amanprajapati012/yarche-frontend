@@ -96,57 +96,55 @@ const orderSchema = new mongoose.Schema(
     },
 
     deliveryStatus: {
-  type: String,
-  enum: [
-    "Pending",
-    "Processing",
-    "Packed",
-    "Shipped",
-    "Out for Delivery",
-    "Delivered",
-    "Cancelled",
-    "RTO Initiated",
-    "RTO In Transit",
-    "RTO Delivered",
-  ],
-  default: "Pending",
-},
-
-deliveryTimeline: [
-  {
-    status: {
       type: String,
-      required: true,
+      enum: [
+        "Pending",
+        "Processing",
+        "Packed",
+        "Shipped",
+        "Out for Delivery",
+        "Delivered",
+        "Cancelled",
+        "RTO Initiated",
+        "RTO In Transit",
+        "RTO Delivered",
+      ],
+      default: "Pending",
     },
 
-    message: {
+    deliveryTimeline: [
+      {
+        status: {
+          type: String,
+          required: true,
+        },
+
+        message: {
+          type: String,
+          required: true,
+        },
+
+        date: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+
+    trackingId: {
       type: String,
-      required: true,
+      default: "",
     },
 
-    date: {
+    courierName: {
+      type: String,
+      default: "",
+    },
+
+    expectedDelivery: {
       type: Date,
-      default: Date.now,
+      default: null,
     },
-  },
-],
-
-trackingId: {
-  type: String,
-  default: "",
-},
-
-courierName: {
-  type: String,
-  default: "",
-},
-
-expectedDelivery: {
-  type: Date,
-  default: null,
-},
-
-
 
     address: {
       addressId: {
@@ -192,19 +190,19 @@ expectedDelivery: {
     },
 
     cancelledAt: {
-  type: Date,
-  default: null,
-},
+      type: Date,
+      default: null,
+    },
 
-deliveredAt: {
-  type: Date,
-  default: null,
-},
+    deliveredAt: {
+      type: Date,
+      default: null,
+    },
 
-rtoCompletedAt: {
-  type: Date,
-  default: null,
-},
+    rtoCompletedAt: {
+      type: Date,
+      default: null,
+    },
     paymentStatus: {
       type: String,
       enum: ["pending", "success", "failed"], // ✅ add all states
