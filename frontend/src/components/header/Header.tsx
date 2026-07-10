@@ -93,14 +93,16 @@ export default function Header() {
         />
 
 
-        <MobileDrawer
-          isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
-          showCategories={showCategories}
-          setShowCategories={setShowCategories}
-          categories={categories}
-          navLinks={navLinks}
-        />
+       <MobileDrawer
+  user={user}
+  logout={logout}
+  isDrawerOpen={isDrawerOpen}
+  setIsDrawerOpen={setIsDrawerOpen}
+  showCategories={showCategories}
+  setShowCategories={setShowCategories}
+  categories={categories}
+  navLinks={navLinks}
+/>
 
       </header>
     </>

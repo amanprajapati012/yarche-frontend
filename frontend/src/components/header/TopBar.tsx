@@ -89,7 +89,8 @@ export default function TopBar({
   className="
     flex
     items-center
-    h-[88px]
+    lg:h-[88px]
+h-[70px]
     w-full
     overflow-hidden
     border-b
@@ -102,11 +103,13 @@ export default function TopBar({
     <Link
   href="/"
   className="
-    w-[150px]
-    lg:w-[290px]
+    w-[130px]
+lg:w-[290px]
     shrink-0
-    h-[88px]
-    border-r
+   h-[70px]
+lg:h-[88px]
+   border-r-0
+lg:border-r
     border-[#28170D]/10
     flex
     items-center
