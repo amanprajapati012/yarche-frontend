@@ -29,11 +29,9 @@ export default function ProductDetailsPage() {
     try {
       setLoading(true);
 
-      const cleanSlug = decodeURIComponent(slug).toLowerCase();
-
-      const res = await API.get(
-        `/productbyname/${encodeURIComponent(cleanSlug)}`
-      );
+     const res = await API.get(
+  `/productbyname/${encodeURIComponent(slug)}`
+);
 
       if (res.data.response === "success") {
         const data = res.data.data;

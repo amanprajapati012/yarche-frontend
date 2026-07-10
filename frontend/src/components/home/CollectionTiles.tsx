@@ -73,7 +73,7 @@ export default function CollectionTiles() {
   };
 
   return (
-    <section className="relative bg-[var(--background)] py-20 overflow-hidden py-16 md:py-24">
+    <section className="relative bg-[var(--background)]  overflow-hidden">
       {/* Pattern */}
       <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#28170D_1px,transparent_1px)] [background-size:28px_28px]" />
 

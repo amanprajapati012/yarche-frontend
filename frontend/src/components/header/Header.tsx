@@ -44,6 +44,7 @@ export default function Header() {
           ) || [];
 
         setCategories(data);
+
       } catch (error) {
         console.error("Category Error:", error);
       }
@@ -52,36 +53,56 @@ export default function Header() {
     fetchCategories();
   }, []);
 
+
   return (
-    <header className="w-full bg-background sticky top-0 z-[1000] border-b border-[#28170D]/10">
-      <div className="max-w-[1440px] mx-auto">
-        <TopBar
-          user={user}
-          logout={logout}
-          cartItems={cartItems}
+    <>
+      <header
+        className="
+          w-full
+          bg-background
+          sticky
+          top-0
+          z-[1000]
+          border-b
+          border-[#28170D]/10
+        "
+      >
+        <div className="max-w-[1440px] mx-auto">
+
+          <TopBar
+            user={user}
+            logout={logout}
+            cartItems={cartItems}
+            setShowSearch={setShowSearch}
+            setIsDrawerOpen={setIsDrawerOpen}
+          />
+
+
+          {/* Navbar only */}
+          <DesktopNav
+  categories={categories}
+  navLinks={navLinks}
+/>
+
+        </div>
+
+
+        <MobileSearch
+          showSearch={showSearch}
           setShowSearch={setShowSearch}
-          setIsDrawerOpen={setIsDrawerOpen}
         />
 
-        <DesktopNav
+
+        <MobileDrawer
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
+          showCategories={showCategories}
+          setShowCategories={setShowCategories}
           categories={categories}
           navLinks={navLinks}
         />
-      </div>
 
-      <MobileSearch
-        showSearch={showSearch}
-        setShowSearch={setShowSearch}
-      />
-
-      <MobileDrawer
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
-        showCategories={showCategories}
-        setShowCategories={setShowCategories}
-        categories={categories}
-        navLinks={navLinks}
-      />
-    </header>
+      </header>
+    </>
   );
 }

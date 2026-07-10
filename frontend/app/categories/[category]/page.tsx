@@ -124,7 +124,7 @@ export default function CategoryPage() {
     return (
         <div className="min-h-screen bg-[#fff8eb]">
             {/* HERO */}
-            <section className="relative h-[260px] md:h-[420px] overflow-hidden">
+           <section className="relative h-[280px] md:h-[500px] overflow-hidden rounded-b-[40px]">
                 {categoryImage && (
                     <img
                         src={categoryImage}

@@ -13,12 +13,7 @@ const poppins = Poppins({
   display: "swap",
 });
 
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-cormorant",
-  display: "swap",
-});
+
 
 export const metadata: Metadata = {
   title: "Yarche - Handmade Crockery",
@@ -33,7 +28,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${cormorant.variable} h-full antialiased`}
+      className={`${poppins.variable}  h-full antialiased`}
     >
       <Script
         src="https://checkout.razorpay.com/v1/checkout.js"

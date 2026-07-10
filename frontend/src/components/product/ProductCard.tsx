@@ -13,7 +13,10 @@ const slugify = (name: string) =>
   name
     .toLowerCase()
     .trim()
-    .replace(/\s+/g, "-");
+    .replace(/%/g, "percent")
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
 
 export default function ProductCard({ product }: any) {
   const router = useRouter();
@@ -41,19 +44,29 @@ export default function ProductCard({ product }: any) {
       className="group flex flex-col h-full bg-surface rounded-[28px] overflow-hidden border border-[#e6d8bc] shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
     >
       {/* IMAGE */}
-      <div className="relative h-[190px] p-3 flex items-center justify-center overflow-hidden">
-        <img
-          src={imageSrc}
-          alt={product.name}
-          className="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500"
-        />
+     {/* IMAGE */}
+<div className="relative aspect-square w-full p-3 overflow-hidden">
+  <div className="w-full h-full rounded-2xl overflow-hidden">
+    <img
+      src={imageSrc}
+      alt={product.name}
+      className="
+        w-full
+        h-full
+        object-cover
+        group-hover:scale-105
+        transition-transform
+        duration-500
+      "
+    />
+  </div>
 
-        {discount > 0 && (
-          <div className="absolute top-3 left-3 bg-[#2d1a10] text-white text-[11px] font-bold px-3 py-1 rounded-full shadow">
-            {discount}% OFF
-          </div>
-        )}
-      </div>
+  {discount > 0 && (
+    <div className="absolute top-5 left-5 bg-[#2d1a10] text-white text-[11px] font-bold px-3 py-1 rounded-full shadow">
+      {discount}% OFF
+    </div>
+  )}
+</div>
 
       {/* CONTENT */}
       <div className="flex flex-col flex-1 px-4 sm:px-5 pb-5">

@@ -9,8 +9,9 @@ import {
   IconChevronDown,
 } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
-import API from "@/src/lib/api";
 import Image from "next/image";
+
+import API from "@/src/lib/api";
 
 interface Props {
   user: any;
@@ -27,7 +28,6 @@ export default function TopBar({
   setShowSearch,
   setIsDrawerOpen,
 }: Props) {
-
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [openSearch, setOpenSearch] = useState(false);
@@ -50,12 +50,8 @@ export default function TopBar({
     document.addEventListener("mousedown", handler);
 
     return () =>
-      document.removeEventListener(
-        "mousedown",
-        handler
-      );
+      document.removeEventListener("mousedown", handler);
   }, []);
-
 
   useEffect(() => {
     const timer = setTimeout(async () => {
@@ -89,66 +85,89 @@ export default function TopBar({
   }, [query]);
 
   return (
-    <div className="flex items-center justify-between h-[72px] md:h-[76px] px-4 md:px-8">
-      {/* LOGO */}
-     <Link
-  href="/"
-  className="flex items-center justify-start w-[165px] md:w-[190px] py-2"
+    <div
+  className="
+    flex
+    items-center
+    h-[88px]
+    w-full
+    overflow-hidden
+    border-b
+    border-[#28170D]/10
+    bg-background
+  "
 >
- <Image
-  src="/logo5.png"
+
+      {/* LOGO */}
+    <Link
+  href="/"
+  className="
+    w-[150px]
+    lg:w-[290px]
+    shrink-0
+    h-[88px]
+    border-r
+    border-[#28170D]/10
+    flex
+    items-center
+    justify-center
+    pl-5
+  "
+>
+        <Image
+  src="/logo3.png"
   alt="Yarche"
-  width={420}
-  height={170}
+  width={220}
+  height={90}
   priority
   className="
-    w-[120px]
-    md:w-[145px]
-    lg:w-[155px]
+    w-[155px]
     h-auto
     object-contain
-    object-left
+    mx-auto
   "
 />
-</Link>
+      </Link>
 
-      {/* DESKTOP SEARCH */}
+      {/* SEARCH */}
       <div
         ref={searchRef}
-        className="hidden md:block flex-1 max-w-xl mx-8 relative"
+        className="hidden lg:flex flex-1 px-10 relative"
       >
-        <div className="h-[48px] flex bg-surface border border-[#e8d9c7] rounded-2xl overflow-hidden shadow-md">
-          <button className="flex items-center gap-1 px-4 text-sm font-medium border-r border-border bg-background text-foreground hover:bg-surface transition-colors">
+        <div className="w-full h-[54px] flex rounded-2xl overflow-hidden border border-[#E8D9C7] shadow-sm">
+
+          <button className="w-[180px] bg-background border-r border-[#E8D9C7] flex items-center justify-center gap-2 font-medium">
             All Products
-            <IconChevronDown size={14} />
+            <IconChevronDown size={16} />
           </button>
 
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => query && setOpenSearch(true)}
-            className="flex-1 bg-surface px-4 text-sm outline-none"
             placeholder="What are you looking for?"
+            className="flex-1 px-6 outline-none bg-surface text-[15px]"
           />
 
-          <button className="bg-footer hover:opacity-90 px-6 flex items-center justify-center text-white transition-colors">
-            <IconSearch size={20} />
+          <button className="w-[120px] bg-footer text-white flex items-center justify-center hover:bg-[#241108] transition">
+            <IconSearch size={22} />
           </button>
         </div>
 
         {openSearch && (
-          <div className="absolute top-[110%] left-0 w-full z-[9999] bg-background border border-[#28170D]/10 rounded-xl shadow-lg overflow-hidden">
+          <div className="absolute top-[64px] left-10 right-10 bg-background rounded-xl border border-[#28170D]/10 shadow-xl overflow-hidden z-[999]">
+
             {loading ? (
-              <div className="p-4 text-center text-foreground">
+              <div className="p-5 text-center">
                 Searching...
               </div>
             ) : results.length === 0 ? (
-              <div className="p-4 text-center text-foreground">
+              <div className="p-5 text-center">
                 No products found
               </div>
             ) : (
-              <div className="max-h-[320px] overflow-y-auto">
-                {results.map((product: any) => (
+              <div className="max-h-[350px] overflow-y-auto">
+                                {results.map((product: any) => (
                   <Link
                     key={product._id}
                     href={`/product/${product._id}`}
@@ -156,12 +175,14 @@ export default function TopBar({
                       setOpenSearch(false);
                       setQuery("");
                     }}
-                    className="flex gap-3 p-3 border-b border-[#28170D]/5 hover:bg-[#F5E9CC] transition-all duration-200"
+                    className="flex gap-3 p-3 border-b border-[#28170D]/5 hover:bg-[#F5E9CC] transition"
                   >
                     <img
                       src={
                         product.images?.[0]
-                          ? `${IMAGE_BASE}${product.images[0]}`
+                          ? product.images[0].startsWith("http")
+                            ? product.images[0]
+                            : `${IMAGE_BASE}${product.images[0]}`
                           : "/placeholder.png"
                       }
                       alt={product.product_name}
@@ -169,17 +190,17 @@ export default function TopBar({
                     />
 
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-foreground truncate">
+                      <h4 className="font-medium truncate">
                         {product.product_name}
                       </h4>
 
-                      <div className="mt-1 flex items-center gap-2">
-                        <span className="font-bold text-foreground">
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="font-bold">
                           ₹{product.discountedPrice || product.price}
                         </span>
 
                         {product.discountedPrice && product.price && (
-                          <span className="line-through text-gray-500 text-xs">
+                          <span className="line-through text-xs text-gray-500">
                             ₹{product.price}
                           </span>
                         )}
@@ -193,87 +214,108 @@ export default function TopBar({
         )}
       </div>
 
+      {/* RIGHT SECTION */}
+      <div
+        className="
+          hidden
+          lg:flex
+          items-center
+          gap-8
+          px-8
+          shrink-0
+        "
+      >
+        {user ? (
+          <Link
+            href="/account/profile"
+            className="flex items-center gap-3"
+          >
+            <div className="w-12 h-12 rounded-full bg-footer text-[#FFF6E2] flex items-center justify-center font-bold overflow-hidden">
+              {user.profileImage ? (
+                <img
+                  src={user.profileImage}
+                  alt={user.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                user.name?.charAt(0)?.toUpperCase()
+              )}
+            </div>
 
-      {/* ICONS */}
-      <div className="flex items-center gap-5">
-        <button
-          className="md:hidden text-foreground"
-          onClick={() => setShowSearch(true)}
+            <div>
+              <p className="text-xs text-gray-500">
+                Welcome
+              </p>
+
+              <p className="font-semibold whitespace-nowrap">
+                {user.name}
+              </p>
+            </div>
+          </Link>
+        ) : (
+          <Link
+            href="/auth/login"
+            className="flex items-center gap-2"
+          >
+            <IconUser size={24} />
+
+            <div>
+              <p className="text-xs text-gray-500">
+                Welcome
+              </p>
+
+              <p className="font-semibold">
+                Log in
+              </p>
+            </div>
+          </Link>
+        )}
+
+        <Link
+          href="/cart"
+          className="relative"
         >
-          <IconSearch size={28} />
+          <IconShoppingCart size={30} />
+
+          <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-footer text-[#FFF6E2] text-[10px] flex items-center justify-center font-bold">
+            {cartItems.length > 9 ? "9+" : cartItems.length}
+          </span>
+        </Link>
+      </div>
+
+      {/* MOBILE ICONS */}
+      <div
+  className="
+    flex
+    lg:hidden
+    items-center
+    gap-4
+    px-4
+    shrink-0
+  "
+>
+        <button onClick={() => setShowSearch(true)}>
+          <IconSearch size={26} />
         </button>
 
-        <div className="hidden md:flex items-center gap-4">
-          {user ? (
-            <Link
-              href="/account/profile"
-              className="flex items-center gap-3 group"
-            >
-              <div className="w-10 h-10 rounded-full bg-footer text-[#FFF6E2] flex items-center justify-center font-semibold text-sm overflow-hidden">
-                {user?.profileImage ? (
-                  <img
-                    src={user.profileImage}
-                    alt={user.name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  user?.name?.charAt(0)?.toUpperCase() || "U"
-                )}
-              </div>
+        <Link
+          href="/cart"
+          className="relative"
+        >
+          <IconShoppingCart size={28} />
 
-              <div className="text-xs text-foreground hidden lg:block">
-                <p>Welcome</p>
-                <p className="font-bold group-hover:underline">
-                  {user.name}
-                </p>
-              </div>
-            </Link>
-          ) : (
-            <Link
-              href="/auth/login"
-              className="flex items-center gap-2"
-            >
-              <IconUser
-                size={24}
-                className="text-foreground"
-              />
+          <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-footer text-[#FFF6E2] text-[10px] flex items-center justify-center font-bold">
+            {cartItems.length > 9 ? "9+" : cartItems.length}
+          </span>
+        </Link>
 
-              <div className="text-xs text-foreground">
-                <p>Welcome</p>
-                <p className="font-bold">Log in</p>
-              </div>
-            </Link>
-          )}
-        </div>
-
-        <div className="flex items-center gap-4">
-
-
-
-          {/* user login section */}
-
-          <Link
-            href="/cart"
-            className="relative text-foreground"
-          >
-            <IconShoppingCart size={24} />
-
-            <span className="absolute -top-1.5 -right-1.5 bg-footer text-[#FFF6E2] text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">
-              {cartItems.length > 9 ? "9+" : cartItems.length}
-            </span>
-          </Link>
-
-          <button
-            className="md:hidden text-foreground"
-            onClick={() => setIsDrawerOpen(true)}
-          >
-            <IconMenu2 size={28} />
-          </button>
-
-        </div>
-
-
+        <button
+          onClick={() => setIsDrawerOpen(true)}
+        >
+          <IconMenu2 size={30} />
+        </button>
       </div>
     </div>
   );
 }
+              
