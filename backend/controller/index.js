@@ -713,55 +713,51 @@ const getProductByCategoryName = async (req, res) => {
   }
 };
 
+const slugify = (text) =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/%/g, "percent")
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+
 const getProductbyProductName = async (req, res) => {
   try {
     const { product_name } = req.params;
 
-    if (!product_name) {
-      return res.status(400).json({
-        message: "Product name is required",
-        response: "failed",
-      });
-    }
+    const slug = decodeURIComponent(product_name);
 
-    // URL slug -> normal name
-    const normalizedName = decodeURIComponent(product_name)
-      .trim()
-      .replace(/-/g, " ")
-      .replace(/\s+/g, " ");
+    const products = await Product.find();
 
-    // regex safe
-    const escapedName = normalizedName.replace(
-      /[.*+?^${}()|[\]\\]/g,
-      "\\$&"
-    );
+    console.log("Incoming Slug:", slug);
 
-    const product = await Product.findOne({
-      name: {
-        $regex: `^${escapedName}$`,
-        $options: "i",
-      },
+    const product = products.find((p) => {
+      const dbSlug = slugify(p.name);
+
+      console.log(dbSlug);
+
+      return dbSlug === slug;
     });
 
     if (!product) {
       return res.status(404).json({
-        message: "Product not found",
         response: "failed",
+        message: "Product not found",
       });
     }
 
-    return res.status(200).json({
-      message: "Product fetched successfully",
+    return res.json({
       response: "success",
       data: product,
     });
+
   } catch (err) {
-    console.error("Get Product Error:", err);
+    console.log(err);
 
     return res.status(500).json({
-      message: "Server error",
       response: "failed",
-      error: err.message,
+      message: err.message,
     });
   }
 };
