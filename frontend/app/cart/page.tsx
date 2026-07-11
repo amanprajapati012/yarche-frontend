@@ -46,7 +46,7 @@ export default function CartPage() {
         0
     );
 
-    const shipping = subtotal >= 500 ? 0 : 50;
+    const shipping = subtotal >= 899 ? 0 : 49;
     const freeShippingTarget = 500;
 
     const total = subtotal + shipping;

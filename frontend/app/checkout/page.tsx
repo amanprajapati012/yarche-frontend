@@ -77,7 +77,7 @@ export default function CheckoutPage() {
     );
   }, [items]);
 
-  const shipping = subtotal >= 500 ? 0 : 50;
+  const shipping = subtotal >= 899 ? 0 : 49;
 
 
 
