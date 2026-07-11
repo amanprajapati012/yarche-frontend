@@ -86,49 +86,21 @@ export default function TopBar({
 
   return (
     <div
-  className="
-    flex
-    items-center
-    lg:h-[88px]
-h-[70px]
-    w-full
-    overflow-hidden
-    border-b
-    border-[#28170D]/10
-    bg-background
-  "
->
+className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-b border-[#28170D]/10 bg-background px-4 lg:px-0">
 
       {/* LOGO */}
-    <Link
+   <Link
   href="/"
-  className="
-    w-[130px]
-lg:w-[290px]
-    shrink-0
-   h-[70px]
-lg:h-[88px]
-   border-r-0
-lg:border-r
-    border-[#28170D]/10
-    flex
-    items-center
-    justify-center
-    pl-5
-  "
+  className="w-auto lg:w-[290px] h-full flex items-center justify-center lg:border-r border-[#28170D]/10 lg:pl-5"
+
 >
-        <Image
+       <Image
   src="/logo3.png"
   alt="Yarche"
   width={220}
   height={90}
   priority
-  className="
-    w-[155px]
-    h-auto
-    object-contain
-    mx-auto
-  "
+  className="w-[100px] lg:w-[155px] h-auto object-contain"
 />
       </Link>
 

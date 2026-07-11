@@ -12,6 +12,7 @@ import CraftStory from "@/src/components/home/CraftStory";
 import NewArrivals from "@/src/components/home/NewArrivals";
 import TopProducts from "@/src/components/home/TopProducts";
 import ShopByCategory from "@/src/components/home/ShopByCategory";
+import BannerCard from "@/src/components/home/BannerCard";
 
 
 export default function Home() {
@@ -63,6 +64,8 @@ export default function Home() {
       <FeatureBar
         categories={categories}
       />
+
+      <BannerCard />
 
 
       <ShopByCategory />

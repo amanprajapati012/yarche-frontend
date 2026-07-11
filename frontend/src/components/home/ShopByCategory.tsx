@@ -46,7 +46,7 @@ export default function ShopByCategory() {
           </div>
 
           {/* Cards Skeleton */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-7">
 
             {Array.from({ length: 10 }).map((_, index) => (
               <div
@@ -81,43 +81,33 @@ export default function ShopByCategory() {
 
         {/* Header */}
 
-        <div className="flex items-center justify-between mb-12">
-
+        <div className="mb-10 flex items-end justify-between">
           <div>
+            <span className="text-sm font-semibold uppercase tracking-[0.25em] text-[var(--foreground)]/50">
+              Browse Collection
+            </span>
 
-            <h2 className="text-4xl font-bold text-[var(--foreground)]">
-              Shop by Category
+            <h2 className="mt-2 text-3xl md:text-5xl font-extrabold tracking-tight text-[var(--foreground)]">
+              Shop by{" "}
+              <span className="relative inline-block">
+                Category
+                <span className="absolute left-0 -bottom-2 h-1 w-full rounded-full bg-gradient-to-r from-orange-500 to-yellow-400"></span>
+              </span>
             </h2>
-
-            <div className="w-24 h-1 mt-3 rounded-full bg-[var(--foreground)] opacity-20" />
-
           </div>
 
           <Link
             href="/best-sellers"
-            className="
-              rounded-full
-              border
-              border-[var(--border)]
-              bg-[var(--surface)]
-              px-6
-              py-3
-              font-semibold
-              text-[var(--foreground)]
-              transition-all
-              duration-300
-              hover:bg-[var(--input-bg)]
-              hover:shadow-md
-            "
+            className="hidden md:flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-6 py-3 font-semibold hover:shadow-xl hover:-translate-y-0.5 transition"
           >
-            View More →
+            View More
+            <span>→</span>
           </Link>
-
         </div>
 
         {/* Categories */}
 
-        {/* Categories */}
+
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {categories.map((cat) => (
             <Link
@@ -125,59 +115,120 @@ export default function ShopByCategory() {
               href={`/categories/${encodeURIComponent(cat.category)}`}
               className="group"
             >
-              <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+              <div
+                className="
+    relative
+    overflow-hidden
+    rounded-[28px]
+    border
+    border-[var(--border)]
+    bg-[var(--surface)]
+    transition-all
+    duration-500
+    hover:-translate-y-2
+    hover:shadow-2xl
+    group
+  "
+              >
+
+                {/* Glow */}
+                <div
+                  className="
+      absolute
+      -top-16
+      -right-16
+      h-36
+      w-36
+      rounded-full
+      bg-orange-300/20
+      blur-3xl
+      opacity-0
+      transition
+      duration-500
+      group-hover:opacity-100
+    "
+                />
 
                 {/* Image */}
-                {/* Image */}
-<div className="p-3">
-  <div
-    className="
-      aspect-square
-      w-full
-      overflow-hidden
-      rounded-2xl
-      bg-[var(--background)]
-      border
-      border-[var(--border)]
-    "
-  >
-    <img
-      src={getImageUrl(cat.images?.[0])}
-      alt={cat.category}
-     className="
-  w-full
-  h-full
-  object-contain
-  transition-transform
-  duration-500
-  group-hover:scale-105
-"
-      onError={(e) => {
-        (e.target as HTMLImageElement).src = "/placeholder.png";
-      }}
-    />
-  </div>
-</div>
+
+                <div className="p-4">
+
+                  <div
+                    className="
+        aspect-square
+        w-full
+        overflow-hidden
+        rounded-2xl
+        bg-[var(--background)]
+        border
+        border-[var(--border)]
+      "
+                  >
+
+                    <img
+                      src={getImageUrl(cat.images?.[0])}
+                      alt={cat.category}
+                      className="
+          w-full
+          h-full
+          object-contain
+          transition-transform
+          duration-700
+          group-hover:scale-110
+        "
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "/placeholder.png";
+                      }}
+                    />
+
+                  </div>
+
+                </div>
 
                 {/* Content */}
+
                 <div className="px-5 pb-5">
 
-                  <h3 className="text-lg font-semibold text-[var(--foreground)] text-center leading-snug min-h-[56px] flex items-center justify-center">
+                  <h3
+                    className="
+        min-h-[56px]
+        flex
+        items-center
+        justify-center
+        text-center
+        text-lg
+        font-bold
+        text-[var(--foreground)]
+      "
+                  >
                     {cat.category}
                   </h3>
 
                   <div className="mt-4 flex justify-center">
-                    <span className="inline-flex items-center rounded-full bg-[var(--background)] border border-[var(--border)] px-4 py-2 text-sm font-medium text-[var(--foreground)] transition-all duration-300 group-hover:bg-[var(--input-bg)]">
-                      Explore →
+
+                    <span className="text-sm font-semibold text-orange-600 transition-all duration-300 group-hover:tracking-wider">
+                      Discover →
                     </span>
+
                   </div>
 
                 </div>
 
               </div>
+
             </Link>
           ))}
         </div>
+        <div className="mt-8 flex justify-center md:hidden">
+
+  <Link
+    href="/best-sellers"
+    className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-6 py-3 font-semibold"
+  >
+    View More →
+  </Link>
+
+</div>
 
 
 
