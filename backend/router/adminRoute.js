@@ -44,6 +44,11 @@ const {
   updateCollection,
   getAllCollections,
   deleteCollection,
+  addBanner,
+getBannerById,
+updateBanner,
+getAllBanner,
+deleteBanner,
 } = require("../controller/admin-controller");
 
 router.use((req, res, next) => {
@@ -82,6 +87,45 @@ router.delete(
   "/collection/:id",
   adminAuth,
   deleteCollection
+);
+
+// ================= Banner Routes =================
+
+// Add Banner
+router.post(
+  "/banner",
+  upload.array("image", 1),
+  // adminAuth,
+  addBanner
+);
+
+// Get All Banner
+router.get(
+  "/banner",
+  // adminAuth,
+  getAllBanner
+);
+
+// Get Banner By Id
+router.get(
+  "/banner/:id",
+  // adminAuth,
+  getBannerById
+);
+
+// Update Banner
+router.put(
+  "/updatebanner/:id",
+  upload.array("image", 1),
+  // adminAuth,
+  updateBanner
+);
+
+// Delete Banner
+router.delete(
+  "/deletebanner/:id",
+  // adminAuth,
+  deleteBanner
 );
 
 // Add Course

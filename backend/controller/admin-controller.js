@@ -7,6 +7,7 @@ const Discount = require("../models/discountModel");
 const Order = require("../models/orderModel");
 const Carousel = require("../models/carouselModel");
 const Subscribe = require("../models/subscribeModel");
+const Banner = require("../models/Banner");
 // Delete Crousel by ID
 const fs = require("fs");
 const path = require("path");
@@ -1924,6 +1925,253 @@ const deleteCarousel = async (req, res) => {
   }
 };
 
+
+
+// ================= ADD BANNER =================
+const addBanner = async (req, res) => {
+  try {
+    const {
+      title,
+      subtitle,
+      description,
+      topText,
+      leftOffer,
+      leftText,
+      leftCode,
+      rightOffer,
+      rightText,
+      rightCode,
+      features,
+      buttonText,
+      link,
+      displayOrder,
+    } = req.body;
+
+    if (!title || !link) {
+      return res.status(400).json({
+        response: "failed",
+        message: "Title & Link required",
+      });
+    }
+
+    let image = null;
+
+    if (req.files?.length) {
+      const result = await uploadToCloudinary(req.files[0].buffer);
+
+      image = {
+        url: result.secure_url,
+        public_id: result.public_id,
+      };
+    }
+
+    const banner = await Banner.create({
+      title,
+      subtitle,
+      description,
+      topText,
+      leftOffer,
+      leftText,
+      leftCode,
+      rightOffer,
+      rightText,
+      rightCode,
+      features: features ? JSON.parse(features) : [],
+      buttonText,
+      link,
+      displayOrder,
+      image,
+    });
+
+    res.status(201).json({
+      response: "success",
+      message: "Banner added successfully",
+      banner,
+    });
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      response: "failed",
+      message: err.message,
+    });
+  }
+};
+
+// ================= GET ALL =================
+const getAllBanner = async (req, res) => {
+  try {
+    const banners = await Banner.find().sort({
+      displayOrder: 1,
+      createdAt: -1,
+    });
+
+    res.status(200).json({
+      response: "success",
+      message: "Banners retrieved successfully",
+      banners,
+    });
+  } catch (err) {
+    res.status(500).json({
+      response: "failed",
+      message: err.message,
+    });
+  }
+};
+
+// ================= GET BY ID =================
+const getBannerById = async (req, res) => {
+  try {
+    const banner = await Banner.findById(req.params.id);
+
+    if (!banner) {
+      return res.status(404).json({
+        response: "failed",
+        message: "Banner not found",
+      });
+    }
+
+    res.status(200).json({
+      response: "success",
+      message: "Banner retrieved successfully",
+      banner,
+    });
+  } catch (err) {
+    res.status(500).json({
+      response: "failed",
+      message: err.message,
+    });
+  }
+};
+
+// ================= UPDATE =================
+const updateBanner = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const {
+      title,
+      subtitle,
+      description,
+      topText,
+      leftOffer,
+      leftText,
+      leftCode,
+      rightOffer,
+      rightText,
+      rightCode,
+      features,
+      buttonText,
+      link,
+      displayOrder,
+      existingImage,
+    } = req.body;
+
+    const banner = await Banner.findById(id);
+
+    if (!banner) {
+      return res.status(404).json({
+        response: "failed",
+        message: "Banner not found",
+      });
+    }
+
+    let image = banner.image;
+
+    if (existingImage) {
+      image = JSON.parse(existingImage);
+    }
+
+    if (req.files?.length) {
+      if (banner.image?.public_id) {
+        try {
+          await cloudinary.uploader.destroy(banner.image.public_id);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
+      const result = await uploadToCloudinary(req.files[0].buffer);
+
+      image = {
+        url: result.secure_url,
+        public_id: result.public_id,
+      };
+    }
+
+    banner.title = title || banner.title;
+    banner.subtitle = subtitle || banner.subtitle;
+    banner.description = description || banner.description;
+    banner.topText = topText || banner.topText;
+    banner.leftOffer = leftOffer || banner.leftOffer;
+    banner.leftText = leftText || banner.leftText;
+    banner.leftCode = leftCode || banner.leftCode;
+    banner.rightOffer = rightOffer || banner.rightOffer;
+    banner.rightText = rightText || banner.rightText;
+    banner.rightCode = rightCode || banner.rightCode;
+    banner.features = features
+      ? JSON.parse(features)
+      : banner.features;
+    banner.buttonText = buttonText || banner.buttonText;
+    banner.link = link || banner.link;
+    banner.displayOrder = displayOrder ?? banner.displayOrder;
+    banner.image = image;
+
+    await banner.save();
+
+    res.status(200).json({
+      response: "success",
+      message: "Banner updated successfully",
+      banner,
+    });
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      response: "failed",
+      message: err.message,
+    });
+  }
+};
+
+// ================= DELETE =================
+const deleteBanner = async (req, res) => {
+  try {
+    const banner = await Banner.findById(req.params.id);
+
+    if (!banner) {
+      return res.status(404).json({
+        response: "failed",
+        message: "Banner not found",
+      });
+    }
+
+    if (banner.image?.public_id) {
+      try {
+        await cloudinary.uploader.destroy(banner.image.public_id);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    await banner.deleteOne();
+
+    res.status(200).json({
+      response: "success",
+      message: "Banner deleted successfully",
+    });
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      response: "failed",
+      message: err.message,
+    });
+  }
+};
+
+
+
 // ================= ADD COLLECTION =================
 const addCollection = async (req, res) => {
   try {
@@ -2401,4 +2649,9 @@ module.exports = {
   updateCollection,
   getAllCollections,
   deleteCollection,
+  addBanner,
+  getAllBanner,
+  getBannerById,
+  updateBanner,
+  deleteBanner,
 };

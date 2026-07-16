@@ -44,6 +44,7 @@ const {
   deleteAddress,
   setDefaultAddress,
     updateAddress,
+      getBanners,
 } = require('../controller');
 
 // ✅ IMPORTANT: middleware se import
@@ -153,6 +154,9 @@ router.patch("/updatepayment", updatePaymentStatus);
 
 // Get All Carousels
 router.get("/carousels", getCarousels);
+
+// Get All Banners
+router.get("/banners", getBanners);
 
 // Get All Reels
 router.get("/reels", getReel);

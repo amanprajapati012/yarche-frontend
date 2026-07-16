@@ -17,6 +17,7 @@ const Franchise = require("../models/franchiseModel");
 const { v4: uuidv4 } = require("uuid");
 const Address = require("../models/addressModel");
 const mongoose = require("mongoose");
+const Banner = require("../models/Banner");
 const { getIO } = require("../socket/socket");
 const Notification = require("../models/Notification");
 const Collection = require("../models/CollectionModel");
@@ -1756,6 +1757,42 @@ const updatePaymentStatus = async (req, res) => {
   }
 };
 
+
+
+// ================= Get All Banners =================
+const getBanners = async (req, res) => {
+  try {
+    const banners = await Banner.find({
+      isActive: true,
+    }).sort({
+      displayOrder: 1,
+      createdAt: -1,
+    });
+
+    if (!banners || banners.length === 0) {
+      return res.status(404).json({
+        message: "No Banners found",
+        response: "failed",
+        banners: [],
+      });
+    }
+
+    res.status(200).json({
+      message: "Banners retrieved successfully",
+      response: "success",
+      banners,
+    });
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      message: "Failed to fetch Banners",
+      response: "failed",
+      error: err.message,
+    });
+  }
+};
+
 // Get all Carousels
 const getCarousels = async (req, res) => {
   try {
@@ -2469,4 +2506,5 @@ module.exports = {
   deleteAddress,
   setDefaultAddress,
   updateAddress,
+    getBanners,
 };
