@@ -49,27 +49,24 @@ export default function MobileDrawer({
 }: Props) {
   return (
     <div
-      className={`fixed inset-0 z-[2000] md:hidden ${
-        isDrawerOpen ? "visible" : "invisible"
-      }`}
+      className={`fixed inset-0 z-[2000] md:hidden ${isDrawerOpen ? "visible" : "invisible"
+        }`}
     >
       {/* Overlay */}
 
       <div
-        className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
-          isDrawerOpen ? "opacity-100" : "opacity-0"
-        }`}
+        className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${isDrawerOpen ? "opacity-100" : "opacity-0"
+          }`}
         onClick={() => setIsDrawerOpen(false)}
       />
 
       {/* Drawer */}
 
       <div
-        className={`absolute left-0 top-0 h-full w-[86%] bg-[#FCF9F5] shadow-2xl transform transition-transform duration-300 flex flex-col ${
-          isDrawerOpen
+        className={`absolute left-0 top-0 h-full w-[86%] bg-[#FCF9F5] shadow-2xl transform transition-transform duration-300 flex flex-col ${isDrawerOpen
             ? "translate-x-0"
             : "-translate-x-full"
-        }`}
+          }`}
       >
         {/* Header */}
 
@@ -220,7 +217,7 @@ export default function MobileDrawer({
               </button>
 
               <div className="mt-2 space-y-1">
-                                {navLinks.map((link) => (
+                {navLinks.map((link) => (
                   <Link
                     key={link.name}
                     href={link.href}
@@ -247,8 +244,11 @@ export default function MobileDrawer({
                 {categories.map((cat) => (
                   <Link
                     key={cat}
-                    href={`/category/${cat.toLowerCase()}`}
-                    onClick={() => setIsDrawerOpen(false)}
+                    href={`/categories/${encodeURIComponent(cat)}`}
+                    onClick={() => {
+                      setIsDrawerOpen(false);
+                      setShowCategories(false);
+                    }}
                     className="flex items-center justify-between rounded-xl px-4 py-4 text-[15px] hover:bg-[#F5EEE6] transition"
                   >
                     {cat}
@@ -325,4 +325,3 @@ export default function MobileDrawer({
     </div>
   );
 }
-              
