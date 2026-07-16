@@ -13,6 +13,7 @@ import CheckoutHeader from "@/src/components/checkout/CheckoutHeader";
 import ShippingForm from "@/src/components/checkout/ShippingForm";
 import PaymentMethod from "@/src/components/checkout/PaymentMethod";
 import OrderSummary from "@/src/components/checkout/OrderSummary";
+import AvailableCoupons from "@/src/components/checkout/AvailableCoupons";
 
 type CheckoutForm = {
   addressId?: string;
@@ -83,9 +84,11 @@ export default function CheckoutPage() {
 
   const total = subtotal + shipping - couponDiscount;
 
-  const applyCoupon = async () => {
+ const applyCoupon = async (couponCode?: string) => { 
     try {
-      if (!coupon.trim()) {
+      const code = couponCode || coupon;
+
+if (!code.trim()) {
         toast.error("Enter Coupon Code");
         return;
       }
@@ -106,7 +109,7 @@ export default function CheckoutPage() {
       }
 
       const res = await API.patch("/applydiscount", {
-        code: coupon.trim().toUpperCase(),
+       code: code.trim().toUpperCase(), 
         totalAmount: subtotal + shipping,
         userId,
       });
@@ -114,11 +117,11 @@ export default function CheckoutPage() {
       console.log("Coupon Response =>", res.data);
 
       if (res.data.response === "success") {
-        setAppliedCoupon(coupon.trim().toUpperCase());
+       setAppliedCoupon(code.trim().toUpperCase()); 
 
         setCouponDiscount(Number(res.data.discountApplied));
 
-        toast.error(res.data.message);
+        toast.success(res.data.message);
       }
     } catch (err: any) {
       console.error(err);
@@ -339,17 +342,22 @@ router.push(`/order-success/${data.order._id}`);
           {/* RIGHT */}
 
           <OrderSummary
-            items={items}
-            subtotal={subtotal}
-            shipping={shipping}
-            total={total}
-            coupon={coupon}
-            setCoupon={setCoupon}
-            appliedCoupon={appliedCoupon}
-            couponDiscount={couponDiscount}
-            applyCoupon={applyCoupon}
-            onPlaceOrder={handlePlaceOrder}
-          />
+    items={items}
+    subtotal={subtotal}
+    shipping={shipping}
+    total={total}
+    coupon={coupon}
+    setCoupon={setCoupon}
+    appliedCoupon={appliedCoupon}
+    couponDiscount={couponDiscount}
+    applyCoupon={applyCoupon}
+    onPlaceOrder={handlePlaceOrder}
+   selectCoupon={(code) => {
+    setCoupon(code);
+    setAppliedCoupon(code);
+    applyCoupon(code);
+}}
+/>
 
         </div>
 

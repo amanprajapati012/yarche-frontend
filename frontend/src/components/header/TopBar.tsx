@@ -10,6 +10,7 @@ import {
 } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { getImageUrl } from "@/src/lib/image";
 
 import API from "@/src/lib/api";
 
@@ -142,6 +143,7 @@ className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-
               </div>
             ) : (
               <div className="max-h-[350px] overflow-y-auto">
+                
                                 {results.map((product: any) => (
                   <Link
                     key={product._id}
@@ -153,20 +155,14 @@ className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-
                     className="flex gap-3 p-3 border-b border-[#28170D]/5 hover:bg-[#F5E9CC] transition"
                   >
                     <img
-                      src={
-                        product.images?.[0]
-                          ? product.images[0].startsWith("http")
-                            ? product.images[0]
-                            : `${IMAGE_BASE}${product.images[0]}`
-                          : "/placeholder.png"
-                      }
-                      alt={product.product_name}
-                      className="w-14 h-14 rounded-lg object-cover bg-white"
-                    />
+  src={getImageUrl(product.images?.[0])}
+  alt={product.product_name || product.name}
+  className="w-14 h-14 rounded-lg object-cover bg-white"
+/>
 
                     <div className="flex-1 min-w-0">
                       <h4 className="font-medium truncate">
-                        {product.product_name}
+                       {product.product_name || product.name}
                       </h4>
 
                       <div className="flex items-center gap-2 mt-1">

@@ -19,6 +19,7 @@ import {
   Star,
   TrendingUp,
   Trophy,
+   CreditCard, 
 } from "lucide-react";
 
 export default function Sidebar({ open, setOpen }: any) {
@@ -51,6 +52,7 @@ export default function Sidebar({ open, setOpen }: any) {
       title: "CONTENT",
       items: [
         { name: "Banners", href: "/admin/banners", icon: ImageIcon },
+         { name: "Banner Cards", href: "/admin/bannercard", icon: CreditCard },
         { name: "Settings", href: "/admin/settings", icon: Settings },
       ],
     },

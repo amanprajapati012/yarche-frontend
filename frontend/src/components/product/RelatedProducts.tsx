@@ -10,31 +10,7 @@ export default function RelatedProducts({ products }: any) {
 
       {/* HEADER */}
 
-      <div className="mb-8">
-
-        <h2
-          className="
-          text-2xl
-          md:text-3xl
-          font-black
-          text-foreground
-        "
-        >
-          Related Products
-        </h2>
-
-        <p
-          className="
-          text-sm
-          md:text-base
-          text-[#7b6a5c]
-          mt-2
-        "
-        >
-          You may also like these products
-        </p>
-
-      </div>
+     
 
       {/* GRID */}
 

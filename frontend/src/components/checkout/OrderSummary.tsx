@@ -3,6 +3,7 @@
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { getImageUrl } from "@/src/lib/image"; // apna actual path
 import { toast } from "sonner";
+import AvailableCoupons from "./AvailableCoupons";
 
 
 type CartItem = {
@@ -27,9 +28,10 @@ type OrderSummaryProps = {
     total: number;
     coupon: string;
     setCoupon: React.Dispatch<React.SetStateAction<string>>;
+    selectCoupon: (code: string) => void;
     appliedCoupon: string | null;
     couponDiscount: number;
-    applyCoupon: () => void;
+    applyCoupon: (couponCode?: string) => void;
 
     onPlaceOrder: () => void; // NEW
 };
@@ -41,6 +43,7 @@ export default function OrderSummary({
     total,
     coupon,
     setCoupon,
+    selectCoupon,
     appliedCoupon,
     couponDiscount,
     applyCoupon,
@@ -103,8 +106,8 @@ export default function OrderSummary({
                     />
 
                     <button
-                        disabled={!coupon}
-                        onClick={applyCoupon}
+    disabled={!coupon}
+    onClick={() => applyCoupon()}
                         className="px-4 py-2 bg-[#3B281C] text-white rounded-lg disabled:opacity-50"
                     >
                         Apply
@@ -116,6 +119,9 @@ export default function OrderSummary({
                         Coupon <strong>{appliedCoupon}</strong> Applied Successfully 🎉
                     </p>
                 )}
+                <AvailableCoupons
+    onSelectCoupon={selectCoupon}
+/>
 
                 {/* Totals */}
                 <div className="mt-5 space-y-2 text-sm">
