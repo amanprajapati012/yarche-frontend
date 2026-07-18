@@ -10,14 +10,13 @@ import {
     ArrowRight,
     Truck,
     BadgeCheck,
+    Layers,
 } from "lucide-react";
 import { useAuthStore } from "@/src/store/authStore";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";// ya sonner use kar rahe ho to sonner
+import { toast } from "sonner";
 
 import { useCartStore } from "@/src/store/cartStore";
-
-
 
 export default function CartPage() {
     const router = useRouter();
@@ -34,6 +33,7 @@ export default function CartPage() {
 
         router.push("/checkout");
     };
+
     const {
         items,
         removeFromCart,
@@ -109,7 +109,7 @@ export default function CartPage() {
 
                         {items.map((item) => (
                             <div
-                                key={`${item._id}-${item.variant_id || "default"}`}
+                                key={`${item._id}-${item.variant_id || "default"}-${item.type || "product"}`}
                                 className=" bg-[var(--background)] rounded-[30px] border border-[#d8c2a0] p-5 shadow-md"
                             >
                                 <div className="flex flex-col md:flex-row gap-5">
@@ -124,13 +124,20 @@ export default function CartPage() {
 
                                     <div className="flex-1">
 
-                                       <h3 className="text-2xl font-bold text-[#3F2A1D]">
-    {item.isVariant && item.title
-        ? item.title
-        : item.name}
-</h3>
+                                        <div className="flex items-center gap-2 flex-wrap">
+                                            {item.type === "combo" && (
+                                                <span className="inline-flex items-center gap-1 bg-[#2d1a10] text-white text-[10px] font-bold px-2.5 py-1 rounded-full">
+                                                    <Layers size={11} />
+                                                    Combo
+                                                </span>
+                                            )}
 
-                                       
+                                            <h3 className="text-2xl font-bold text-[#3F2A1D]">
+                                                {item.isVariant && item.title
+                                                    ? item.title
+                                                    : item.name}
+                                            </h3>
+                                        </div>
 
                                         <div className="mt-4 flex items-center gap-3">
                                             <span className="text-3xl font-extrabold text-[#2D1A10]">
@@ -153,7 +160,8 @@ export default function CartPage() {
                                                     onClick={() =>
                                                         decreaseQty(
                                                             item._id,
-                                                            item.variant_id || null
+                                                            item.variant_id || null,
+                                                            item.type || "product"
                                                         )
                                                     }
                                                     className="w-12 h-12 flex items-center justify-center"
@@ -170,7 +178,8 @@ export default function CartPage() {
                                                     onClick={() =>
                                                         increaseQty(
                                                             item._id,
-                                                            item.variant_id || null
+                                                            item.variant_id || null,
+                                                            item.type || "product"
                                                         )
                                                     }
                                                     className={`w-12 h-12 flex items-center justify-center transition
@@ -187,7 +196,8 @@ export default function CartPage() {
                                                 onClick={() =>
                                                     removeFromCart(
                                                         item._id,
-                                                        item.variant_id || null
+                                                        item.variant_id || null,
+                                                        item.type || "product"
                                                     )
                                                 }
                                                 className="w-12 h-12 rounded-xl bg-[#e3c1b8] text-[#7a2e2e] flex items-center justify-center"

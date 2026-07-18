@@ -28,9 +28,9 @@ export default function Header() {
     { name: "Best Sellers", href: "/best-sellers" },
     { name: "New Arrivals", href: "/new-arrivals" },
     
-    { name: "Happy Customers", href: "/customers" },
+    
     { name: "Get Support", href: "/support" },
-    { name: "Our Story", href: "/story" },
+    { name: "Our Story", href: "/our-story" },
   ];
 
   useEffect(() => {

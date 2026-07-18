@@ -1,16 +1,17 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-
 type CartItem = {
-  _id: string;                 // Product ID
+  _id: string; // Product ID or Combo ID
 
   variant_id?: string | null;
   isVariant?: boolean;
 
+  type?: "product" | "combo"; // 👈 NEW
+
   name: string;
 
-  title?: string;              // Variant Title
+  title?: string;
 
   price: number;
   originalPrice?: number;
@@ -29,113 +30,107 @@ type CartState = {
 
   removeFromCart: (
     id: string,
-    variantId?: string | null
+    variantId?: string | null,
+    type?: "product" | "combo"
   ) => void;
 
   increaseQty: (
     id: string,
-    variantId?: string | null
+    variantId?: string | null,
+    type?: "product" | "combo"
   ) => void;
 
   decreaseQty: (
     id: string,
-    variantId?: string | null
+    variantId?: string | null,
+    type?: "product" | "combo"
   ) => void;
 
   clearCart: () => void;
 };
+
+const matchItem = (
+  i: CartItem,
+  id: string,
+  variantId: string | null,
+  type: "product" | "combo"
+) =>
+  i._id === id &&
+  (i.variant_id || null) === variantId &&
+  (i.type || "product") === type;
 
 export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
 
-     addToCart: (item) => {
-  // Product out of stock
-  if (item.stock <= 0) {
-    return false;
-  }
+      addToCart: (item) => {
+        if (item.stock <= 0) {
+          return false;
+        }
 
-  let added = false;
+        let added = false;
 
-  set((state) => {
-    const existing = state.items.find(
-    (i) =>
-        i._id === item._id &&
-        (i.variant_id || null) === (item.variant_id || null)
-);
+        const itemType = item.type || "product";
 
-    if (existing) {
-      if (existing.quantity >= existing.stock) {
-        return state;
-      }
+        set((state) => {
+          const existing = state.items.find((i) =>
+            matchItem(i, item._id, item.variant_id || null, itemType)
+          );
 
-      added = true;
+          if (existing) {
+            if (existing.quantity >= existing.stock) {
+              return state;
+            }
 
-      return {
-       items: state.items.map((i) =>
-  i._id === item._id &&
-  (i.variant_id || null) === (item.variant_id || null)
-    ? {
-        ...i,
-        quantity: i.quantity + 1,
-      }
-    : i
-),
-      };
-    }
-
-    added = true;
-
-    return {
-      items: [
-        ...state.items,
-        {
-          ...item,
-          quantity: 1,
-        },
-      ],
-    };
-  });
-
-  return added;
-},
-
-      removeFromCart: (id, variantId = null) =>
-        set((state) => ({
-         items: state.items.filter(
-    (i) =>
-        !(
-            i._id === id &&
-            (i.variant_id || null) === variantId
-        )
-),
-        })),
-
-     increaseQty: (id, variantId = null) =>
-        set((state) => ({
-          items: state.items.map((i) => {
-            if (
-    i._id !== id ||
-    (i.variant_id || null) !== variantId
-)
-    return i;
-
-            if (i.quantity >= i.stock) return i;
+            added = true;
 
             return {
-              ...i,
-              quantity: i.quantity + 1,
+              items: state.items.map((i) =>
+                matchItem(i, item._id, item.variant_id || null, itemType)
+                  ? { ...i, quantity: i.quantity + 1 }
+                  : i
+              ),
             };
+          }
+
+          added = true;
+
+          return {
+            items: [
+              ...state.items,
+              {
+                ...item,
+                type: itemType,
+                quantity: 1,
+              },
+            ],
+          };
+        });
+
+        return added;
+      },
+
+      removeFromCart: (id, variantId = null, type = "product") =>
+        set((state) => ({
+          items: state.items.filter((i) => !matchItem(i, id, variantId, type)),
+        })),
+
+      increaseQty: (id, variantId = null, type = "product") =>
+        set((state) => ({
+          items: state.items.map((i) => {
+            if (!matchItem(i, id, variantId, type)) return i;
+            if (i.quantity >= i.stock) return i;
+
+            return { ...i, quantity: i.quantity + 1 };
           }),
         })),
 
-      decreaseQty: (id, variantId = null) =>
+      decreaseQty: (id, variantId = null, type = "product") =>
         set((state) => ({
           items: state.items
             .map((i) =>
-              i._id === id &&
-(i.variant_id || null) === variantId
+              matchItem(i, id, variantId, type)
                 ? { ...i, quantity: i.quantity - 1 }
                 : i
             )
@@ -145,7 +140,7 @@ export const useCartStore = create<CartState>()(
       clearCart: () => set({ items: [] }),
     }),
     {
-      name: "cart-storage", // localStorage key
+      name: "cart-storage",
     }
   )
 );

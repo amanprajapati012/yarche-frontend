@@ -8,6 +8,7 @@ import {
   ShieldCheck,
   Headphones,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function CraftStory() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -79,9 +80,12 @@ export default function CraftStory() {
                   something beautiful.
                 </p>
 
-                <button className="mt-8 bg-footer text-white px-6 py-3 rounded-full hover:scale-105 transition-all duration-300">
-                  Discover Our Story →
-                </button>
+              <Link
+  href="/our-story"
+  className="inline-flex items-center mt-8 bg-footer text-white px-6 py-3 rounded-full hover:scale-105 transition-all duration-300"
+>
+  Discover Our Story →
+</Link>
               </div>
 
               {/* Decorative Pattern */}

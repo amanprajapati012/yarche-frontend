@@ -32,7 +32,7 @@ type CheckoutForm = {
 
   country: string;
   pincode: string;
-};;
+};
 
 declare global {
   interface Window {
@@ -69,7 +69,6 @@ export default function CheckoutPage() {
   const [coupon, setCoupon] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [couponDiscount, setCouponDiscount] = useState(0);
-  console.log("Discount:", couponDiscount);
 
   const subtotal = useMemo(() => {
     return items.reduce(
@@ -80,20 +79,16 @@ export default function CheckoutPage() {
 
   const shipping = subtotal >= 899 ? 0 : 49;
 
-
-
   const total = subtotal + shipping - couponDiscount;
 
- const applyCoupon = async (couponCode?: string) => { 
+  const applyCoupon = async (couponCode?: string) => {
     try {
       const code = couponCode || coupon;
 
-if (!code.trim()) {
+      if (!code.trim()) {
         toast.error("Enter Coupon Code");
         return;
       }
-
-      console.log("Logged User =>", user);
 
       const userId =
         (user as any)?._id ||
@@ -101,23 +96,19 @@ if (!code.trim()) {
         (user as any)?.user?._id ||
         (user as any)?.user?.id;
 
-      console.log("User ID =>", userId);
-
       if (!userId) {
         toast.error("User not found. Please login again.");
         return;
       }
 
       const res = await API.patch("/applydiscount", {
-       code: code.trim().toUpperCase(), 
+        code: code.trim().toUpperCase(),
         totalAmount: subtotal + shipping,
         userId,
       });
 
-      console.log("Coupon Response =>", res.data);
-
       if (res.data.response === "success") {
-       setAppliedCoupon(code.trim().toUpperCase()); 
+        setAppliedCoupon(code.trim().toUpperCase());
 
         setCouponDiscount(Number(res.data.discountApplied));
 
@@ -138,13 +129,11 @@ if (!code.trim()) {
   };
 
   const handlePlaceOrder = async () => {
-
     try {
       if (!form.addressId) {
         toast.error("Please select address");
         return;
       }
-      console.log("========== CHECKOUT DEBUG ==========");
 
       const paymentMode =
         paymentMethod === "razorpay" ? "ONLINE" : "COD";
@@ -155,18 +144,23 @@ if (!code.trim()) {
         (user as any)?.user?._id ||
         (user as any)?.user?.id;
 
-      console.log("User =>", user);
-      console.log("User ID =>", userId);
+      // ================= BUILD ITEMS (product + combo) =================
+      const orderItems = items.map((item) => {
+        if (item.type === "combo") {
+          return {
+            type: "combo",
+            combo_id: item._id,
+            quantity: item.quantity,
+          };
+        }
 
-      console.log("Selected Form =>", form);
-
-      console.log("Cart Items =>", items);
-
-      console.log("Subtotal =>", subtotal);
-      console.log("Shipping =>", shipping);
-      console.log("Coupon =>", appliedCoupon);
-      console.log("Discount =>", couponDiscount);
-      console.log("Final Total =>", total);
+        return {
+          type: "product",
+          product_id: item._id,
+          variant_id: item.variant_id || null,
+          quantity: item.quantity,
+        };
+      });
 
       const body = {
         fullName: form.name,
@@ -177,26 +171,12 @@ if (!code.trim()) {
         discount: couponDiscount,
         paymentMode,
 
-        // ✅ Sirf addressId bhejna hai
         addressId: form.addressId,
 
-        items: items.map((item) => ({
-          product_id: item._id,
-
-          variant_id: item.variant_id || null,
-
-          quantity: item.quantity,
-        })),
+        items: orderItems,
       };
 
-      console.log("============= REQUEST BODY =============");
-
-      console.log(JSON.stringify(body, null, 2));
-
       const res = await API.post("/order", body);
-
-      console.log("============= ORDER RESPONSE =============");
-      console.log(res.data);
 
       if (paymentMode === "COD") {
 
@@ -207,19 +187,9 @@ if (!code.trim()) {
         return;
       }
 
-      console.log("============= RAZORPAY DATA =============");
-      console.log("Key =>", res.data.key);
-      console.log("Order =>", res.data.order);
-      console.log("Razorpay Order =>", res.data.razorpayOrder);
-
-      console.log("Address Id =>", body.addressId);
-      console.log("Items =>", body.items);
-      console.log("Payment =>", paymentMode);
-
       openRazorpay(res.data);
 
     } catch (err: any) {
-      console.log("============= ERROR =============");
       console.log(err);
       console.log(err?.response?.data);
 
@@ -258,13 +228,11 @@ if (!code.trim()) {
         try {
 
           await API.patch("/updatepayment", {
-  id: data.order._id,
-  transactionNo: response.razorpay_payment_id,
-});
+            id: data.order._id,
+            transactionNo: response.razorpay_payment_id,
+          });
 
-useCartStore.getState().clearCart();
-
-router.push(`/order-success/${data.order._id}`);
+          useCartStore.getState().clearCart();
 
           router.push(`/order-success/${data.order._id}`);
 
@@ -342,22 +310,22 @@ router.push(`/order-success/${data.order._id}`);
           {/* RIGHT */}
 
           <OrderSummary
-    items={items}
-    subtotal={subtotal}
-    shipping={shipping}
-    total={total}
-    coupon={coupon}
-    setCoupon={setCoupon}
-    appliedCoupon={appliedCoupon}
-    couponDiscount={couponDiscount}
-    applyCoupon={applyCoupon}
-    onPlaceOrder={handlePlaceOrder}
-   selectCoupon={(code) => {
-    setCoupon(code);
-    setAppliedCoupon(code);
-    applyCoupon(code);
-}}
-/>
+            items={items}
+            subtotal={subtotal}
+            shipping={shipping}
+            total={total}
+            coupon={coupon}
+            setCoupon={setCoupon}
+            appliedCoupon={appliedCoupon}
+            couponDiscount={couponDiscount}
+            applyCoupon={applyCoupon}
+            onPlaceOrder={handlePlaceOrder}
+            selectCoupon={(code) => {
+              setCoupon(code);
+              setAppliedCoupon(code);
+              applyCoupon(code);
+            }}
+          />
 
         </div>
 

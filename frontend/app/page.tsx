@@ -13,6 +13,7 @@ import NewArrivals from "@/src/components/home/NewArrivals";
 import TopProducts from "@/src/components/home/TopProducts";
 import ShopByCategory from "@/src/components/home/ShopByCategory";
 import BannerCard from "@/src/components/home/BannerCard";
+import HomeCombosSection from "@/src/components/home/HomeCombosSection";
 
 
 export default function Home() {
@@ -69,6 +70,8 @@ export default function Home() {
 
 
       <ShopByCategory />
+
+        <HomeCombosSection />
 
 
       <TopProducts />

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight, ShieldCheck, Layers } from "lucide-react";
 import { getImageUrl } from "@/src/lib/image"; // apna actual path
 import { toast } from "sonner";
 import AvailableCoupons from "./AvailableCoupons";
@@ -11,6 +11,8 @@ type CartItem = {
 
     variant_id?: string | null;
     isVariant?: boolean;
+
+    type?: "product" | "combo"; // 👈 NEW
 
     name: string;
     title?: string;
@@ -33,7 +35,7 @@ type OrderSummaryProps = {
     couponDiscount: number;
     applyCoupon: (couponCode?: string) => void;
 
-    onPlaceOrder: () => void; // NEW
+    onPlaceOrder: () => void;
 };
 
 export default function OrderSummary({
@@ -62,7 +64,7 @@ export default function OrderSummary({
                 <div className="mt-4 space-y-3">
                     {items.map((item) => (
                         <div
-                            key={item._id}
+                            key={`${item._id}-${item.variant_id || "default"}-${item.type || "product"}`}
                             className="flex gap-3 items-center"
                         >
                             <img
@@ -72,11 +74,20 @@ export default function OrderSummary({
                             />
 
                             <div className="flex-1">
-                                <p className="text-sm font-medium">
-                                    {item.isVariant && item.title
-                                        ? item.title
-                                        : item.name}
-                                </p>
+                                <div className="flex items-center gap-1.5 flex-wrap">
+                                    {item.type === "combo" && (
+                                        <span className="inline-flex items-center gap-1 bg-[#2d1a10] text-white text-[9px] font-bold px-2 py-0.5 rounded-full">
+                                            <Layers size={9} />
+                                            Combo
+                                        </span>
+                                    )}
+
+                                    <p className="text-sm font-medium">
+                                        {item.isVariant && item.title
+                                            ? item.title
+                                            : item.name}
+                                    </p>
+                                </div>
 
                                 <p className="text-xs text-gray-600">
                                     Qty: {item.quantity}
@@ -106,8 +117,8 @@ export default function OrderSummary({
                     />
 
                     <button
-    disabled={!coupon}
-    onClick={() => applyCoupon()}
+                        disabled={!coupon}
+                        onClick={() => applyCoupon()}
                         className="px-4 py-2 bg-[#3B281C] text-white rounded-lg disabled:opacity-50"
                     >
                         Apply
@@ -120,8 +131,8 @@ export default function OrderSummary({
                     </p>
                 )}
                 <AvailableCoupons
-    onSelectCoupon={selectCoupon}
-/>
+                    onSelectCoupon={selectCoupon}
+                />
 
                 {/* Totals */}
                 <div className="mt-5 space-y-2 text-sm">
