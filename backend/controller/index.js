@@ -21,6 +21,7 @@ const Banner = require("../models/Banner");
 const { getIO } = require("../socket/socket");
 const Notification = require("../models/Notification");
 const Collection = require("../models/CollectionModel");
+const Combo = require("../models/combo"); // apna actual path daalna
 const Razorpay = require("razorpay");
 
 
@@ -1064,6 +1065,302 @@ const getSubcategoryByCategoryName = async (req, res) => {
 //
 
 // ==================== CREATE ORDER ====================
+// const createOrder = async (req, res) => {
+//   try {
+//     const {
+//       fullName,
+//       mobile,
+//       user_id,
+//       items,
+//       shipping = 0,
+//       couponCode,
+//       discount = 0,
+//       paymentMode,
+//       addressId,
+//       email,
+//     } = req.body;
+
+//     // ================= VALIDATION =================
+
+//     if (!user_id) {
+//       return res.status(400).json({
+//         message: "User ID is required",
+//         response: "failed",
+//       });
+//     }
+
+//     if (!fullName || !mobile) {
+//       return res.status(400).json({
+//         message: "Full name & mobile required",
+//         response: "failed",
+//       });
+//     }
+
+//     if (!addressId) {
+//       return res.status(400).json({
+//         message: "Address is required",
+//         response: "failed",
+//       });
+//     }
+
+//     if (!items || items.length === 0) {
+//       return res.status(400).json({
+//         message: "Items are required",
+//         response: "failed",
+//       });
+//     }
+
+//     // ================= GET ADDRESS =================
+
+//     const selectedAddress = await Address.findOne({
+//       _id: addressId,
+//       user: user_id,
+//     });
+
+//     if (!selectedAddress) {
+//       return res.status(404).json({
+//         message: "Address not found",
+//         response: "failed",
+//       });
+//     }
+
+//     // ================= BUILD ITEMS =================
+
+//     let formattedItems = [];
+//     let totalPrice = 0;
+//     let itemQuantity = 0;
+
+//     for (const item of items) {
+//       const product = await Product.findById(item.product_id);
+
+//       if (!product) {
+//         return res.status(404).json({
+//           message: `Product not found: ${item.product_id}`,
+//           response: "failed",
+//         });
+//       }
+//       // ================= GET SELECTED VARIANT =================
+
+// let selectedVariant = null;
+
+// if (item.variant_id) {
+//   selectedVariant = product.variants.id(item.variant_id);
+
+//   if (!selectedVariant) {
+//     return res.status(404).json({
+//       message: "Selected variant not found",
+//       response: "failed",
+//     });
+//   }
+// }
+
+//     // ================= CHECK STOCK =================
+
+// if (selectedVariant) {
+//   if (item.quantity > selectedVariant.quantity) {
+//     return res.status(400).json({
+//       message: `Only ${selectedVariant.quantity} items available`,
+//       response: "failed",
+//     });
+//   }
+// } else {
+//   if (item.quantity > product.quantity) {
+//     return res.status(400).json({
+//       message: `Only ${product.quantity} items available`,
+//       response: "failed",
+//     });
+//   }
+// }
+
+//       // ================= PRICE =================
+
+// const price = selectedVariant
+//   ? selectedVariant.price
+//   : product.price;
+
+// const discounted = selectedVariant
+//   ? (selectedVariant.discountedPrice || selectedVariant.price)
+//   : (product.discountedPrice || product.price);
+
+//       const itemTotal = discounted * item.quantity;
+
+//       formattedItems.push({
+//   product_id: product._id,
+//   variant_id: selectedVariant?._id || null,
+
+// variant_title: selectedVariant?.title || "",
+
+// isVariant: !!selectedVariant,
+//   product_name: product.name,
+//   category: product.category,
+//   subcategory: product.sub_category, // agar schema me sub_category hai
+//  price: price,
+//   discountedPrice: discounted,
+//   itemTotalPrice: itemTotal,
+
+//  image:
+//   selectedVariant &&
+//   !selectedVariant.useProductImages &&
+//   selectedVariant.images?.length
+//     ? {
+//         url: selectedVariant.images[0].url,
+//         public_id: selectedVariant.images[0].public_id,
+//       }
+//     : {
+//         url: product.images?.[0]?.url || "",
+//         public_id: product.images?.[0]?.public_id || "",
+//       },
+
+//   quantity: item.quantity,
+// });
+
+//       totalPrice += itemTotal;
+//       itemQuantity += item.quantity;
+//     }
+
+//     const finalTotal = totalPrice + shipping - discount;
+
+//     // ================= DELIVERY DETAILS =================
+
+// const expectedDelivery = new Date();
+// expectedDelivery.setDate(expectedDelivery.getDate() + 5); // 5 days delivery
+
+//     // ================= ORDER ADDRESS =================
+
+//     const orderAddress = {
+//       addressId: selectedAddress._id,
+
+//       fullName: selectedAddress.name,
+
+//       mobile: selectedAddress.mobile,
+
+//       email: email || "",
+
+//       addressLine: selectedAddress.addressLine,
+
+//       landmark: selectedAddress.landmark,
+
+//       district: selectedAddress.district,
+
+//       city: selectedAddress.city,
+
+//       state: selectedAddress.state,
+
+//       country: selectedAddress.country,
+
+//       pincode: selectedAddress.pincode,
+//     };
+
+//     // ================= ONLINE =================
+
+//     if (paymentMode === "ONLINE") {
+//       const razorpayOrder = await razorpay.orders.create({
+//         amount: Math.round(finalTotal * 100),
+//         currency: "INR",
+//         receipt: `order_rcptid_${Date.now()}`,
+//       });
+
+//      const newOrder = await Order.create({
+//   fullName,
+//   mobile,
+//   user_id,
+
+//   items: formattedItems,
+
+//   totalPrice: finalTotal,
+
+//   itemQuantity,
+
+//   shipping,
+
+//   couponCode,
+
+//   couponDiscount: discount,
+
+//   paymentMode,
+
+//   address: orderAddress,
+
+//   paymentStatus: "pending",
+
+//   razorpayOrderId: razorpayOrder.id,
+
+//   deliveryStatus: "Pending",
+
+//   expectedDelivery,
+
+//   deliveryTimeline: [
+//     {
+//       status: "Pending",
+//       message: "Order placed successfully.",
+//     },
+//   ],
+// });
+
+//       return res.status(200).json({
+//         message: "Razorpay order created",
+//         response: "success",
+//         razorpayOrder,
+//         order: newOrder,
+//         key: process.env.RAZORPAY_KEY_ID,
+//       });
+//     }
+
+//     // ================= COD =================
+
+//    const newOrder = await Order.create({
+//   fullName,
+//   mobile,
+//   user_id,
+
+//   items: formattedItems,
+
+//   totalPrice: finalTotal,
+
+//   itemQuantity,
+
+//   shipping,
+
+//   couponCode,
+
+//   couponDiscount: discount,
+
+//   paymentMode,
+
+//   address: orderAddress,
+
+//   paymentStatus: "pending",
+
+//   deliveryStatus: "Pending",
+
+//   expectedDelivery,
+
+//   deliveryTimeline: [
+//     {
+//       status: "Pending",
+//       message: "Order placed successfully.",
+//     },
+//   ],
+// });
+
+//     return res.status(201).json({
+//       message: "Order created successfully",
+//       response: "success",
+//       order: newOrder,
+//     });
+
+//   } catch (error) {
+//     console.error(error);
+
+//     return res.status(500).json({
+//       message: "Server Error",
+//       error: error.message,
+//       response: "failed",
+//     });
+//   }
+// };
+
+
 const createOrder = async (req, res) => {
   try {
     const {
@@ -1130,6 +1427,129 @@ const createOrder = async (req, res) => {
     let itemQuantity = 0;
 
     for (const item of items) {
+      // ==========================================
+      // COMBO ITEM
+      // ==========================================
+
+      if (item.type === "combo") {
+        const combo = await Combo.findById(item.combo_id).populate({
+          path: "products.product",
+          select: "name title images price discountedPrice quantity variants",
+        });
+
+        if (!combo) {
+          return res.status(404).json({
+            message: `Combo not found: ${item.combo_id}`,
+            response: "failed",
+          });
+        }
+
+        if (!combo.isActive) {
+          return res.status(400).json({
+            message: `Combo "${combo.title}" is currently unavailable`,
+            response: "failed",
+          });
+        }
+
+        // ---- Stock check: har product/variant ke liye
+        // available qty >= (combo ke andar required qty * order ki qty)
+
+        for (const comboItem of combo.products) {
+          const dbProduct = comboItem.product;
+
+          if (!dbProduct) {
+            return res.status(400).json({
+              message: `A product inside combo "${combo.title}" is no longer available`,
+              response: "failed",
+            });
+          }
+
+          let availableQty = dbProduct.quantity;
+
+          if (comboItem.variantId) {
+            const variant = dbProduct.variants.id(comboItem.variantId);
+
+            if (!variant) {
+              return res.status(400).json({
+                message: `A variant inside combo "${combo.title}" is no longer available`,
+                response: "failed",
+              });
+            }
+
+            availableQty = variant.quantity;
+          }
+
+          const requiredQty = comboItem.quantity * item.quantity;
+
+          if (requiredQty > availableQty) {
+            return res.status(400).json({
+              message: `Only ${Math.floor(
+                availableQty / comboItem.quantity
+              )} combo(s) of "${combo.title}" available (stock limit on ${dbProduct.name})`,
+              response: "failed",
+            });
+          }
+        }
+
+        const comboPrice = combo.price;
+        const comboDiscounted = combo.discountedPrice || combo.price;
+
+        const itemTotal = comboDiscounted * item.quantity;
+
+        formattedItems.push({
+          type: "combo",
+
+          combo_id: combo._id,
+          comboSku: combo.comboSku,
+
+          product_id: null,
+          variant_id: null,
+          variant_title: "",
+          isVariant: false,
+
+          product_name: combo.title,
+          category: "",
+          subcategory: "",
+
+          price: comboPrice,
+          discountedPrice: comboDiscounted,
+          itemTotalPrice: itemTotal,
+
+          image: {
+            url: combo.image?.url || "",
+            public_id: combo.image?.public_id || "",
+          },
+
+          // Combo ke andar kya-kya tha, uska snapshot (order history ke liye)
+          comboProducts: combo.products.map((cp) => {
+            const dbProduct = cp.product;
+            const variant = cp.variantId
+              ? dbProduct.variants.id(cp.variantId)
+              : null;
+
+            return {
+              product_id: dbProduct?._id,
+              variant_id: cp.variantId || null,
+              name: dbProduct?.name,
+              variant_title: variant?.title || "",
+              quantity: cp.quantity,
+              price: variant ? variant.price : dbProduct?.price,
+            };
+          }),
+
+          quantity: item.quantity,
+        });
+
+        totalPrice += itemTotal;
+        itemQuantity += item.quantity;
+
+        continue; // agla item process karo
+      }
+
+      // ==========================================
+      // NORMAL PRODUCT ITEM (existing logic as-is)
+      // ==========================================
+
       const product = await Product.findById(item.product_id);
 
       if (!product) {
@@ -1138,80 +1558,82 @@ const createOrder = async (req, res) => {
           response: "failed",
         });
       }
+
       // ================= GET SELECTED VARIANT =================
 
-let selectedVariant = null;
+      let selectedVariant = null;
 
-if (item.variant_id) {
-  selectedVariant = product.variants.id(item.variant_id);
+      if (item.variant_id) {
+        selectedVariant = product.variants.id(item.variant_id);
 
-  if (!selectedVariant) {
-    return res.status(404).json({
-      message: "Selected variant not found",
-      response: "failed",
-    });
-  }
-}
+        if (!selectedVariant) {
+          return res.status(404).json({
+            message: "Selected variant not found",
+            response: "failed",
+          });
+        }
+      }
 
-    // ================= CHECK STOCK =================
+      // ================= CHECK STOCK =================
 
-if (selectedVariant) {
-  if (item.quantity > selectedVariant.quantity) {
-    return res.status(400).json({
-      message: `Only ${selectedVariant.quantity} items available`,
-      response: "failed",
-    });
-  }
-} else {
-  if (item.quantity > product.quantity) {
-    return res.status(400).json({
-      message: `Only ${product.quantity} items available`,
-      response: "failed",
-    });
-  }
-}
+      if (selectedVariant) {
+        if (item.quantity > selectedVariant.quantity) {
+          return res.status(400).json({
+            message: `Only ${selectedVariant.quantity} items available`,
+            response: "failed",
+          });
+        }
+      } else {
+        if (item.quantity > product.quantity) {
+          return res.status(400).json({
+            message: `Only ${product.quantity} items available`,
+            response: "failed",
+          });
+        }
+      }
 
       // ================= PRICE =================
 
-const price = selectedVariant
-  ? selectedVariant.price
-  : product.price;
+      const price = selectedVariant ? selectedVariant.price : product.price;
 
-const discounted = selectedVariant
-  ? (selectedVariant.discountedPrice || selectedVariant.price)
-  : (product.discountedPrice || product.price);
+      const discounted = selectedVariant
+        ? selectedVariant.discountedPrice || selectedVariant.price
+        : product.discountedPrice || product.price;
 
       const itemTotal = discounted * item.quantity;
 
       formattedItems.push({
-  product_id: product._id,
-  variant_id: selectedVariant?._id || null,
+        type: "product",
 
-variant_title: selectedVariant?.title || "",
+        product_id: product._id,
+        variant_id: selectedVariant?._id || null,
 
-isVariant: !!selectedVariant,
-  product_name: product.name,
-  category: product.category,
-  subcategory: product.sub_category, // agar schema me sub_category hai
- price: price,
-  discountedPrice: discounted,
-  itemTotalPrice: itemTotal,
+        variant_title: selectedVariant?.title || "",
 
- image:
-  selectedVariant &&
-  !selectedVariant.useProductImages &&
-  selectedVariant.images?.length
-    ? {
-        url: selectedVariant.images[0].url,
-        public_id: selectedVariant.images[0].public_id,
-      }
-    : {
-        url: product.images?.[0]?.url || "",
-        public_id: product.images?.[0]?.public_id || "",
-      },
+        isVariant: !!selectedVariant,
+        product_name: product.name,
+        category: product.category,
+        subcategory: product.sub_category,
 
-  quantity: item.quantity,
-});
+        price: price,
+        discountedPrice: discounted,
+        itemTotalPrice: itemTotal,
+
+        image:
+          selectedVariant &&
+          !selectedVariant.useProductImages &&
+          selectedVariant.images?.length
+            ? {
+                url: selectedVariant.images[0].url,
+                public_id: selectedVariant.images[0].public_id,
+              }
+            : {
+                url: product.images?.[0]?.url || "",
+                public_id: product.images?.[0]?.public_id || "",
+              },
+
+        quantity: item.quantity,
+      });
 
       totalPrice += itemTotal;
       itemQuantity += item.quantity;
@@ -1221,32 +1643,22 @@ isVariant: !!selectedVariant,
 
     // ================= DELIVERY DETAILS =================
 
-const expectedDelivery = new Date();
-expectedDelivery.setDate(expectedDelivery.getDate() + 5); // 5 days delivery
+    const expectedDelivery = new Date();
+    expectedDelivery.setDate(expectedDelivery.getDate() + 5);
 
     // ================= ORDER ADDRESS =================
 
     const orderAddress = {
       addressId: selectedAddress._id,
-
       fullName: selectedAddress.name,
-
       mobile: selectedAddress.mobile,
-
       email: email || "",
-
       addressLine: selectedAddress.addressLine,
-
       landmark: selectedAddress.landmark,
-
       district: selectedAddress.district,
-
       city: selectedAddress.city,
-
       state: selectedAddress.state,
-
       country: selectedAddress.country,
-
       pincode: selectedAddress.pincode,
     };
 
@@ -1259,42 +1671,42 @@ expectedDelivery.setDate(expectedDelivery.getDate() + 5); // 5 days delivery
         receipt: `order_rcptid_${Date.now()}`,
       });
 
-     const newOrder = await Order.create({
-  fullName,
-  mobile,
-  user_id,
+      const newOrder = await Order.create({
+        fullName,
+        mobile,
+        user_id,
 
-  items: formattedItems,
+        items: formattedItems,
 
-  totalPrice: finalTotal,
+        totalPrice: finalTotal,
 
-  itemQuantity,
+        itemQuantity,
 
-  shipping,
+        shipping,
 
-  couponCode,
+        couponCode,
 
-  couponDiscount: discount,
+        couponDiscount: discount,
 
-  paymentMode,
+        paymentMode,
 
-  address: orderAddress,
+        address: orderAddress,
 
-  paymentStatus: "pending",
+        paymentStatus: "pending",
 
-  razorpayOrderId: razorpayOrder.id,
+        razorpayOrderId: razorpayOrder.id,
 
-  deliveryStatus: "Pending",
+        deliveryStatus: "Pending",
 
-  expectedDelivery,
+        expectedDelivery,
 
-  deliveryTimeline: [
-    {
-      status: "Pending",
-      message: "Order placed successfully.",
-    },
-  ],
-});
+        deliveryTimeline: [
+          {
+            status: "Pending",
+            message: "Order placed successfully.",
+          },
+        ],
+      });
 
       return res.status(200).json({
         message: "Razorpay order created",
@@ -1307,47 +1719,46 @@ expectedDelivery.setDate(expectedDelivery.getDate() + 5); // 5 days delivery
 
     // ================= COD =================
 
-   const newOrder = await Order.create({
-  fullName,
-  mobile,
-  user_id,
+    const newOrder = await Order.create({
+      fullName,
+      mobile,
+      user_id,
 
-  items: formattedItems,
+      items: formattedItems,
 
-  totalPrice: finalTotal,
+      totalPrice: finalTotal,
 
-  itemQuantity,
+      itemQuantity,
 
-  shipping,
+      shipping,
 
-  couponCode,
+      couponCode,
 
-  couponDiscount: discount,
+      couponDiscount: discount,
 
-  paymentMode,
+      paymentMode,
 
-  address: orderAddress,
+      address: orderAddress,
 
-  paymentStatus: "pending",
+      paymentStatus: "pending",
 
-  deliveryStatus: "Pending",
+      deliveryStatus: "Pending",
 
-  expectedDelivery,
+      expectedDelivery,
 
-  deliveryTimeline: [
-    {
-      status: "Pending",
-      message: "Order placed successfully.",
-    },
-  ],
-});
+      deliveryTimeline: [
+        {
+          status: "Pending",
+          message: "Order placed successfully.",
+        },
+      ],
+    });
 
     return res.status(201).json({
       message: "Order created successfully",
       response: "success",
       order: newOrder,
     });
-
   } catch (error) {
     console.error(error);
 
@@ -1637,41 +2048,69 @@ const updatePaymentStatus = async (req, res) => {
       });
     }
 
-    // ✅ 3. Reduce Product Stock (NO package_size)
-   for (const item of order.items) {
+    // ✅ 3. Reduce Product Stock (combo + normal + variant)
+    for (const item of order.items) {
 
-  // ================= Variant Product =================
-  if (item.isVariant && item.variant_id) {
+      // ================= Combo Item =================
+      if (item.type === "combo") {
+        for (const cp of item.comboProducts) {
+          const decrementQty = cp.quantity * item.quantity; // per-combo qty * ordered combos
 
-    await Product.findOneAndUpdate(
-      {
-        _id: item.product_id,
-        "variants._id": item.variant_id,
-      },
-      {
-        $inc: {
-          "variants.$.quantity": -item.quantity,
-        },
+          if (cp.variant_id) {
+            await Product.findOneAndUpdate(
+              {
+                _id: cp.product_id,
+                "variants._id": cp.variant_id,
+              },
+              {
+                $inc: {
+                  "variants.$.quantity": -decrementQty,
+                },
+              }
+            );
+          } else {
+            await Product.findByIdAndUpdate(cp.product_id, {
+              $inc: {
+                quantity: -decrementQty,
+              },
+            });
+          }
+        }
+        continue;
       }
-    );
 
-  }
+      // ================= Variant Product =================
+      if (item.isVariant && item.variant_id) {
 
-  // ================= Normal Product =================
-  else {
+        await Product.findOneAndUpdate(
+          {
+            _id: item.product_id,
+            "variants._id": item.variant_id,
+          },
+          {
+            $inc: {
+              "variants.$.quantity": -item.quantity,
+            },
+          }
+        );
 
-    await Product.findByIdAndUpdate(
-      item.product_id,
-      {
-        $inc: {
-          quantity: -item.quantity,
-        },
       }
-    );
 
-  }
+      // ================= Normal Product =================
+      else {
 
-}
+        await Product.findByIdAndUpdate(
+          item.product_id,
+          {
+            $inc: {
+              quantity: -item.quantity,
+            },
+          }
+        );
+
+      }
+
+    }
 
     // ✅ 4. Apply coupon usage AFTER success
     if (order.couponCode) {
@@ -1753,6 +2192,136 @@ const updatePaymentStatus = async (req, res) => {
     return res.status(500).json({
       message: "Server Error",
       response: "failed",
+    });
+  }
+};
+
+
+
+// ==========================
+// Get All Combos (Public)
+// ==========================
+
+const getCombos = async (req, res) => {
+  try {
+    const combos = await Combo.find({ isActive: true })
+      .populate({
+        path: "products.product",
+        select: "name title images price discountedPrice quantity variants",
+      })
+      .sort({ createdAt: -1 });
+
+    if (!combos || combos.length === 0) {
+      return res.status(404).json({
+        message: "No Combo found",
+        response: "failed",
+      });
+    }
+
+    res.status(200).json({
+      message: "Combo retrieved successfully",
+      response: "success",
+      combos: combos,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "Failed to fetch combos",
+      response: "failed",
+      error: err.message,
+    });
+  }
+};
+
+// ==========================
+// Get Single Combo by ID (Public)
+// ==========================
+
+const getComboById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const combo = await Combo.findOne({
+      _id: id,
+      isActive: true,
+    }).populate({
+      path: "products.product",
+      select: "name title images price discountedPrice quantity variants",
+    });
+
+    if (!combo) {
+      return res.status(404).json({
+        message: "Combo not found",
+        response: "failed",
+      });
+    }
+
+    res.status(200).json({
+      message: "Combo retrieved successfully",
+      response: "success",
+      combo,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "Failed to fetch Combo",
+      response: "failed",
+      error: err.message,
+    });
+  }
+};
+
+// ==========================
+// Get Combo by Slug (title-based, like product name)
+// ==========================
+
+const slugifyCombo = (text) =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/%/g, "percent")
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+
+const getComboByName = async (req, res) => {
+  try {
+    const { combo_name } = req.params;
+
+    const slug = decodeURIComponent(combo_name);
+
+    const combos = await Combo.find({ isActive: true }).populate({
+      path: "products.product",
+      select: "name title images price discountedPrice quantity variants",
+    });
+
+    console.log("Incoming Slug:", slug);
+
+    const combo = combos.find((c) => {
+      const dbSlug = slugifyCombo(c.title);
+
+      console.log(dbSlug);
+
+      return dbSlug === slug;
+    });
+
+    if (!combo) {
+      return res.status(404).json({
+        response: "failed",
+        message: "Combo not found",
+      });
+    }
+
+    return res.json({
+      response: "success",
+      data: combo,
+    });
+  } catch (err) {
+    console.log(err);
+
+    return res.status(500).json({
+      response: "failed",
+      message: err.message,
     });
   }
 };
@@ -2507,4 +3076,7 @@ module.exports = {
   setDefaultAddress,
   updateAddress,
     getBanners,
+      getCombos,
+  getComboById,
+  getComboByName,
 };

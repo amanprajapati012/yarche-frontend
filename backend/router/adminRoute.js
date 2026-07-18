@@ -49,6 +49,11 @@ getBannerById,
 updateBanner,
 getAllBanner,
 deleteBanner,
+ addCombo,
+  updateCombo,
+  getAllCombos,
+  getComboById,
+  deleteCombo,
 } = require("../controller/admin-controller");
 
 router.use((req, res, next) => {
@@ -186,6 +191,33 @@ router.get("/contactsus", getAllContactUs);
 
 // Create Discount Route
 router.post("/discount", adminAuth, createDiscount);
+
+router.post(
+  "/add-combo",
+  upload.single("image"),
+  addCombo
+);
+
+router.put(
+  "/update-combo/:id",
+  upload.single("image"),
+  updateCombo
+);
+
+router.get(
+  "/get-combos",
+  getAllCombos
+);
+
+router.get(
+  "/get-combo/:id",
+  getComboById
+);
+
+router.delete(
+  "/delete-combo/:id",
+  deleteCombo
+);
 
 // Update Discount
 router.put("/updateDiscount/:id", 

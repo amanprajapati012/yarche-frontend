@@ -2,13 +2,19 @@ const mongoose = require("mongoose");
 
 // ==================== ORDER ITEM SCHEMA ====================
 const orderItemSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ["product", "combo"],
+    default: "product",
+  },
+
+  // ================= NORMAL PRODUCT FIELDS =================
   product_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product",
-    required: true,
+    default: null, // combo ke case me null hota hai, isliye required hataya
   },
 
-  // NEW
   variant_id: {
     type: mongoose.Schema.Types.ObjectId,
     default: null,
@@ -24,6 +30,41 @@ const orderItemSchema = new mongoose.Schema({
     default: false,
   },
 
+  // ================= COMBO FIELDS =================
+  combo_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Combo",
+    default: null,
+  },
+
+  comboSku: {
+    type: String,
+    default: "",
+  },
+
+  // combo ke andar jo products the, unka snapshot
+  // (order history dikhane ke liye aur baad me stock reduce karne ke liye zaroori)
+  comboProducts: [
+    {
+      product_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+      variant_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        default: null,
+      },
+      name: String,
+      variant_title: {
+        type: String,
+        default: "",
+      },
+      quantity: Number, // ek combo unit ke andar kitni qty is product ki hai
+      price: Number,
+    },
+  ],
+
+  // ================= COMMON FIELDS =================
   product_name: {
     type: String,
     required: true,
@@ -31,7 +72,7 @@ const orderItemSchema = new mongoose.Schema({
 
   category: {
     type: String,
-    required: true,
+    default: "", // combo me category nahi hoti, isliye required hataya
   },
 
   subcategory: String,

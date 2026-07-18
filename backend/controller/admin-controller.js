@@ -14,6 +14,7 @@ const path = require("path");
 const Reel = require("../models/reelModels");
 const Notification = require("../models/Notification");
 const Collection = require("../models/CollectionModel");
+const Combo = require("../models/combo"); // ya jo bhi tumhara actual path/filename hai
 const uploadToCloudinary = require("../utils/uploadToCloudinary");
 const cloudinary = require("../config/cloudinary");
 
@@ -642,6 +643,455 @@ const updateProduct = async (req, res) => {
     });
   }
 };
+
+
+// ==========================
+// Helper: Calculate combo total price with variant support
+// ==========================
+
+const calculateComboTotal = (parsedProducts, dbProducts) => {
+  let totalPrice = 0;
+
+  for (const comboItem of parsedProducts) {
+    const dbProduct = dbProducts.find(
+      (p) => p._id.toString() === comboItem.product
+    );
+
+    if (!dbProduct) {
+      throw new Error("One or more selected products are invalid.");
+    }
+
+    let itemPrice = dbProduct.price;
+
+    // Agar variant select kiya gaya hai to uski price use karo
+    if (comboItem.variantId) {
+      const variant = dbProduct.variants?.find(
+        (v) => v._id.toString() === comboItem.variantId
+      );
+
+      if (!variant) {
+        throw new Error(
+          `Invalid variant selected for product "${dbProduct.name}".`
+        );
+      }
+
+      itemPrice = variant.price;
+    }
+
+    totalPrice += itemPrice * (comboItem.quantity || 1);
+  }
+
+  return totalPrice;
+};
+
+// ==========================
+// ADD COMBO
+// ==========================
+
+const addCombo = async (req, res) => {
+  try {
+    const {
+      comboSku,
+      title,
+      description,
+      products,
+      discountedPrice,
+      landingPrice,
+    } = req.body;
+
+    // ==========================
+    // Validation
+    // ==========================
+
+    if (!comboSku || !title || !description || !products) {
+      return res.status(400).json({
+        success: false,
+        message: "Required fields missing",
+      });
+    }
+
+    const parsedProducts =
+      typeof products === "string" ? JSON.parse(products) : products;
+
+    if (!Array.isArray(parsedProducts) || parsedProducts.length < 2) {
+      return res.status(400).json({
+        success: false,
+        message: "Combo must contain at least 2 products.",
+      });
+    }
+
+    // ==========================
+    // Duplicate SKU Check
+    // ==========================
+
+    const existingCombo = await Combo.findOne({ comboSku });
+
+    if (existingCombo) {
+      return res.status(400).json({
+        success: false,
+        message: "Combo SKU already exists.",
+      });
+    }
+
+    // ==========================
+    // Upload Combo Image
+    // ==========================
+
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "Combo image is required.",
+      });
+    }
+
+    const uploadedImage = await uploadToCloudinary(req.file.buffer);
+
+    // ==========================
+    // Validate Products
+    // ==========================
+
+    const productIds = parsedProducts.map((item) => item.product);
+
+    const dbProducts = await Product.find({
+      _id: { $in: productIds },
+    });
+
+    if (dbProducts.length !== new Set(productIds).size) {
+      // Cloudinary pe already upload ho chuka hai, cleanup kar do
+      await cloudinary.uploader.destroy(uploadedImage.public_id);
+
+      return res.status(400).json({
+        success: false,
+        message: "One or more selected products are invalid.",
+      });
+    }
+
+    // ==========================
+    // Auto Calculate Price (with variant support)
+    // ==========================
+
+    let totalPrice;
+
+    try {
+      totalPrice = calculateComboTotal(parsedProducts, dbProducts);
+    } catch (err) {
+      await cloudinary.uploader.destroy(uploadedImage.public_id);
+
+      return res.status(400).json({
+        success: false,
+        message: err.message,
+      });
+    }
+
+    // ==========================
+    // Create Combo
+    // ==========================
+
+    const combo = await Combo.create({
+      comboSku,
+      title,
+      description,
+
+      image: {
+        url: uploadedImage.secure_url,
+        public_id: uploadedImage.public_id,
+      },
+
+      products: parsedProducts,
+
+      price: totalPrice,
+
+      discountedPrice:
+        Number(discountedPrice) > 0
+          ? Number(discountedPrice)
+          : totalPrice,
+
+      landingPrice:
+        Number(landingPrice) > 0
+          ? Number(landingPrice)
+          : 0,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Combo created successfully.",
+      combo,
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// ==========================
+// UPDATE COMBO
+// ==========================
+
+const updateCombo = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const combo = await Combo.findById(id);
+
+    if (!combo) {
+      return res.status(404).json({
+        success: false,
+        message: "Combo not found.",
+      });
+    }
+
+    const {
+      comboSku,
+      title,
+      description,
+      products,
+      discountedPrice,
+      landingPrice,
+      isActive,
+    } = req.body;
+
+    // ==========================
+    // Validation
+    // ==========================
+
+    if (!comboSku || !title || !description || !products) {
+      return res.status(400).json({
+        success: false,
+        message: "Required fields missing.",
+      });
+    }
+
+    const parsedProducts =
+      typeof products === "string" ? JSON.parse(products) : products;
+
+    if (!Array.isArray(parsedProducts) || parsedProducts.length < 2) {
+      return res.status(400).json({
+        success: false,
+        message: "Combo must contain at least 2 products.",
+      });
+    }
+
+    // ==========================
+    // Duplicate SKU Check
+    // ==========================
+
+    const existingSku = await Combo.findOne({
+      comboSku,
+      _id: { $ne: id },
+    });
+
+    if (existingSku) {
+      return res.status(400).json({
+        success: false,
+        message: "Combo SKU already exists.",
+      });
+    }
+
+    // ==========================
+    // Validate Products
+    // ==========================
+
+    const productIds = parsedProducts.map((item) => item.product);
+
+    const dbProducts = await Product.find({
+      _id: { $in: productIds },
+    });
+
+    if (dbProducts.length !== new Set(productIds).size) {
+      return res.status(400).json({
+        success: false,
+        message: "One or more selected products are invalid.",
+      });
+    }
+
+    // ==========================
+    // Auto Calculate Price (with variant support)
+    // ==========================
+
+    let totalPrice;
+
+    try {
+      totalPrice = calculateComboTotal(parsedProducts, dbProducts);
+    } catch (err) {
+      return res.status(400).json({
+        success: false,
+        message: err.message,
+      });
+    }
+
+    // ==========================
+    // Upload New Image (Optional)
+    // ==========================
+
+    if (req.file) {
+      if (combo.image?.public_id) {
+        await cloudinary.uploader.destroy(combo.image.public_id);
+      }
+
+      const uploadedImage = await uploadToCloudinary(req.file.buffer);
+
+      combo.image = {
+        url: uploadedImage.secure_url,
+        public_id: uploadedImage.public_id,
+      };
+    }
+
+    // ==========================
+    // Update Fields
+    // ==========================
+
+    combo.comboSku = comboSku;
+    combo.title = title;
+    combo.description = description;
+
+    combo.products = parsedProducts;
+
+    // Original Price (Auto Calculated)
+    combo.price = totalPrice;
+
+    // Discounted Price
+    combo.discountedPrice =
+      Number(discountedPrice) > 0
+        ? Number(discountedPrice)
+        : totalPrice;
+
+    // Landing Price
+    combo.landingPrice =
+      Number(landingPrice) > 0
+        ? Number(landingPrice)
+        : 0;
+
+    if (typeof isActive !== "undefined") {
+      combo.isActive = isActive === "true" || isActive === true;
+    }
+
+    // ==========================
+    // Save
+    // ==========================
+
+    await combo.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Combo updated successfully.",
+      combo,
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// ==========================
+// GET ALL COMBOS
+// ==========================
+
+const getAllCombos = async (req, res) => {
+  try {
+    const combos = await Combo.find()
+      .populate({
+        path: "products.product",
+        select:
+          "name title images price discountedPrice quantity variants",
+      })
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      total: combos.length,
+      combos,
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// ==========================
+// GET COMBO BY ID
+// ==========================
+
+const getComboById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const combo = await Combo.findById(id).populate({
+      path: "products.product",
+      select:
+        "name title images price discountedPrice quantity variants",
+    });
+
+    if (!combo) {
+      return res.status(404).json({
+        success: false,
+        message: "Combo not found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      combo,
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// ==========================
+// DELETE COMBO
+// ==========================
+
+const deleteCombo = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const combo = await Combo.findById(id);
+
+    if (!combo) {
+      return res.status(404).json({
+        success: false,
+        message: "Combo not found.",
+      });
+    }
+
+    if (combo.image?.public_id) {
+      await cloudinary.uploader.destroy(combo.image.public_id);
+    }
+
+    await combo.deleteOne();
+
+    return res.status(200).json({
+      success: true,
+      message: "Combo deleted successfully.",
+    });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
 
 const updateProductTag = async (req, res) => {
   const { id } = req.params;
@@ -1543,39 +1993,7 @@ const updateDeliveryStatus = async (req, res) => {
       }
     }
 
-   const order = await Order.findById(orderId);
-
-if (!order) {
-  return res.status(404).json({
-    response: "failed",
-    message: "Order not found",
-  });
-}
-
-const allowedTransitions = {
-  Pending: ["Processing", "Cancelled"],
-  Processing: ["Packed", "Cancelled"],
-  Packed: ["Shipped", "Cancelled"],
-  Shipped: ["Out for Delivery", "RTO Initiated"],
-  "Out for Delivery": ["Delivered", "RTO Initiated"],
-  Delivered: [],
-  Cancelled: [],
-  "RTO Initiated": ["RTO In Transit"],
-  "RTO In Transit": ["RTO Delivered"],
-  "RTO Delivered": [],
-};
-
-const currentStatus = order.deliveryStatus;
-
-if (
-  currentStatus !== deliveryStatus &&
-  !allowedTransitions[currentStatus]?.includes(deliveryStatus)
-) {
-  return res.status(400).json({
-    response: "failed",
-    message: `Cannot change status from "${currentStatus}" to "${deliveryStatus}"`,
-  });
-}
+    const order = await Order.findById(orderId);
 
     if (!order) {
       return res.status(404).json({
@@ -1584,10 +2002,63 @@ if (
       });
     }
 
-    // ========= RTO STOCK RESTORE =========
+    const allowedTransitions = {
+      Pending: ["Processing", "Cancelled"],
+      Processing: ["Packed", "Cancelled"],
+      Packed: ["Shipped", "Cancelled"],
+      Shipped: ["Out for Delivery", "RTO Initiated"],
+      "Out for Delivery": ["Delivered", "RTO Initiated"],
+      Delivered: [],
+      Cancelled: [],
+      "RTO Initiated": ["RTO In Transit"],
+      "RTO In Transit": ["RTO Delivered"],
+      "RTO Delivered": [],
+    };
+
+    const currentStatus = order.deliveryStatus;
+
+    if (
+      currentStatus !== deliveryStatus &&
+      !allowedTransitions[currentStatus]?.includes(deliveryStatus)
+    ) {
+      return res.status(400).json({
+        response: "failed",
+        message: `Cannot change status from "${currentStatus}" to "${deliveryStatus}"`,
+      });
+    }
+
     // ========= RTO STOCK RESTORE =========
     if (deliveryStatus === "RTO Delivered" && order.restockDone === false) {
       for (const item of order.items) {
+
+        // ================= Combo Item =================
+        if (item.type === "combo") {
+          for (const cp of item.comboProducts) {
+            const restoreQty = cp.quantity * item.quantity;
+
+            if (cp.variant_id) {
+              await Product.findOneAndUpdate(
+                {
+                  _id: cp.product_id,
+                  "variants._id": cp.variant_id,
+                },
+                {
+                  $inc: {
+                    "variants.$.quantity": restoreQty,
+                  },
+                }
+              );
+            } else {
+              await Product.findByIdAndUpdate(cp.product_id, {
+                $inc: {
+                  quantity: restoreQty,
+                },
+              });
+            }
+          }
+          continue;
+        }
+
         // ================= Variant Product =================
         if (item.isVariant && item.variant_id) {
           await Product.findOneAndUpdate(
@@ -1634,7 +2105,6 @@ if (
       order.rtoReason = rtoReason;
     }
 
-    // Update current status
     // ================= Update Current Status =================
 
     order.deliveryStatus = deliveryStatus;
@@ -2654,4 +3124,9 @@ module.exports = {
   getBannerById,
   updateBanner,
   deleteBanner,
+   addCombo,
+  updateCombo,
+  getAllCombos,
+  getComboById,
+  deleteCombo,
 };

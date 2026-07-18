@@ -45,6 +45,9 @@ const {
   setDefaultAddress,
     updateAddress,
       getBanners,
+        getCombos,
+  getComboById,
+  getComboByName,
 } = require('../controller');
 
 // ✅ IMPORTANT: middleware se import
@@ -101,6 +104,15 @@ router.patch("/forgot-password", changePassword);
 
 // Get User by Id
 router.get("/user/:id", getUserById);
+
+// Get All Combos
+router.get("/combos", getCombos);
+
+// Get Combo by Id
+router.get("/combo/:id", getComboById);
+
+// Get Combo by Name (slug)
+router.get("/combobyname/:combo_name", getComboByName);
 
 // Buy Prime Route
 router.post("/buy-prime", verifyToken, buyPrime);
