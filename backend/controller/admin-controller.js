@@ -14,7 +14,7 @@ const path = require("path");
 const Reel = require("../models/reelModels");
 const Notification = require("../models/Notification");
 const Collection = require("../models/CollectionModel");
-const Combo = require("../models/combo"); // ya jo bhi tumhara actual path/filename hai
+const Combo = require("../models/Combo"); // ya jo bhi tumhara actual path/filename hai
 const uploadToCloudinary = require("../utils/uploadToCloudinary");
 const cloudinary = require("../config/cloudinary");
 

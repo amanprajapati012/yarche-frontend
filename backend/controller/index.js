@@ -21,7 +21,7 @@ const Banner = require("../models/Banner");
 const { getIO } = require("../socket/socket");
 const Notification = require("../models/Notification");
 const Collection = require("../models/CollectionModel");
-const Combo = require("../models/combo"); // apna actual path daalna
+const Combo = require("../models/Combo"); // apna actual path daalna
 const Razorpay = require("razorpay");
 
 
