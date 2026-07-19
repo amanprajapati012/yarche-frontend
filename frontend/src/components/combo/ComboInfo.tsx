@@ -54,7 +54,7 @@ export default function ComboInfo({ combo }: any) {
           </div>
         </div>
 
-        <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black text-foreground leading-tight break-words">
+        <h1 className="mt-5 text-2xl sm:text-3xl md:text- font-black text-foreground leading-tight break-words">
           {combo.title}
         </h1>
 
@@ -75,14 +75,14 @@ export default function ComboInfo({ combo }: any) {
       </div>
 
       {/* PRICE */}
-      <div className="bg-[var(--surface)] border border-bg-[var(--footer)]/10 rounded-[28px] p-6">
+      <div className="bg-[var(--surface)] border border-bg-[var(--footer)]/10 rounded-2xl md:rounded-[28px] p-4 sm:p-5 md:p-6">
         <div className="flex flex-wrap items-center gap-3">
-          <span className="text-4xl md:text-6xl font-black text-foreground">
+          <span className="text-3xl sm:text-4xl md:text-6xl font-black text-foreground">
             ₹{combo.discountedPrice}
           </span>
 
           {combo.price > combo.discountedPrice && (
-            <span className="text-xl md:text-2xl text-[#8f7a68] line-through">
+            <span className="text-lg sm:text-xl md:text-2xl text-[#8f7a68] line-through">
               ₹{combo.price}
             </span>
           )}
@@ -110,7 +110,7 @@ export default function ComboInfo({ combo }: any) {
       </div>
 
       {/* BUTTONS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 -mt-1">
+      <div className=" grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 gap-4 -mt-1">
         <button
           onClick={() => {
             if (availableStock <= 0) {
@@ -140,7 +140,7 @@ export default function ComboInfo({ combo }: any) {
 
             router.push("/cart");
           }}
-          className="h-14 md:h-16 rounded-2xl border-2 border-[#28170D] bg-[#fff3e2] text-foreground font-black flex items-center justify-center gap-2 hover:bg-footer hover:text-white transition-all"
+          className="h-12 sm:h-14 md:h-16 rounded-2xl border-2 border-[#28170D] bg-[#fff3e2] text-foreground font-black flex items-center justify-center gap-2 hover:bg-footer hover:text-white transition-all"
         >
           <ShoppingCart size={18} />
           Add To Cart
@@ -171,7 +171,7 @@ export default function ComboInfo({ combo }: any) {
       </div>
 
       {/* DELIVERY */}
-      <div className="bg-[var(--surface)] border border-bg-[var(--footer)]/10 rounded-[28px] p-5 space-y-4">
+      <div className="bg-[var(--surface)] border border-bg-[var(--footer)]/10 rounded-2xl md:rounded-[28px] p-4 sm:p-5 space-y-4">
         <div className="flex gap-4">
           <Truck className="text-[#FF6E23]" />
           <div>

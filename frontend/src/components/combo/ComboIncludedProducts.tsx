@@ -55,30 +55,47 @@ export default function ComboIncludedProducts({ combo }: any) {
             <Link
               key={`${dbProduct._id}-${item.variantId || "base"}-${index}`}
               href={`/products/${slugify(dbProduct.name)}`}
-              className="flex items-center gap-4 rounded-2xl border border-[#28170D]/10 bg-[#fff3e2] p-4 hover:border-[#FF6E23] transition-all"
+             className="
+flex flex-col
+sm:flex-row
+gap-4
+rounded-2xl
+border
+border-[#28170D]/10
+bg-[#fff3e2]
+p-4
+hover:border-[#FF6E23]
+transition-all
+overflow-hidden
+"
             >
               <img
                 src={imageSrc}
                 alt={dbProduct.name}
-                className="w-16 h-16 rounded-xl object-cover flex-shrink-0"
+                className="w-20 h-20 sm:w-16 sm:h-16 rounded-xl object-cover flex-shrink-0"
               />
 
-              <div className="flex-1 min-w-0">
-                <p className="font-bold text-foreground truncate">
-                  {dbProduct.name}
-                  {variant && (
-                    <span className="ml-2 rounded-full bg-white px-2 py-0.5 text-xs text-gray-600 border">
-                      {variant.title}
-                    </span>
-                  )}
-                </p>
+             <div className="flex-1 min-w-0">
+  <div className="flex flex-col gap-2">
+    <h3 className="font-bold text-lg leading-6 break-words">
+      {dbProduct.name}
+    </h3>
 
-                <p className="text-sm text-[#6b5c50] mt-1">
-                  ₹{displayPrice} × {item.quantity}
-                </p>
-              </div>
+    {variant && (
+      <div>
+        <span className="inline-flex max-w-full rounded-full border bg-white px-3 py-1 text-xs font-semibold text-gray-600 break-words">
+          {variant.title}
+        </span>
+      </div>
+    )}
 
-              <div className="text-right flex-shrink-0">
+    <p className="text-sm text-[#6b5c50]">
+      ₹{displayPrice} × {item.quantity}
+    </p>
+  </div>
+</div>
+
+              <div className="w-full sm:w-auto mt-2 sm:mt-0 sm:text-right shrink-0">
                 <p className="font-black text-foreground">
                   ₹{displayPrice * item.quantity}
                 </p>

@@ -6,6 +6,7 @@ import { useState } from "react";
 import {
   LayoutDashboard,
   Package,
+   Package2,
   FolderTree,
   Layers3,
   ShoppingBag,
@@ -35,9 +36,10 @@ export default function Sidebar({ open, setOpen }: any) {
       title: "MANAGEMENT",
       items: [
         { name: "Products", href: "/admin/products", icon: Package },
+        { name: "Combos", href: "/admin/combos", icon: Package2 },
         { name: "Categories", href: "/admin/categories", icon: FolderTree },
         { name: "SubCategories", href: "/admin/subcategories", icon: FolderTree },
-        { name: "Collections", href: "/admin/collections", icon: Layers3 },
+        
       ],
     },
     {

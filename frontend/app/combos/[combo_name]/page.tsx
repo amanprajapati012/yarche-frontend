@@ -47,8 +47,8 @@ export default function ComboDetailPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10 space-y-10">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+    <div className="w-full max-w-7xl mx-auto px-4 py-10 space-y-10 overflow-x-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 w-full min-w-0">
         <ComboGallery combo={combo} />
         <ComboInfo combo={combo} />
       </div>

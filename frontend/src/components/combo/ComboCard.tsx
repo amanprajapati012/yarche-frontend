@@ -28,7 +28,8 @@ export default function ComboCard({ combo }: any) {
         )
       : 0;
 
-  const imageSrc = getImageUrl(combo.image);
+  // pehle "combo.image" (single) tha, ab "combo.images" (array) hai
+  const imageSrc = getImageUrl(combo.images?.[0]);
 
   const availableStock = getComboAvailableStock(combo);
 
@@ -49,16 +50,18 @@ export default function ComboCard({ combo }: any) {
           />
         </div>
 
-        <div className="absolute top-5 left-5 flex items-center gap-1 bg-[#2d1a10] text-white text-[11px] font-bold px-3 py-1 rounded-full shadow">
-          <Layers size={12} />
-          Combo
-        </div>
+        <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
+  <div className="flex items-center gap-1 bg-[#2d1a10] text-white text-[10px] sm:text-[11px] font-bold px-2.5 sm:px-3 py-1 rounded-full shadow max-w-[60%]">
+    <Layers size={11} className="shrink-0" />
+    <span className="truncate">Combo</span>
+  </div>
 
-        {discount > 0 && (
-          <div className="absolute top-5 right-5 bg-[#FF6E23] text-white text-[11px] font-bold px-3 py-1 rounded-full shadow">
-            {discount}% OFF
-          </div>
-        )}
+  {discount > 0 && (
+    <div className="bg-[#FF6E23] text-white text-[10px] sm:text-[11px] font-bold px-2.5 sm:px-3 py-1 rounded-full shadow whitespace-nowrap">
+      {discount}% OFF
+    </div>
+  )}
+</div>
       </div>
 
       {/* CONTENT */}

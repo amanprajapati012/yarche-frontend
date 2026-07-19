@@ -37,8 +37,14 @@ export default function ComboForm({ initialData, onSuccess }: Props) {
     products: [],
   });
 
-  const [comboImage, setComboImage] = useState<File | null>(null);
-  const [existingImage, setExistingImage] = useState<ImageType | null>(null);
+  // Naye select kiye gaye (abhi upload nahi hue) images
+  const [comboImages, setComboImages] = useState<File[]>([]);
+
+  // DB mein already maujood images (edit mode)
+  const [existingImages, setExistingImages] = useState<ImageType[]>([]);
+
+  // Jo existing images user ne delete ke liye mark ki hain
+  const [removedImageIds, setRemovedImageIds] = useState<string[]>([]);
 
   useEffect(() => {
     if (!initialData) return;
@@ -81,8 +87,16 @@ export default function ComboForm({ initialData, onSuccess }: Props) {
       ),
     });
 
-    setExistingImage(initialData.image || null);
+    // pehle "initialData.image" (single) tha, ab "initialData.images" (array)
+    setExistingImages(initialData.images || []);
   }, [initialData]);
+
+  const handleRemoveExistingImage = (publicId: string) => {
+    setRemovedImageIds((prev) => [...prev, publicId]);
+    setExistingImages((prev) =>
+      prev.filter((img) => img.public_id !== publicId)
+    );
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,8 +106,10 @@ export default function ComboForm({ initialData, onSuccess }: Props) {
       return;
     }
 
-    if (!isEdit && !comboImage) {
-      toast.error("Combo image is required.");
+    const totalImagesCount = existingImages.length + comboImages.length;
+
+    if (totalImagesCount === 0) {
+      toast.error("At least one combo image is required.");
       return;
     }
 
@@ -114,7 +130,8 @@ export default function ComboForm({ initialData, onSuccess }: Props) {
         discountedPrice: formData.discountedPrice,
         landingPrice: formData.landingPrice,
 
-        image: comboImage,
+        images: comboImages, // File[] — naye upload hone waale images
+        removedImageIds, // sirf edit mode mein use hoga
       };
 
       if (isEdit) {
@@ -143,9 +160,10 @@ export default function ComboForm({ initialData, onSuccess }: Props) {
       <ComboInfo formData={formData} setFormData={setFormData} />
 
       <ComboImageSection
-        image={comboImage}
-        setImage={setComboImage}
-        existingImage={existingImage}
+        images={comboImages}
+        setImages={setComboImages}
+        existingImages={existingImages}
+        onRemoveExisting={handleRemoveExistingImage}
       />
 
       <ComboProductsSection

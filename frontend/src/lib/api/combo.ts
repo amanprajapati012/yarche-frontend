@@ -11,6 +11,11 @@ export interface ComboProductPayload {
   quantity: number;
 }
 
+export interface ComboImage {
+  url: string;
+  public_id: string;
+}
+
 export interface ComboPayload {
   comboSku: string;
   title: string;
@@ -21,7 +26,8 @@ export interface ComboPayload {
   discountedPrice: number;
   landingPrice: number;
 
-  image?: File | null;
+  images?: File[]; // naye upload hone waale images
+  removedImageIds?: string[]; // update ke waqt jo existing images hatani hain (public_id list)
 }
 
 export interface Combo {
@@ -30,10 +36,7 @@ export interface Combo {
   title: string;
   description: string;
 
-  image: {
-    url: string;
-    public_id: string;
-  };
+  images: ComboImage[];
 
   products: {
     product: any;
@@ -85,9 +88,11 @@ export const createCombo = async (data: ComboPayload) => {
   formData.append("discountedPrice", String(data.discountedPrice));
   formData.append("landingPrice", String(data.landingPrice));
 
-  if (data.image) {
-    const compressed = await compressImage(data.image);
-    formData.append("image", compressed);
+  if (data.images && data.images.length > 0) {
+    for (const file of data.images) {
+      const compressed = await compressImage(file);
+      formData.append("images", compressed);
+    }
   }
 
   const res = await API.post("/admin/add-combo", formData, {
@@ -113,9 +118,17 @@ export const updateCombo = async (id: string, data: ComboPayload) => {
   formData.append("discountedPrice", String(data.discountedPrice));
   formData.append("landingPrice", String(data.landingPrice));
 
-  if (data.image instanceof File) {
-    const compressed = await compressImage(data.image);
-    formData.append("image", compressed);
+  if (data.images && data.images.length > 0) {
+    for (const file of data.images) {
+      if (file instanceof File) {
+        const compressed = await compressImage(file);
+        formData.append("images", compressed);
+      }
+    }
+  }
+
+  if (data.removedImageIds && data.removedImageIds.length > 0) {
+    formData.append("removedImageIds", JSON.stringify(data.removedImageIds));
   }
 
   const res = await API.put(`/admin/update-combo/${id}`, formData, {
