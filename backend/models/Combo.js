@@ -7,7 +7,7 @@ const comboProductSchema = new mongoose.Schema(
       ref: "Product",
       required: true,
     },
-     variantId: {
+    variantId: {
       type: mongoose.Schema.Types.ObjectId,
       default: null,
     },
@@ -16,6 +16,26 @@ const comboProductSchema = new mongoose.Schema(
       type: Number,
       default: 1,
       min: 1,
+    },
+  },
+  {
+    _id: false,
+  }
+);
+
+// ==========================
+// Image Sub-Schema (multiple images ke liye)
+// ==========================
+
+const comboImageSchema = new mongoose.Schema(
+  {
+    url: {
+      type: String,
+      required: true,
+    },
+    public_id: {
+      type: String,
+      required: true,
     },
   },
   {
@@ -44,14 +64,17 @@ const comboSchema = new mongoose.Schema(
       required: true,
     },
 
-    image: {
-      url: {
-        type: String,
-        required: true,
-      },
-      public_id: {
-        type: String,
-        required: true,
+    // ==========================
+    // Multiple Images (pehle single "image" object tha)
+    // ==========================
+
+    images: {
+      type: [comboImageSchema],
+      validate: {
+        validator: function (value) {
+          return value.length >= 1;
+        },
+        message: "At least one combo image is required.",
       },
     },
 

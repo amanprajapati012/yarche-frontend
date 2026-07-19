@@ -194,30 +194,21 @@ router.post("/discount", adminAuth, createDiscount);
 
 router.post(
   "/add-combo",
-  upload.single("image"),
+  upload.array("images", 5), // max 5 images, jitni chahiye utni badha lena
   addCombo
 );
-
+ 
 router.put(
   "/update-combo/:id",
-  upload.single("image"),
+  upload.array("images", 5),
   updateCombo
 );
-
-router.get(
-  "/get-combos",
-  getAllCombos
-);
-
-router.get(
-  "/get-combo/:id",
-  getComboById
-);
-
-router.delete(
-  "/delete-combo/:id",
-  deleteCombo
-);
+ 
+router.get("/get-combos", getAllCombos);
+ 
+router.get("/get-combo/:id", getComboById);
+ 
+router.delete("/delete-combo/:id", deleteCombo);
 
 // Update Discount
 router.put("/updateDiscount/:id", 

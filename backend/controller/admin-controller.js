@@ -689,6 +689,8 @@ const calculateComboTotal = (parsedProducts, dbProducts) => {
 // ==========================
 
 const addCombo = async (req, res) => {
+  let uploadedImages = []; // cleanup ke liye bahar rakha hai
+
   try {
     const {
       comboSku,
@@ -734,20 +736,19 @@ const addCombo = async (req, res) => {
     }
 
     // ==========================
-    // Upload Combo Image
+    // Validate Images (multiple)
     // ==========================
 
-    if (!req.file) {
+    if (!req.files || req.files.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Combo image is required.",
+        message: "At least one combo image is required.",
       });
     }
 
-    const uploadedImage = await uploadToCloudinary(req.file.buffer);
-
     // ==========================
-    // Validate Products
+    // Validate Products (image upload se pehle, taaki
+    // upload karke fir turant destroy na karna pade)
     // ==========================
 
     const productIds = parsedProducts.map((item) => item.product);
@@ -757,9 +758,6 @@ const addCombo = async (req, res) => {
     });
 
     if (dbProducts.length !== new Set(productIds).size) {
-      // Cloudinary pe already upload ho chuka hai, cleanup kar do
-      await cloudinary.uploader.destroy(uploadedImage.public_id);
-
       return res.status(400).json({
         success: false,
         message: "One or more selected products are invalid.",
@@ -775,13 +773,24 @@ const addCombo = async (req, res) => {
     try {
       totalPrice = calculateComboTotal(parsedProducts, dbProducts);
     } catch (err) {
-      await cloudinary.uploader.destroy(uploadedImage.public_id);
-
       return res.status(400).json({
         success: false,
         message: err.message,
       });
     }
+
+    // ==========================
+    // Upload Combo Images (multiple)
+    // ==========================
+
+    uploadedImages = await Promise.all(
+      req.files.map((file) => uploadToCloudinary(file.buffer))
+    );
+
+    const imagesData = uploadedImages.map((img) => ({
+      url: img.secure_url,
+      public_id: img.public_id,
+    }));
 
     // ==========================
     // Create Combo
@@ -792,24 +801,16 @@ const addCombo = async (req, res) => {
       title,
       description,
 
-      image: {
-        url: uploadedImage.secure_url,
-        public_id: uploadedImage.public_id,
-      },
+      images: imagesData,
 
       products: parsedProducts,
 
       price: totalPrice,
 
       discountedPrice:
-        Number(discountedPrice) > 0
-          ? Number(discountedPrice)
-          : totalPrice,
+        Number(discountedPrice) > 0 ? Number(discountedPrice) : totalPrice,
 
-      landingPrice:
-        Number(landingPrice) > 0
-          ? Number(landingPrice)
-          : 0,
+      landingPrice: Number(landingPrice) > 0 ? Number(landingPrice) : 0,
     });
 
     return res.status(201).json({
@@ -819,6 +820,15 @@ const addCombo = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+
+    // Agar images upload ho chuki thi aur beech mein error aa gaya, cleanup kar do
+    if (uploadedImages.length > 0) {
+      await Promise.all(
+        uploadedImages.map((img) =>
+          cloudinary.uploader.destroy(img.public_id).catch(() => {})
+        )
+      );
+    }
 
     return res.status(500).json({
       success: false,
@@ -832,6 +842,8 @@ const addCombo = async (req, res) => {
 // ==========================
 
 const updateCombo = async (req, res) => {
+  let newUploadedImages = []; // cleanup ke liye
+
   try {
     const { id } = req.params;
 
@@ -852,6 +864,7 @@ const updateCombo = async (req, res) => {
       discountedPrice,
       landingPrice,
       isActive,
+      removedImageIds, // JSON stringified array of public_id
     } = req.body;
 
     // ==========================
@@ -924,21 +937,63 @@ const updateCombo = async (req, res) => {
     }
 
     // ==========================
-    // Upload New Image (Optional)
+    // Handle Images (remove selected + add new)
     // ==========================
 
-    if (req.file) {
-      if (combo.image?.public_id) {
-        await cloudinary.uploader.destroy(combo.image.public_id);
+    let currentImages = combo.images || [];
+
+    // 1) Removed images (agar frontend se list aayi)
+    if (removedImageIds) {
+      const parsedRemovedIds =
+        typeof removedImageIds === "string"
+          ? JSON.parse(removedImageIds)
+          : removedImageIds;
+
+      if (Array.isArray(parsedRemovedIds) && parsedRemovedIds.length > 0) {
+        await Promise.all(
+          parsedRemovedIds.map((publicId) =>
+            cloudinary.uploader.destroy(publicId).catch(() => {})
+          )
+        );
+
+        currentImages = currentImages.filter(
+          (img) => !parsedRemovedIds.includes(img.public_id)
+        );
+      }
+    }
+
+    // 2) New images (agar frontend se naye files aayi)
+    if (req.files && req.files.length > 0) {
+      newUploadedImages = await Promise.all(
+        req.files.map((file) => uploadToCloudinary(file.buffer))
+      );
+
+      const newImagesData = newUploadedImages.map((img) => ({
+        url: img.secure_url,
+        public_id: img.public_id,
+      }));
+
+      currentImages = [...currentImages, ...newImagesData];
+    }
+
+    // 3) Kam se kam 1 image to honi hi chahiye
+    if (currentImages.length === 0) {
+      // agar naye upload huye the, unhe bhi cleanup kar do
+      if (newUploadedImages.length > 0) {
+        await Promise.all(
+          newUploadedImages.map((img) =>
+            cloudinary.uploader.destroy(img.public_id).catch(() => {})
+          )
+        );
       }
 
-      const uploadedImage = await uploadToCloudinary(req.file.buffer);
-
-      combo.image = {
-        url: uploadedImage.secure_url,
-        public_id: uploadedImage.public_id,
-      };
+      return res.status(400).json({
+        success: false,
+        message: "Combo must have at least one image.",
+      });
     }
+
+    combo.images = currentImages;
 
     // ==========================
     // Update Fields
@@ -955,15 +1010,10 @@ const updateCombo = async (req, res) => {
 
     // Discounted Price
     combo.discountedPrice =
-      Number(discountedPrice) > 0
-        ? Number(discountedPrice)
-        : totalPrice;
+      Number(discountedPrice) > 0 ? Number(discountedPrice) : totalPrice;
 
     // Landing Price
-    combo.landingPrice =
-      Number(landingPrice) > 0
-        ? Number(landingPrice)
-        : 0;
+    combo.landingPrice = Number(landingPrice) > 0 ? Number(landingPrice) : 0;
 
     if (typeof isActive !== "undefined") {
       combo.isActive = isActive === "true" || isActive === true;
@@ -983,6 +1033,14 @@ const updateCombo = async (req, res) => {
   } catch (error) {
     console.log(error);
 
+    if (newUploadedImages.length > 0) {
+      await Promise.all(
+        newUploadedImages.map((img) =>
+          cloudinary.uploader.destroy(img.public_id).catch(() => {})
+        )
+      );
+    }
+
     return res.status(500).json({
       success: false,
       message: error.message,
@@ -999,8 +1057,7 @@ const getAllCombos = async (req, res) => {
     const combos = await Combo.find()
       .populate({
         path: "products.product",
-        select:
-          "name title images price discountedPrice quantity variants",
+        select: "name title images price discountedPrice quantity variants",
       })
       .sort({ createdAt: -1 });
 
@@ -1029,8 +1086,7 @@ const getComboById = async (req, res) => {
 
     const combo = await Combo.findById(id).populate({
       path: "products.product",
-      select:
-        "name title images price discountedPrice quantity variants",
+      select: "name title images price discountedPrice quantity variants",
     });
 
     if (!combo) {
@@ -1071,8 +1127,12 @@ const deleteCombo = async (req, res) => {
       });
     }
 
-    if (combo.image?.public_id) {
-      await cloudinary.uploader.destroy(combo.image.public_id);
+    if (combo.images && combo.images.length > 0) {
+      await Promise.all(
+        combo.images.map((img) =>
+          cloudinary.uploader.destroy(img.public_id).catch(() => {})
+        )
+      );
     }
 
     await combo.deleteOne();
