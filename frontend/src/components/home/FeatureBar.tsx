@@ -22,23 +22,23 @@ interface Props {
 export default function FeatureBar({ categories }: Props) {
   const [carousel, setCarousel] = useState<Carousel | null>(null);
 
-useEffect(() => {
-  const fetchCarousel = async () => {
-    try {
-      const res = await API.get("/carousels");
+  useEffect(() => {
+    const fetchCarousel = async () => {
+      try {
+        const res = await API.get("/carousels");
 
-      const activeCarousel = res.data.carousels?.find(
-        (item: any) => item.isActive
-      );
+        const activeCarousel = res.data.carousels?.find(
+          (item: any) => item.isActive
+        );
 
-      setCarousel(activeCarousel || null);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+        setCarousel(activeCarousel || null);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-  fetchCarousel();
-}, []);
+    fetchCarousel();
+  }, []);
   return (
     <section
       id="home-hero"
@@ -69,36 +69,43 @@ useEffect(() => {
         </div>
 
         {/* ================= DESKTOP BANNERS ================= */}
-        <div className="grid grid-cols-[72%_28%]">
+        <div className="grid grid-cols-3 gap-0">
           {/* LEFT */}
-         <Link href="/collections" className="overflow-hidden">
-  <div className="aspect-square w-full">
-    <img
-      src={getImageUrl(carousel?.images?.[0])}
-      alt=""
-      className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-    />
-  </div>
-</Link>
+          <Link
+            href="/collections"
+            className="col-span-2 overflow-hidden"
+          >
+            <div className="aspect-square">
+              <img
+                src={getImageUrl(carousel?.images?.[0])}
+                className="w-full h-full object-cover"
+                alt=""
+              />
+            </div>
+          </Link>
 
           {/* RIGHT */}
-          <div className="grid h-full grid-rows-2">
-            <Link href="/best-sellers" className="overflow-hidden">
-  <img
-    src={getImageUrl(carousel?.images?.[1])}
-    alt=""
-    className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-  />
-</Link>
+          <div className="col-span-1 grid grid-rows-2">
+  <Link href="/best-sellers" className="overflow-hidden">
+    <div className="aspect-square">
+      <img
+        src={getImageUrl(carousel?.images?.[1])}
+        className="w-full h-full object-cover"
+        alt=""
+      />
+    </div>
+  </Link>
 
-           <Link href="/new-arrivals" className="overflow-hidden">
-  <img
-    src={getImageUrl(carousel?.images?.[2])}
-    alt=""
-    className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-  />
-</Link>
-          </div>
+  <Link href="/new-arrivals" className="overflow-hidden">
+    <div className="aspect-square">
+      <img
+        src={getImageUrl(carousel?.images?.[2])}
+        className="w-full h-full object-cover"
+        alt=""
+      />
+    </div>
+  </Link>
+</div>
         </div>
       </div>
 
@@ -111,17 +118,17 @@ useEffect(() => {
         >
           <div className="aspect-square w-full">
             <img
-  src={getImageUrl(carousel?.images?.[0])}
-  alt=""
-  className="h-full w-full object-cover"
-/>
+              src={getImageUrl(carousel?.images?.[0])}
+              alt=""
+              className="h-full w-full object-contain bg-background"
+            />
           </div>
         </Link>
 
         {/* SCROLLABLE SQUARE BANNERS */}
-        
-       <div
-  className="
+
+        <div
+          className="
     mt-4
     flex
     gap-4
@@ -134,23 +141,23 @@ useEffect(() => {
     [scrollbar-width:none]
     [&::-webkit-scrollbar]:hidden
   "
->
-  {carousel?.images?.slice(1).map((img, index) => (
-    <Link
-      key={index}
-      href="/best-sellers"
-      className="snap-start shrink-0 w-[72vw] max-w-[280px]"
-    >
-      <div className="aspect-square overflow-hidden rounded-2xl shadow-md">
-        <img
-          src={getImageUrl(img)}
-          alt=""
-          className="h-full w-full object-cover"
-        />
-      </div>
-    </Link>
-  ))}
-</div>
+        >
+          {carousel?.images?.slice(1).map((img, index) => (
+            <Link
+              key={index}
+              href="/best-sellers"
+              className="snap-start shrink-0 w-[72vw] max-w-[280px]"
+            >
+              <div className="aspect-square overflow-hidden rounded-2xl shadow-md">
+                <img
+                  src={getImageUrl(img)}
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   );
