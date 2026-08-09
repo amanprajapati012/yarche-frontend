@@ -34,25 +34,17 @@ export default function Footer() {
 
             <ul className="space-y-4 text-[#FFF6E2]/80">
               <li>
-                <Link href="/shop" className="hover:text-white transition">
+                <Link href="/products" className="hover:text-white transition">
                   Shop All Products
                 </Link>
               </li>
 
-              <li>
-                <Link href="/collections" className="hover:text-white transition">
-                  Our Collections
-                </Link>
-              </li>
+             
+
+              
 
               <li>
-                <Link href="/craft" className="hover:text-white transition">
-                  Our Master Craft
-                </Link>
-              </li>
-
-              <li>
-                <Link href="/about" className="hover:text-white transition">
+                <Link href="/our-story" className="hover:text-white transition">
                   About Our Story
                 </Link>
               </li>
@@ -67,25 +59,25 @@ export default function Footer() {
 
             <ul className="space-y-4 text-[#FFF6E2]/80">
               <li>
-                <Link href="/contact" className="hover:text-white transition">
+                <Link href="/contact-us" className="hover:text-white transition">
                   Contact Us
                 </Link>
               </li>
 
               <li>
-                <Link href="/shipping" className="hover:text-white transition">
+                <Link href="/shipping-delivery" className="hover:text-white transition">
                   Shipping & Delivery
                 </Link>
               </li>
 
               <li>
-                <Link href="/returns" className="hover:text-white transition">
+                <Link href="/return-refund" className="hover:text-white transition">
                   Returns & Refunds
                 </Link>
               </li>
 
               <li>
-                <Link href="/faqs" className="hover:text-white transition">
+                <Link href="/faq" className="hover:text-white transition">
                   Help & FAQs
                 </Link>
               </li>

@@ -33,161 +33,205 @@ export default function OurStory() {
       {/* HERO */}
       {/* ================================================= */}
 
-      <section className="relative h-screen min-h-[820px] flex items-center">
+      <section className="relative min-h-screen flex items-center py-20 md:py-28">
 
-        {/* Background Image */}
+        <div className="container mx-auto px-6">
 
-        <Image
-          src="/yarche1.png"
-          alt="Our Story"
-          fill
-          priority
-          className="object-cover"
-        />
+          <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
 
-        {/* Overlay */}
-
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to right, rgba(40,23,13,.82), rgba(40,23,13,.60), rgba(40,23,13,.25))",
-          }}
-        />
-
-        {/* Content */}
-
-        <div className="container mx-auto px-6 relative z-10">
-
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 70,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.9,
-            }}
-            className="max-w-5xl"
-          >
-            {/* Small Label */}
-
-            <p
-              className="uppercase tracking-[10px] text-sm mb-8"
-              style={{
-                color: "#efd6ad",
-              }}
-            >
-              OUR STORY
-            </p>
-
-            {/* Heading */}
-
-            <h1
-              className="font-serif font-bold leading-[1.05]
-              text-5xl
-              sm:text-6xl
-              md:text-7xl
-              lg:text-8xl
-              max-w-5xl"
-              style={{
-                color: "#fffbf5",
-              }}
-            >
-              A Journey
-              <br />
-
-              <span
-                style={{
-                  color: "#efd6ad",
-                }}
-              >
-                I Chose to Continue
-              </span>
-            </h1>
-
-            {/* Line */}
-
-            <motion.div
-              initial={{
-                width: 0,
-              }}
-              animate={{
-                width: 120,
-              }}
-              transition={{
-                delay: .5,
-                duration: .8,
-              }}
-              className="h-[2px] mt-12"
-              style={{
-                background: "#efd6ad",
-              }}
-            />
-
-            {/* Intro */}
-
-            <motion.p
-              initial={{
-                opacity: 0,
-                y: 30,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                delay: .4,
-                duration: .8,
-              }}
-              className="mt-12 max-w-3xl leading-10 text-xl md:text-2xl"
-              style={{
-                color: "rgba(255,251,245,.90)",
-              }}
-            >
-              Some journeys begin with an idea.
-
-              <br />
-              <br />
-
-              Ours began with trust.
-
-              <br />
-              <br />
-
-              Built by a father,
-              strengthened through relationships,
-              and carried forward with a vision
-              that continues to grow every single day.
-            </motion.p>
-
-            {/* Since */}
+            {/* Left - Content */}
 
             <motion.div
               initial={{
                 opacity: 0,
+                x: -50,
               }}
               animate={{
                 opacity: 1,
+                x: 0,
               }}
               transition={{
-                delay: .9,
+                duration: 0.9,
               }}
-              className="mt-14"
+              className="order-2 lg:order-1"
             >
+              {/* Small Label */}
+
               <p
-                className="text-lg tracking-[6px] uppercase"
+                className="uppercase tracking-[8px] text-sm mb-8"
                 style={{
+                  color: "#6b5a4d",
+                }}
+              >
+                OUR STORY
+              </p>
+
+              {/* Heading */}
+
+              <h1
+                className="font-serif font-bold leading-[1.05]
+                text-5xl
+                sm:text-6xl
+                md:text-7xl
+                lg:text-7xl
+                xl:text-8xl"
+                style={{
+                  color: "#28170d",
+                }}
+              >
+                A Journey
+                <br />
+
+                <span
+                  style={{
+                    color: "#9a7048",
+                  }}
+                >
+                  I Chose to Continue
+                </span>
+              </h1>
+
+              {/* Line */}
+
+              <motion.div
+                initial={{
+                  width: 0,
+                }}
+                animate={{
+                  width: 120,
+                }}
+                transition={{
+                  delay: .5,
+                  duration: .8,
+                }}
+                className="h-[2px] mt-10"
+                style={{
+                  background: "#28170d",
+                }}
+              />
+
+              {/* Intro */}
+
+              <motion.p
+                initial={{
+                  opacity: 0,
+                  y: 30,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                transition={{
+                  delay: .4,
+                  duration: .8,
+                }}
+                className="mt-10 max-w-2xl leading-9 text-lg md:text-xl"
+                style={{
+                  color: "#6b5a4d",
+                }}
+              >
+                Some journeys begin with an idea.
+
+                <br />
+                <br />
+
+                Ours began with trust.
+
+                <br />
+                <br />
+
+                Built by a father,
+                strengthened through relationships,
+                and carried forward with a vision
+                that continues to grow every single day.
+              </motion.p>
+
+              {/* Since */}
+
+              <motion.div
+                initial={{
+                  opacity: 0,
+                }}
+                animate={{
+                  opacity: 1,
+                }}
+                transition={{
+                  delay: .9,
+                }}
+                className="mt-10"
+              >
+                <p
+                  className="text-base tracking-[5px] uppercase font-medium"
+                  style={{
+                    color: "#9a7048",
+                  }}
+                >
+                  Since 2013
+                </p>
+              </motion.div>
+            </motion.div>
+
+            {/* Right - Ujjwal Image */}
+
+            <motion.div
+              initial={{
+                opacity: 0,
+                x: 50,
+              }}
+              animate={{
+                opacity: 1,
+                x: 0,
+              }}
+              transition={{
+                duration: 0.9,
+                delay: .15,
+              }}
+              className="relative order-1 lg:order-2"
+            >
+              {/* Decorative Background */}
+
+              <div
+                className="absolute -bottom-6 -right-6 w-full h-full rounded-[40px]"
+                style={{
+                  background: "#efd6ad",
+                }}
+              />
+
+              {/* Image */}
+
+              <div
+                className="relative overflow-hidden rounded-[40px] shadow-2xl"
+                style={{
+                  background: "#fff6e8",
+                }}
+              >
+                <Image
+                  src="/Ujjwal.jpg.jpeg"
+                  alt="Ujjwal"
+                  width={900}
+                  height={1100}
+                  priority
+                  className="w-full h-[620px] md:h-[720px] object-cover object-center"
+                />
+              </div>
+
+              {/* Small Image Caption */}
+
+              <div
+                className="absolute -bottom-5 left-6 md:left-10 px-6 py-3 rounded-full shadow-lg"
+                style={{
+                  background: "#28170d",
                   color: "#efd6ad",
                 }}
               >
-                Since 2013
-              </p>
+                <span className="text-sm tracking-[3px] uppercase">
+                  Since 2013
+                </span>
+              </div>
             </motion.div>
-          </motion.div>
+
+          </div>
+
         </div>
 
         {/* Scroll */}
@@ -200,11 +244,11 @@ export default function OurStory() {
             repeat: Infinity,
             duration: 1.8,
           }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block"
         >
           <ArrowDown
-            size={34}
-            color="#fffbf5"
+            size={30}
+            color="#28170d"
           />
         </motion.div>
       </section>
