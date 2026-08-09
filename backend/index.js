@@ -24,7 +24,7 @@ app.use(
     origin: [
       "https://yarche-frontend.vercel.app",
       "http://localhost:3000",
-      "http://192.168.29.172:3000",
+      "http://10.21.213.215",
       "http://192.168.1.39:8081",
     ],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
