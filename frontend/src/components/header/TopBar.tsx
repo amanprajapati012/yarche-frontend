@@ -11,8 +11,12 @@ import {
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { getImageUrl } from "@/src/lib/image";
-
 import API from "@/src/lib/api";
+
+interface Category {
+  _id?: string;
+  category: string;
+}
 
 interface Props {
   user: any;
@@ -20,23 +24,24 @@ interface Props {
   cartItems: any[];
   setShowSearch: (value: boolean) => void;
   setIsDrawerOpen: (value: boolean) => void;
+  categories: Category[];
 }
 
 export default function TopBar({
   user,
-  logout,
   cartItems,
   setShowSearch,
   setIsDrawerOpen,
+  categories,
 }: Props) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [openSearch, setOpenSearch] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [categoryOpen, setCategoryOpen] = useState(false);
 
   const searchRef = useRef<HTMLDivElement>(null);
-
-  const IMAGE_BASE = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -45,13 +50,15 @@ export default function TopBar({
         !searchRef.current.contains(e.target as Node)
       ) {
         setOpenSearch(false);
+        setCategoryOpen(false);
       }
     };
 
     document.addEventListener("mousedown", handler);
 
-    return () =>
+    return () => {
       document.removeEventListener("mousedown", handler);
+    };
   }, []);
 
   useEffect(() => {
@@ -69,40 +76,62 @@ export default function TopBar({
 
         const slug = value.replace(/\s+/g, "-");
 
-        const res = await API.get(`/search/${slug}`);
+        let url = `/search/${encodeURIComponent(slug)}`;
 
-        setResults(res.data?.products || []);
+        if (selectedCategory !== "all") {
+          url += `?category=${encodeURIComponent(selectedCategory)}`;
+        }
+
+        console.log("SEARCH URL:", url);
+
+        const res = await API.get(url);
+
+        const products = res.data?.products || res.data?.data || [];
+
+        setResults(products);
         setOpenSearch(true);
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        console.error("Search Error:", error);
         setResults([]);
-        setOpenSearch(false);
+        setOpenSearch(true);
       } finally {
         setLoading(false);
       }
-    }, 300);
+    }, 350);
 
     return () => clearTimeout(timer);
-  }, [query]);
+  }, [query, selectedCategory]);
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    setCategoryOpen(false);
+
+    if (query.trim()) {
+      setOpenSearch(true);
+    }
+  };
+
+  const selectedCategoryName =
+    selectedCategory === "all"
+      ? "All Products"
+      : selectedCategory;
 
   return (
-    <div
-className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-b border-foreground/10 bg-background px-4 lg:px-0">
+    <div className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-b border-foreground/10 bg-background px-4 lg:px-0">
 
       {/* LOGO */}
-   <Link
-  href="/"
-  className="w-auto lg:w-[290px] h-full flex items-center justify-center lg:border-r border-foreground/10 lg:pl-5"
-
->
-       <Image
-  src="/logo3.png"
-  alt="Yarche"
-  width={220}
-  height={90}
-  priority
-  className="w-[100px] lg:w-[155px] h-auto object-contain"
-/>
+      <Link
+        href="/"
+        className="w-auto lg:w-[290px] h-full flex items-center justify-center lg:border-r border-foreground/10 lg:pl-5"
+      >
+        <Image
+          src="/logo3.png"
+          alt="Yarche"
+          width={220}
+          height={90}
+          priority
+          className="w-[100px] lg:w-[155px] h-auto object-contain"
+        />
       </Link>
 
       {/* SEARCH */}
@@ -110,28 +139,114 @@ className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-
         ref={searchRef}
         className="hidden lg:flex flex-1 px-10 relative"
       >
-        <div className="w-full h-[54px] flex rounded-2xl overflow-hidden border border-border shadow-sm">
+        <div className="w-full h-[54px] flex rounded-2xl overflow-visible border border-border shadow-sm bg-surface">
 
-          <button className="w-[180px] bg-background border-r border-border flex items-center justify-center gap-2 font-medium">
-            All Products
-            <IconChevronDown size={16} />
-          </button>
+          {/* CATEGORY SELECTOR */}
+          <div className="relative w-[190px] shrink-0">
 
+            <button
+              type="button"
+              onClick={() => setCategoryOpen((prev) => !prev)}
+              className="w-full h-full bg-background border-r border-border flex items-center justify-between px-5 gap-2 font-medium text-sm"
+            >
+              <span className="truncate">
+                {selectedCategoryName}
+              </span>
+
+              <IconChevronDown
+                size={16}
+                className={`transition-transform ${
+                  categoryOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            {categoryOpen && (
+              <div className="absolute left-0 top-[58px] w-full bg-background border border-foreground/10 rounded-xl shadow-xl z-[2000] overflow-hidden">
+
+                {/* ALL PRODUCTS */}
+                <button
+                  type="button"
+                  onClick={() => handleCategoryChange("all")}
+                  className={`w-full text-left px-5 py-3 text-sm border-b border-foreground/5 hover:bg-footer-heading transition ${
+                    selectedCategory === "all"
+                      ? "font-bold bg-footer-heading"
+                      : ""
+                  }`}
+                >
+                  All Products
+                </button>
+
+                {/* CATEGORIES */}
+                {categories.map((item) => (
+                  <button
+                    key={item._id || item.category}
+                    type="button"
+                    onClick={() =>
+                      handleCategoryChange(item.category)
+                    }
+                    className={`w-full text-left px-5 py-3 text-sm border-b border-foreground/5 hover:bg-footer-heading transition ${
+                      selectedCategory === item.category
+                        ? "font-bold bg-footer-heading"
+                        : ""
+                    }`}
+                  >
+                    {item.category}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* INPUT */}
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            onFocus={() => query && setOpenSearch(true)}
-            placeholder="What are you looking for?"
+            onFocus={() => {
+              if (query.trim()) {
+                setOpenSearch(true);
+              }
+            }}
+            placeholder={
+              selectedCategory === "all"
+                ? "Search all products..."
+                : `Search in ${selectedCategory}...`
+            }
             className="flex-1 px-6 outline-none bg-surface text-[15px]"
           />
 
-          <button className="w-[120px] bg-footer text-white flex items-center justify-center hover:bg-footer-2 transition">
+          {/* SEARCH BUTTON */}
+          <button
+            type="button"
+            onClick={() => {
+              if (query.trim()) {
+                setOpenSearch(true);
+              }
+            }}
+            className="w-[120px] bg-footer text-white flex items-center justify-center hover:bg-footer-2 transition rounded-r-2xl"
+          >
             <IconSearch size={22} />
           </button>
         </div>
 
+        {/* SEARCH RESULTS */}
         {openSearch && (
           <div className="absolute top-[64px] left-10 right-10 bg-background rounded-xl border border-foreground/10 shadow-xl overflow-hidden z-[999]">
+
+            {/* SEARCH HEADER */}
+            <div className="px-5 py-3 border-b border-foreground/10 flex items-center justify-between text-sm">
+              <span className="font-semibold">
+                {selectedCategory === "all"
+                  ? "All Products"
+                  : selectedCategory}
+              </span>
+
+              {query && (
+                <span className="text-gray-500">
+                  Results for "{query}"
+                </span>
+              )}
+            </div>
 
             {loading ? (
               <div className="p-5 text-center">
@@ -143,38 +258,45 @@ className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-
               </div>
             ) : (
               <div className="max-h-[350px] overflow-y-auto">
-                
-                                {results.map((product: any) => (
+                {results.map((product: any) => (
                   <Link
-                    key={product._id}
-                    href={`/product/${product._id}`}
-                    onClick={() => {
-                      setOpenSearch(false);
-                      setQuery("");
-                    }}
-                    className="flex gap-3 p-3 border-b border-foreground/5 hover:bg-footer-heading transition"
-                  >
+  key={product._id}
+  href={`/products/${product.slug}`}
+  onClick={() => {
+    setOpenSearch(false);
+    setQuery("");
+  }}
+  className="flex gap-3 p-3 border-b border-foreground/5 hover:bg-footer-heading transition"
+>
                     <img
-  src={getImageUrl(product.images?.[0])}
-  alt={product.product_name || product.name}
-  className="w-14 h-14 rounded-lg object-cover bg-white"
-/>
+                      src={getImageUrl(product.images?.[0])}
+                      alt={
+                        product.product_name ||
+                        product.name ||
+                        "Product"
+                      }
+                      className="w-14 h-14 rounded-lg object-cover bg-white"
+                    />
 
                     <div className="flex-1 min-w-0">
                       <h4 className="font-medium truncate">
-                       {product.product_name || product.name}
+                        {product.product_name ||
+                          product.name}
                       </h4>
 
                       <div className="flex items-center gap-2 mt-1">
                         <span className="font-bold">
-                          ₹{product.discountedPrice || product.price}
+                          ₹
+                          {product.discountedPrice ||
+                            product.price}
                         </span>
 
-                        {product.discountedPrice && product.price && (
-                          <span className="line-through text-xs text-gray-500">
-                            ₹{product.price}
-                          </span>
-                        )}
+                        {product.discountedPrice &&
+                          product.price && (
+                            <span className="line-through text-xs text-gray-500">
+                              ₹{product.price}
+                            </span>
+                          )}
                       </div>
                     </div>
                   </Link>
@@ -186,16 +308,8 @@ className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-
       </div>
 
       {/* RIGHT SECTION */}
-      <div
-        className="
-          hidden
-          lg:flex
-          items-center
-          gap-8
-          px-8
-          shrink-0
-        "
-      >
+      <div className="hidden lg:flex items-center gap-8 px-8 shrink-0">
+
         {user ? (
           <Link
             href="/account/profile"
@@ -249,23 +363,20 @@ className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-
           <IconShoppingCart size={30} />
 
           <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-footer text-footer-text text-[10px] flex items-center justify-center font-bold">
-            {cartItems.length > 9 ? "9+" : cartItems.length}
+            {cartItems.length > 9
+              ? "9+"
+              : cartItems.length}
           </span>
         </Link>
       </div>
 
       {/* MOBILE ICONS */}
-      <div
-  className="
-    flex
-    lg:hidden
-    items-center
-    gap-4
-    px-4
-    shrink-0
-  "
->
-        <button onClick={() => setShowSearch(true)}>
+      <div className="flex lg:hidden items-center gap-4 px-4 shrink-0">
+
+        <button
+          type="button"
+          onClick={() => setShowSearch(true)}
+        >
           <IconSearch size={26} />
         </button>
 
@@ -276,11 +387,14 @@ className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-
           <IconShoppingCart size={28} />
 
           <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-footer text-footer-text text-[10px] flex items-center justify-center font-bold">
-            {cartItems.length > 9 ? "9+" : cartItems.length}
+            {cartItems.length > 9
+              ? "9+"
+              : cartItems.length}
           </span>
         </Link>
 
         <button
+          type="button"
           onClick={() => setIsDrawerOpen(true)}
         >
           <IconMenu2 size={30} />
@@ -289,4 +403,3 @@ className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-
     </div>
   );
 }
-              
