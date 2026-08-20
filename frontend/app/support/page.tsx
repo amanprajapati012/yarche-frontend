@@ -1,16 +1,12 @@
- "use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Search,
   Truck,
-  ShoppingBag,
-  UserRound,
   ExternalLink,
   MessageCircle,
   Phone,
-  Mail,
   Clock3,
   MapPin,
   ArrowRight,
@@ -44,10 +40,12 @@ export default function GetSupport() {
   };
 
   const openWhatsApp = () => {
+    const message = encodeURIComponent(
+      "Hello Yarche, I need support regarding your products."
+    );
+
     window.open(
-      `https://wa.me/${SUPPORT_NUMBER}?text=${encodeURIComponent(
-        "Hello Yarche, I need support regarding your products."
-      )}`,
+      `https://wa.me/${SUPPORT_NUMBER}?text=${message}`,
       "_blank"
     );
   };
@@ -59,21 +57,28 @@ export default function GetSupport() {
   return (
     <main
       className="min-h-screen"
-      style={{ background: "var(--background)", color: "var(--foreground)" }}
+      style={{
+        background: "var(--background)",
+        color: "var(--foreground)",
+      }}
     >
       {/* HEADER */}
       <header
         className="border-b"
-        style={{ background: "var(--background)", borderColor: "var(--border)" }}
-      >
-       
-      </header>
+        style={{
+          background: "var(--background)",
+          borderColor: "var(--border)",
+        }}
+      ></header>
 
       {/* ROTATING OFFER BAR */}
       <button
         onClick={goToProducts}
-        className="w-full h-[74px] overflow-hidden cursor-pointer"
-        style={{ background: "var(--input-bg)", color: "var(--foreground)" }}
+        className="w-full min-h-[64px] md:h-[74px] overflow-hidden cursor-pointer"
+        style={{
+          background: "var(--input-bg)",
+          color: "var(--foreground)",
+        }}
         aria-label="Shop current offer"
       >
         <AnimatePresence mode="wait">
@@ -83,23 +88,30 @@ export default function GetSupport() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -18 }}
             transition={{ duration: 0.35 }}
-            className="h-full flex items-center justify-center gap-4 px-6"
+            className="h-full flex items-center justify-center gap-2 sm:gap-4 px-4 sm:px-6"
           >
-            <span className="text-2xl md:text-3xl font-semibold tracking-wide">
+            <span className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-wide">
               {currentOffer.discount}
             </span>
-            <span className="hidden sm:inline text-lg md:text-xl">
+
+            <span className="hidden sm:inline text-base md:text-xl">
               {currentOffer.text}
             </span>
-            <ArrowRight size={24} strokeWidth={1.8} />
+
+            <ArrowRight
+              size={22}
+              strokeWidth={1.8}
+              className="shrink-0"
+            />
           </motion.div>
         </AnimatePresence>
       </button>
 
       {/* MAIN SUPPORT */}
-      <section className="py-14 md:py-20">
-        <div className="container mx-auto max-w-7xl px-6">
+      <section className="py-10 sm:py-14 md:py-20">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6">
           <div className="grid lg:grid-cols-[1.7fr_1fr] gap-8 lg:gap-10 items-stretch">
+
             {/* IMAGE */}
             <motion.div
               initial={{ opacity: 0, x: -35 }}
@@ -107,28 +119,29 @@ export default function GetSupport() {
               transition={{ duration: 0.7 }}
             >
               <div
-                className="overflow-hidden rounded-[32px] border"
+                className="overflow-hidden rounded-[24px] sm:rounded-[32px] border w-full aspect-square"
                 style={{
                   borderColor: "var(--border)",
                   background: "var(--surface)",
                 }}
               >
-                {/* Replace this image with your own image */}
                 <img
-                  src="/support-banner.jpg"
+                  src="/supporting.png"
                   alt="Yarche customer support"
-                  className="w-full h-[430px] md:h-[570px] object-cover"
+                  className="w-full h-full object-cover"
                 />
               </div>
 
-              <div className="text-center px-5 pt-8">
-                <h2 className="font-serif text-2xl md:text-3xl font-semibold">
+              <div className="text-center px-3 sm:px-5 pt-6 sm:pt-8">
+                <h2 className="font-serif text-2xl sm:text-3xl font-semibold">
                   Have questions or need assistance?
                 </h2>
 
                 <p
-                  className="mt-4 text-lg md:text-xl leading-8"
-                  style={{ color: "var(--text-secondary)" }}
+                  className="mt-3 sm:mt-4 text-base sm:text-lg md:text-xl leading-7 sm:leading-8"
+                  style={{
+                    color: "var(--text-secondary)",
+                  }}
                 >
                   We&apos;re here to help! Reach out to us, and we&apos;ll get
                   back to you as soon as possible.
@@ -141,18 +154,19 @@ export default function GetSupport() {
               initial={{ opacity: 0, x: 35 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="rounded-[28px] border p-7 md:p-9 flex flex-col"
+              className="rounded-[24px] sm:rounded-[28px] border p-5 sm:p-7 md:p-9 flex flex-col"
               style={{
                 background: "var(--surface)",
                 borderColor: "var(--border)",
               }}
             >
-              <h2 className="text-center font-serif text-2xl md:text-3xl font-semibold mb-8">
+              <h2 className="text-center font-serif text-2xl sm:text-3xl font-semibold mb-6 sm:mb-8">
                 For more queries
               </h2>
 
+              {/* TRACK ORDER */}
               <button
-                className="group w-full rounded-2xl px-5 py-4 mb-4 flex items-center gap-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                className="group w-full rounded-2xl px-4 sm:px-5 py-4 mb-4 flex items-center gap-4 sm:gap-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                 style={{
                   background: "var(--background)",
                   border: "1px solid var(--border)",
@@ -160,20 +174,30 @@ export default function GetSupport() {
                 }}
               >
                 <span
-                  className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                  style={{ background: "var(--input-bg)", color: "var(--foreground)" }}
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center shrink-0"
+                  style={{
+                    background: "var(--input-bg)",
+                    color: "var(--foreground)",
+                  }}
                 >
-                  <Truck size={23} strokeWidth={1.7} />
+                  <Truck size={22} strokeWidth={1.7} />
                 </span>
-                <span className="flex-1 text-left text-lg md:text-xl">
+
+                <span className="flex-1 text-left text-base sm:text-lg md:text-xl">
                   Track your order
                 </span>
-                <ExternalLink size={19} strokeWidth={1.7} />
+
+                <ExternalLink
+                  size={18}
+                  strokeWidth={1.7}
+                  className="shrink-0"
+                />
               </button>
 
+              {/* WHATSAPP */}
               <button
                 onClick={openWhatsApp}
-                className="group w-full rounded-2xl px-5 py-4 mb-4 flex items-center gap-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                className="group w-full rounded-2xl px-4 sm:px-5 py-4 mb-4 flex items-center gap-4 sm:gap-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                 style={{
                   background: "var(--background)",
                   border: "1px solid var(--border)",
@@ -181,20 +205,30 @@ export default function GetSupport() {
                 }}
               >
                 <span
-                  className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                  style={{ background: "var(--input-bg)", color: "var(--foreground)" }}
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center shrink-0"
+                  style={{
+                    background: "var(--input-bg)",
+                    color: "var(--foreground)",
+                  }}
                 >
-                  <MessageCircle size={23} strokeWidth={1.7} />
+                  <MessageCircle size={22} strokeWidth={1.7} />
                 </span>
-                <span className="flex-1 text-left text-lg md:text-xl">
+
+                <span className="flex-1 text-left text-base sm:text-lg md:text-xl">
                   WhatsApp us
                 </span>
-                <ExternalLink size={19} strokeWidth={1.7} />
+
+                <ExternalLink
+                  size={18}
+                  strokeWidth={1.7}
+                  className="shrink-0"
+                />
               </button>
 
+              {/* CALL */}
               <button
                 onClick={callSupport}
-                className="group w-full rounded-2xl px-5 py-4 mb-10 flex items-center gap-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                className="group w-full rounded-2xl px-4 sm:px-5 py-4 mb-8 sm:mb-10 flex items-center gap-4 sm:gap-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                 style={{
                   background: "var(--background)",
                   border: "1px solid var(--border)",
@@ -202,28 +236,41 @@ export default function GetSupport() {
                 }}
               >
                 <span
-                  className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                  style={{ background: "var(--input-bg)", color: "var(--foreground)" }}
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center shrink-0"
+                  style={{
+                    background: "var(--input-bg)",
+                    color: "var(--foreground)",
+                  }}
                 >
-                  <Phone size={23} strokeWidth={1.7} />
+                  <Phone size={22} strokeWidth={1.7} />
                 </span>
-                <span className="flex-1 text-left text-lg md:text-xl">
+
+                <span className="flex-1 text-left text-base sm:text-lg md:text-xl">
                   Call us
                 </span>
-                <ExternalLink size={19} strokeWidth={1.7} />
+
+                <ExternalLink
+                  size={18}
+                  strokeWidth={1.7}
+                  className="shrink-0"
+                />
               </button>
 
+              {/* BUSINESS HOURS */}
               <div className="text-center">
-                <div className="flex items-center justify-center gap-2 mb-5">
-                  <Clock3 size={20} strokeWidth={1.7} />
-                  <h3 className="font-serif text-xl md:text-2xl">
+                <div className="flex items-center justify-center gap-2 mb-4 sm:mb-5">
+                  <Clock3 size={19} strokeWidth={1.7} />
+
+                  <h3 className="font-serif text-xl sm:text-2xl">
                     Business Hours:
                   </h3>
                 </div>
 
                 <p
-                  className="text-base md:text-lg leading-8"
-                  style={{ color: "var(--text-secondary)" }}
+                  className="text-sm sm:text-base md:text-lg leading-7 sm:leading-8"
+                  style={{
+                    color: "var(--text-secondary)",
+                  }}
                 >
                   10:00 am to 6:30 pm (Monday to Friday)
                   <br />
@@ -231,27 +278,39 @@ export default function GetSupport() {
                 </p>
 
                 <p
-                  className="mt-5 text-base md:text-lg leading-7"
-                  style={{ color: "var(--text-secondary)" }}
+                  className="mt-4 sm:mt-5 text-sm sm:text-base md:text-lg leading-7"
+                  style={{
+                    color: "var(--text-secondary)",
+                  }}
                 >
                   For further assistance you may email us at
                   <br />
+
                   <a
                     href="mailto:care@yarche.com"
-                    className="font-medium hover:underline"
-                    style={{ color: "var(--foreground)" }}
+                    className="font-medium hover:underline break-all"
+                    style={{
+                      color: "var(--foreground)",
+                    }}
                   >
                     care@yarche.com
                   </a>
                 </p>
               </div>
 
+              {/* PHONE */}
               <div
-                className="mt-auto pt-8 flex items-center justify-center gap-2"
-                style={{ color: "var(--text-secondary)" }}
+                className="mt-auto pt-7 sm:pt-8 flex items-center justify-center gap-2"
+                style={{
+                  color: "var(--text-secondary)",
+                }}
               >
                 <Phone size={17} />
-                <a href={`tel:+91${SUPPORT_NUMBER}`} className="hover:underline">
+
+                <a
+                  href={`tel:+91${SUPPORT_NUMBER}`}
+                  className="hover:underline text-sm sm:text-base"
+                >
                   +91 99362 77225
                 </a>
               </div>
@@ -261,11 +320,18 @@ export default function GetSupport() {
       </section>
 
       {/* ADDRESS */}
-      <section className="py-20 md:py-24" style={{ background: "var(--surface)" }}>
-        <div className="container mx-auto max-w-5xl px-6">
-          <div className="grid md:grid-cols-2 gap-8">
+      <section
+        className="py-14 sm:py-20 md:py-24"
+        style={{
+          background: "var(--surface)",
+        }}
+      >
+        <div className="container mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
+
+            {/* VISIT US */}
             <div
-              className="rounded-3xl p-8 md:p-10 border"
+              className="rounded-3xl p-6 sm:p-8 md:p-10 border"
               style={{
                 background: "var(--background)",
                 borderColor: "var(--border)",
@@ -273,17 +339,24 @@ export default function GetSupport() {
             >
               <div className="flex items-center gap-3 mb-5">
                 <span
-                  className="w-11 h-11 rounded-xl flex items-center justify-center"
-                  style={{ background: "var(--input-bg)" }}
+                  className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+                  style={{
+                    background: "var(--input-bg)",
+                  }}
                 >
                   <MapPin size={22} strokeWidth={1.7} />
                 </span>
-                <h2 className="font-serif text-2xl md:text-3xl">Visit Us</h2>
+
+                <h2 className="font-serif text-2xl md:text-3xl">
+                  Visit Us
+                </h2>
               </div>
 
               <p
-                className="text-lg leading-8"
-                style={{ color: "var(--text-secondary)" }}
+                className="text-base sm:text-lg leading-8"
+                style={{
+                  color: "var(--text-secondary)",
+                }}
               >
                 Karma Niwas
                 <br />
@@ -295,8 +368,9 @@ export default function GetSupport() {
               </p>
             </div>
 
+            {/* QUICK HELP */}
             <div
-              className="rounded-3xl p-8 md:p-10 border"
+              className="rounded-3xl p-6 sm:p-8 md:p-10 border"
               style={{
                 background: "var(--background)",
                 borderColor: "var(--border)",
@@ -304,19 +378,24 @@ export default function GetSupport() {
             >
               <div className="flex items-center gap-3 mb-5">
                 <span
-                  className="w-11 h-11 rounded-xl flex items-center justify-center"
-                  style={{ background: "var(--input-bg)" }}
+                  className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+                  style={{
+                    background: "var(--input-bg)",
+                  }}
                 >
                   <Headphones size={22} strokeWidth={1.7} />
                 </span>
+
                 <h2 className="font-serif text-2xl md:text-3xl">
                   Need Quick Help?
                 </h2>
               </div>
 
               <p
-                className="text-lg leading-8 mb-6"
-                style={{ color: "var(--text-secondary)" }}
+                className="text-base sm:text-lg leading-8 mb-6"
+                style={{
+                  color: "var(--text-secondary)",
+                }}
               >
                 Our support team is just a call or WhatsApp message away.
               </p>
@@ -324,8 +403,11 @@ export default function GetSupport() {
               <div className="flex flex-wrap gap-3">
                 <button
                   onClick={callSupport}
-                  className="inline-flex items-center gap-2 rounded-full px-6 py-3 hover:-translate-y-1 transition-transform"
-                  style={{ background: "var(--foreground)", color: "var(--background)" }}
+                  className="inline-flex items-center gap-2 rounded-full px-5 sm:px-6 py-3 hover:-translate-y-1 transition-transform"
+                  style={{
+                    background: "var(--foreground)",
+                    color: "var(--background)",
+                  }}
                 >
                   <Phone size={17} />
                   Call Now
@@ -333,8 +415,11 @@ export default function GetSupport() {
 
                 <button
                   onClick={openWhatsApp}
-                  className="inline-flex items-center gap-2 rounded-full px-6 py-3 hover:-translate-y-1 transition-transform"
-                  style={{ background: "var(--input-bg)", color: "var(--foreground)" }}
+                  className="inline-flex items-center gap-2 rounded-full px-5 sm:px-6 py-3 hover:-translate-y-1 transition-transform"
+                  style={{
+                    background: "var(--input-bg)",
+                    color: "var(--foreground)",
+                  }}
                 >
                   <MessageCircle size={17} />
                   WhatsApp
@@ -347,35 +432,49 @@ export default function GetSupport() {
 
       {/* PRODUCTS CTA */}
       <section
-        className="py-20 md:py-24"
-        style={{ background: "var(--foreground)", color: "var(--background)" }}
+        className="py-16 sm:py-20 md:py-24"
+        style={{
+          background: "var(--foreground)",
+          color: "var(--background)",
+        }}
       >
-        <div className="container mx-auto max-w-4xl px-6 text-center">
+        <div className="container mx-auto max-w-4xl px-4 sm:px-6 text-center">
           <p
-            className="uppercase tracking-[6px] text-sm"
-            style={{ color: "var(--input-bg)" }}
+            className="uppercase tracking-[4px] sm:tracking-[6px] text-xs sm:text-sm"
+            style={{
+              color: "var(--input-bg)",
+            }}
           >
             Explore Yarche
           </p>
 
-          <h2 className="font-serif text-4xl md:text-6xl mt-5 leading-tight">
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl mt-5 leading-tight">
             Discover something handmade.
           </h2>
 
           <p
-            className="mt-5 text-lg leading-8"
-            style={{ color: "var(--border)" }}
+            className="mt-5 text-base sm:text-lg leading-8"
+            style={{
+              color: "var(--border)",
+            }}
           >
             Explore our collection of thoughtfully crafted handmade products.
           </p>
 
           <button
             onClick={goToProducts}
-            className="mt-9 inline-flex items-center gap-3 rounded-full px-8 py-4 font-medium transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-            style={{ background: "var(--input-bg)", color: "var(--foreground)" }}
+            className="mt-8 sm:mt-9 inline-flex items-center gap-3 rounded-full px-7 sm:px-8 py-3.5 sm:py-4 font-medium transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+            style={{
+              background: "var(--input-bg)",
+              color: "var(--foreground)",
+            }}
           >
             Shop Now
-            <ArrowRight size={19} strokeWidth={1.8} />
+
+            <ArrowRight
+              size={19}
+              strokeWidth={1.8}
+            />
           </button>
         </div>
       </section>
