@@ -31,7 +31,7 @@ export default function ProductGallery({
 
       {/* MAIN IMAGE */}
 
-      <div className="w-full overflow-hidden rounded-[24px] md:rounded-[30px] border border-[#28170D]/10 bg-[var(--surface)]">
+      <div className="w-full overflow-hidden rounded-[24px] md:rounded-[30px] border border-foreground/10 bg-[var(--surface)]">
 
        <div
   className="
@@ -67,7 +67,7 @@ export default function ProductGallery({
                 items-center
                 gap-2
                 bg-footer
-                text-[#FF6E23]
+                text-primary
                 px-3
                 py-2
                 rounded-full
@@ -179,8 +179,8 @@ export default function ProductGallery({
                 border-2
                 transition-all
                 ${index === i
-                  ? "border-[#28170D] scale-105"
-                  : "border-[#28170D]/10"
+                  ? "border-foreground scale-105"
+                  : "border-foreground/10"
                 }
               `}
             >

@@ -42,7 +42,7 @@ export default function ComboDetailPage() {
 
   if (!combo) {
     return (
-      <div className="py-20 text-center text-red-500">Combo not found</div>
+      <div className="py-20 text-center text-error">Combo not found</div>
     );
   }
 

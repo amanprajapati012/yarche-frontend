@@ -22,8 +22,8 @@ export default function DeliveryStatusBadge({
 }: Props) {
   const value = status?.toLowerCase();
 
-  let bg = "#E5E7EB";
-  let color = "#6B7280";
+  let bg = "var(--surface-3)";
+  let color = "var(--text-secondary)";
   let Icon = AlertCircle;
 
   // ================= PAYMENT =================
@@ -32,26 +32,26 @@ export default function DeliveryStatusBadge({
     switch (value) {
       case "success":
       case "paid":
-        bg = "#DCFCE7";
-        color = "#15803D";
+        bg = "var(--success-light)";
+        color = "var(--success)";
         Icon = CheckCircle2;
         break;
 
       case "pending":
-        bg = "#FEF3C7";
-        color = "#B45309";
+        bg = "var(--warning-light)";
+        color = "var(--primary-dark)";
         Icon = Clock3;
         break;
 
       case "failed":
-        bg = "#FEE2E2";
-        color = "#DC2626";
+        bg = "var(--error-light)";
+        color = "var(--error)";
         Icon = Ban;
         break;
 
       default:
-        bg = "#DBEAFE";
-        color = "#1D4ED8";
+        bg = "var(--info-light)";
+        color = "var(--info)";
         Icon = CreditCard;
     }
   }
@@ -61,72 +61,72 @@ export default function DeliveryStatusBadge({
   else {
     switch (value) {
       case "pending":
-        bg = "#FEF3C7";
-        color = "#B45309";
+        bg = "var(--warning-light)";
+        color = "var(--primary-dark)";
         Icon = Clock3;
         break;
 
       case "processing":
-        bg = "#DBEAFE";
-        color = "#2563EB";
+        bg = "var(--info-light)";
+        color = "var(--info)";
         Icon = Package;
         break;
 
       case "packed":
-        bg = "#EDE9FE";
-        color = "#7C3AED";
+        bg = "var(--info-light)";
+        color = "var(--info)";
         Icon = PackageCheck;
         break;
 
       case "shipped":
-        bg = "#CFFAFE";
-        color = "#0891B2";
+        bg = "var(--info-light)";
+        color = "var(--info)";
         Icon = Truck;
         break;
 
       case "out for delivery":
       case "out_for_delivery":
-        bg = "#FFEDD5";
-        color = "#EA580C";
+        bg = "var(--footer-heading)";
+        color = "var(--primary-dark)";
         Icon = Truck;
         break;
 
       case "delivered":
-        bg = "#DCFCE7";
-        color = "#15803D";
+        bg = "var(--success-light)";
+        color = "var(--success)";
         Icon = CheckCircle2;
         break;
 
       case "cancelled":
-        bg = "#FEE2E2";
-        color = "#DC2626";
+        bg = "var(--error-light)";
+        color = "var(--error)";
         Icon = Ban;
         break;
 
       case "rto initiated":
       case "rto_initiated":
-        bg = "#FEE2E2";
-        color = "#DC2626";
+        bg = "var(--error-light)";
+        color = "var(--error)";
         Icon = Truck;
         break;
 
       case "rto in transit":
       case "rto_in_transit":
-        bg = "#FFE4E6";
-        color = "#E11D48";
+        bg = "var(--error-light)";
+        color = "var(--error)";
         Icon = Truck;
         break;
 
       case "rto delivered":
       case "rto_delivered":
-        bg = "#FECACA";
-        color = "#B91C1C";
+        bg = "var(--border)";
+        color = "var(--error)";
         Icon = Ban;
         break;
 
       default:
-        bg = "#F3F4F6";
-        color = "#6B7280";
+        bg = "var(--background)";
+        color = "var(--text-secondary)";
         Icon = AlertCircle;
     }
   }

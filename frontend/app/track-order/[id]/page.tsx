@@ -71,7 +71,7 @@ export default function TrackOrderPage() {
         <Loader2
           className="animate-spin"
           size={45}
-          color="#28170d"
+          color="var(--foreground)"
         />
       </div>
     );
@@ -83,7 +83,7 @@ export default function TrackOrderPage() {
         className="min-h-screen flex items-center justify-center"
         style={{ background: "var(--background)" }}
       >
-        <h2 className="text-2xl font-semibold text-red-500">
+        <h2 className="text-2xl font-semibold text-error">
           Order Not Found
         </h2>
       </div>
@@ -118,12 +118,12 @@ export default function TrackOrderPage() {
           "
           style={{
             background:
-              "linear-gradient(135deg,#28170d 0%,#3c2415 60%,#5b3a25 100%)",
+              "linear-gradient(135deg, var(--footer) 0%, var(--foreground-2) 60%, var(--secondary) 100%)",
           }}
         >
           <div className="absolute right-[-120px] top-[-120px] h-[320px] w-[320px] rounded-full bg-white/5 blur-3xl" />
 
-          <div className="absolute left-[-100px] bottom-[-120px] h-[250px] w-[250px] rounded-full bg-[#caa574]/20 blur-3xl" />
+          <div className="absolute left-[-100px] bottom-[-120px] h-[250px] w-[250px] rounded-full bg-input-bg/20 blur-3xl" />
 
           <div className="relative z-10 grid lg:grid-cols-2 gap-10 p-10">
 
@@ -208,7 +208,7 @@ export default function TrackOrderPage() {
 
                   <Truck
                     size={24}
-                    className="text-[#efd6ad]"
+                    className="text-input-bg"
                   />
 
                   <div>
@@ -232,7 +232,7 @@ export default function TrackOrderPage() {
                 <div className="mt-8 flex items-center gap-3">
 
                   <CalendarDays
-                    className="text-[#efd6ad]"
+                    className="text-input-bg"
                     size={22}
                   />
 

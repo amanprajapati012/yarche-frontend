@@ -87,15 +87,15 @@ export default function RegisterForm() {
   };
 
   const inputClass =
-    "w-full pl-11 pr-4 py-3 rounded-xl bg-white border border-gray-200 outline-none focus:ring-2 focus:ring-orange-400 transition";
+    "w-full pl-11 pr-4 py-3 rounded-xl bg-white border border-gray-200 outline-none focus:ring-2 focus:ring-primary transition";
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-yellow-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-light to-warning-light px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6">
 
         {/* Header */}
         <div className="text-center mb-6">
-          <div className="w-14 h-14 mx-auto bg-orange-500 rounded-xl flex items-center justify-center text-white">
+          <div className="w-14 h-14 mx-auto bg-primary rounded-xl flex items-center justify-center text-white">
             <User />
           </div>
 
@@ -175,7 +175,7 @@ export default function RegisterForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition"
+            className="w-full bg-gradient-to-r from-primary to-primary text-white py-3 rounded-xl font-semibold hover:opacity-90 transition"
           >
             {loading ? "Creating..." : "Create Account"}
           </button>
@@ -184,7 +184,7 @@ export default function RegisterForm() {
         {/* Footer */}
         <p className="text-center text-sm mt-5 text-gray-600">
           Already have an account?{" "}
-          <Link href="/auth/login" className="text-orange-500 font-semibold">
+          <Link href="/auth/login" className="text-primary font-semibold">
             Login
           </Link>
         </p>

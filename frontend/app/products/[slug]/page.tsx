@@ -87,12 +87,12 @@ export default function ProductDetailsPage() {
   if (!product) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center px-4">
-        <div className="bg-[#f5e6c6] border border-[#28170D]/10 rounded-[24px] md:rounded-[30px] p-6 md:p-8 text-center max-w-md w-full">
+        <div className="bg-warning-light border border-foreground/10 rounded-[24px] md:rounded-[30px] p-6 md:p-8 text-center max-w-md w-full">
           <h2 className="text-2xl md:text-3xl font-black text-foreground">
             Product Not Found
           </h2>
 
-          <p className="text-[#6b584b] mt-3 text-sm md:text-base">
+          <p className="text-text-secondary mt-3 text-sm md:text-base">
             The product you are looking for does not exist or may have been
             removed.
           </p>
@@ -165,7 +165,7 @@ export default function ProductDetailsPage() {
                   px-4
                   py-2
                   rounded-full
-                  bg-[#FF6E23]
+                  bg-primary
                   text-foreground
                   font-bold
                   text-[11px]
@@ -191,7 +191,7 @@ export default function ProductDetailsPage() {
                 Related Products
               </h2>
 
-              <p className="text-[#6b584b] mt-3 text-sm md:text-base">
+              <p className="text-text-secondary mt-3 text-sm md:text-base">
                 Handpicked products you may also like.
               </p>
             </div>

@@ -53,7 +53,7 @@ export default function OrderTracking() {
               <div
                 className={`w-14 h-14 rounded-full flex items-center justify-center ${
                   step.completed
-                    ? "bg-green-500 text-white"
+                    ? "bg-success text-white"
                     : "bg-gray-200"
                 }`}
               >
@@ -65,7 +65,7 @@ export default function OrderTracking() {
               </h4>
 
               {index !== steps.length - 1 && (
-                <div className="hidden md:block absolute top-7 left-[60%] w-full h-[2px] bg-green-400" />
+                <div className="hidden md:block absolute top-7 left-[60%] w-full h-[2px] bg-success" />
               )}
             </div>
           );

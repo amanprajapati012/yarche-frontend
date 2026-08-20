@@ -19,7 +19,7 @@ export default function ComboIncludedProducts({ combo }: any) {
   return (
     <div className="bg-[var(--surface)] border border-bg-[var(--footer)]/10 rounded-[32px] p-5 md:p-8">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-12 h-12 rounded-2xl bg-footer text-[#FF6E23] flex items-center justify-center">
+        <div className="w-12 h-12 rounded-2xl bg-footer text-primary flex items-center justify-center">
           <PackageOpen size={22} />
         </div>
 
@@ -27,7 +27,7 @@ export default function ComboIncludedProducts({ combo }: any) {
           <h2 className="text-2xl md:text-3xl font-black text-foreground">
             What's Included
           </h2>
-          <p className="text-[#6b5c50] text-sm mt-1">
+          <p className="text-text-secondary text-sm mt-1">
             {combo.products.length} items in this combo
           </p>
         </div>
@@ -61,10 +61,10 @@ sm:flex-row
 gap-4
 rounded-2xl
 border
-border-[#28170D]/10
-bg-[#fff3e2]
+border-foreground/10
+bg-surface-2
 p-4
-hover:border-[#FF6E23]
+hover:border-primary
 transition-all
 overflow-hidden
 "
@@ -89,7 +89,7 @@ overflow-hidden
       </div>
     )}
 
-    <p className="text-sm text-[#6b5c50]">
+    <p className="text-sm text-text-secondary">
       ₹{displayPrice} × {item.quantity}
     </p>
   </div>

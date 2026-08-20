@@ -137,10 +137,10 @@ const handleImageChange = async (
 
       <div
         className="w-full max-w-3xl rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
-        style={{ background: "#fff6e2" }}
+        style={{ background: "var(--footer-text)" }}
       >
         {/* HEADER */}
-        <div className="border-b border-[#f2d9a6] px-4 sm:px-6 py-4 flex items-center justify-between shrink-0">
+        <div className="border-b border-input-bg px-4 sm:px-6 py-4 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <BackButton />
             <h2 className="text-lg sm:text-xl font-semibold text-foreground">
@@ -252,7 +252,7 @@ const handleImageChange = async (
 
                     <button
                       onClick={() => removeExistingImage(index)}
-                      className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs"
+                      className="absolute top-1 right-1 bg-error text-white rounded-full w-5 h-5 text-xs"
                     >
                       ×
                     </button>
@@ -280,7 +280,7 @@ const handleImageChange = async (
     <button
       type="button"
       onClick={() => removeNewImage(index)}
-      className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs"
+      className="absolute top-1 right-1 bg-error text-white rounded-full w-5 h-5 text-xs"
     >
       ×
     </button>
@@ -293,7 +293,7 @@ const handleImageChange = async (
         </div>
 
         {/* FOOTER */}
-        <div className="border-t border-[#f2d9a6] p-4 sm:p-5 flex justify-end gap-3 shrink-0">
+        <div className="border-t border-input-bg p-4 sm:p-5 flex justify-end gap-3 shrink-0">
           <button
             onClick={() => setOpen(false)}
             className="px-4 py-2 rounded-lg border text-sm"
@@ -305,7 +305,7 @@ const handleImageChange = async (
             onClick={handleSubmit}
             disabled={loading}
             className="px-5 py-2 rounded-lg text-white text-sm"
-            style={{ background: "#28170d" }}
+            style={{ background: "var(--foreground)" }}
           >
             {loading
               ? "Saving..."

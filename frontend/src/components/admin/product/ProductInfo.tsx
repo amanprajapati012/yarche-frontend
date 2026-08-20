@@ -115,7 +115,7 @@ export default function ProductInfo({
               px-4 py-3
               outline-none
               focus:ring-2
-              focus:ring-[#28170D]
+              focus:ring-foreground
             "
           />
         </div>
@@ -139,7 +139,7 @@ export default function ProductInfo({
               px-4 py-3
               outline-none
               focus:ring-2
-              focus:ring-[#28170D]
+              focus:ring-foreground
             "
           />
         </div>
@@ -163,7 +163,7 @@ export default function ProductInfo({
               px-4 py-3
               outline-none
               focus:ring-2
-              focus:ring-[#28170D]
+              focus:ring-foreground
             "
           />
         </div>
@@ -191,7 +191,7 @@ export default function ProductInfo({
               px-4 py-3
               outline-none
               focus:ring-2
-              focus:ring-[#28170D]
+              focus:ring-foreground
             "
           >
             <option value="">
@@ -240,7 +240,7 @@ export default function ProductInfo({
               px-4 py-3
               outline-none
               focus:ring-2
-              focus:ring-[#28170D]
+              focus:ring-foreground
               disabled:bg-gray-100
             "
           >
@@ -279,7 +279,7 @@ export default function ProductInfo({
       px-4 py-3
       outline-none
       focus:ring-2
-      focus:ring-[#28170D]
+      focus:ring-foreground
     "
           />
         </div>
@@ -299,7 +299,7 @@ export default function ProductInfo({
       px-4 py-3
       outline-none
       focus:ring-2
-      focus:ring-[#28170D]
+      focus:ring-foreground
     "
           />
         </div>
@@ -319,7 +319,7 @@ export default function ProductInfo({
       px-4 py-3
       outline-none
       focus:ring-2
-      focus:ring-[#28170D]
+      focus:ring-foreground
     "
           />
         </div>
@@ -339,7 +339,7 @@ export default function ProductInfo({
       px-4 py-3
       outline-none
       focus:ring-2
-      focus:ring-[#28170D]
+      focus:ring-foreground
     "
           />
         </div>
@@ -365,7 +365,7 @@ export default function ProductInfo({
               px-4 py-3
               outline-none
               focus:ring-2
-              focus:ring-[#28170D]
+              focus:ring-foreground
             "
           />
         </div>
@@ -389,7 +389,7 @@ export default function ProductInfo({
               px-4 py-3
               outline-none
               focus:ring-2
-              focus:ring-[#28170D]
+              focus:ring-foreground
             "
           />
         </div>

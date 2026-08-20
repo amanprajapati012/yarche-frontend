@@ -61,12 +61,12 @@ export default function MobileSearch({
       </div>
 
       <div className="space-y-4">
-        <div className="w-full bg-[#E5DCC9]/30 px-4 py-3 rounded-md flex justify-between items-center text-sm font-medium border border-[#28170D]/10">
+        <div className="w-full bg-border/30 px-4 py-3 rounded-md flex justify-between items-center text-sm font-medium border border-foreground/10">
           All products
           <IconChevronDown size={16} />
         </div>
 
-        <div className="flex border border-[#28170D] rounded-md overflow-hidden">
+        <div className="flex border border-foreground rounded-md overflow-hidden">
           <input
             autoFocus
             value={query}
@@ -81,7 +81,7 @@ export default function MobileSearch({
         </div>
 
         {query && (
-          <div className="rounded-xl border border-[#28170D]/10 overflow-hidden bg-background">
+          <div className="rounded-xl border border-foreground/10 overflow-hidden bg-background">
             {results.length === 0 ? (
               <div className="p-6 text-center text-foreground">
                 No products found
@@ -99,7 +99,7 @@ export default function MobileSearch({
                     key={product._id}
                     href={`/product/${product._id}`}
                     onClick={() => setShowSearch(false)}
-                    className="flex items-center gap-3 p-3 border-b border-[#28170D]/5 hover:bg-[#F5E9CC] transition"
+                    className="flex items-center gap-3 p-3 border-b border-foreground/5 hover:bg-footer-heading transition"
                   >
                     <img
                       src={image}

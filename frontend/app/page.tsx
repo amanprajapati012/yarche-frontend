@@ -14,6 +14,7 @@ import TopProducts from "@/src/components/home/TopProducts";
 import ShopByCategory from "@/src/components/home/ShopByCategory";
 import BannerCard from "@/src/components/home/BannerCard";
 import HomeCombosSection from "@/src/components/home/HomeCombosSection";
+import LaunchCelebration from "@/src/components/common/LaunchCelebration";
 
 
 export default function Home() {
@@ -59,7 +60,7 @@ export default function Home() {
   return (
 
     <div className="w-full bg-background min-h-screen">
-
+      <LaunchCelebration />
 
       {/* HERO + CATEGORY SIDEBAR */}
       <FeatureBar

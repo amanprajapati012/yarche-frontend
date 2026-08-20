@@ -123,7 +123,7 @@ export default function OrderDetailsPage() {
                 className="min-h-screen flex items-center justify-center"
                 style={{ background: "var(--background)" }}
             >
-                <p className="text-red-500">Order not found.</p>
+                <p className="text-error">Order not found.</p>
             </div>
         );
     }
@@ -175,8 +175,8 @@ export default function OrderDetailsPage() {
                             <span
                                 className="rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wide"
                                 style={{
-                                    background: "#dcfce7",
-                                    color: "#166534",
+                                    background: "var(--success-light)",
+                                    color: "var(--success)",
                                 }}
                             >
                                 Payment: {order.paymentStatus}
@@ -185,8 +185,8 @@ export default function OrderDetailsPage() {
                             <span
                                 className="rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wide"
                                 style={{
-                                    background: "#dbeafe",
-                                    color: "#1d4ed8",
+                                    background: "var(--info-light)",
+                                    color: "var(--info)",
                                 }}
                             >
                                 Delivery: {order.deliveryStatus}
@@ -400,7 +400,7 @@ export default function OrderDetailsPage() {
                                                         <div className="min-w-0">
                                                             <div className="flex items-center gap-2 flex-wrap">
                                                                 {isCombo && (
-                                                                    <span className="inline-flex items-center gap-1 rounded-full bg-[#2d1a10] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
+                                                                    <span className="inline-flex items-center gap-1 rounded-full bg-foreground-3 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
                                                                         <Layers size={10} />
                                                                         Combo
                                                                     </span>
@@ -496,7 +496,7 @@ export default function OrderDetailsPage() {
                                                 {/* DISCOUNT */}
                                                 <td
                                                     className="px-5 py-4 text-right font-medium"
-                                                    style={{ color: "#16a34a" }}
+                                                    style={{ color: "var(--success)" }}
                                                 >
                                                     ₹{item.discountedPrice ?? "-"}
                                                 </td>
@@ -544,7 +544,7 @@ export default function OrderDetailsPage() {
                                     <span className="text-[var(--text-secondary)]">
                                         Coupon Discount
                                     </span>
-                                    <span className="text-green-600">
+                                    <span className="text-success">
                                         -₹{order.couponDiscount}
                                     </span>
                                 </div>

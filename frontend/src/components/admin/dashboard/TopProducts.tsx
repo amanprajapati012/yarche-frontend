@@ -21,12 +21,12 @@ export default function TopProducts({
   const router = useRouter();
 
   return (
-    <div className="bg-white rounded-3xl border border-[#efe7dd] shadow-sm overflow-hidden">
+    <div className="bg-white rounded-3xl border border-surface-3 shadow-sm overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between p-6 border-b border-[#f3ede6]">
+      <div className="flex items-center justify-between p-6 border-b border-surface-3">
         <div>
-          <h2 className="text-lg font-bold text-[#1f1a17] flex items-center gap-2">
-            <Trophy className="w-5 h-5 text-amber-500" />
+          <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
+            <Trophy className="w-5 h-5 text-primary" />
             Top Selling Products
           </h2>
 
@@ -39,7 +39,7 @@ export default function TopProducts({
           onClick={() =>
             router.push("/admin/products")
           }
-          className="flex items-center gap-1 text-xs font-medium px-3 py-2 rounded-xl bg-[#f8f3ee] text-[#8b5e3c] hover:bg-[#8b5e3c] hover:text-white transition-all"
+          className="flex items-center gap-1 text-xs font-medium px-3 py-2 rounded-xl bg-surface text-secondary hover:bg-secondary hover:text-white transition-all"
         >
           View All
           <ArrowRight className="w-3 h-3" />
@@ -80,7 +80,7 @@ export default function TopProducts({
               return (
                 <div
                   key={product._id}
-                  className="group flex items-center justify-between p-4 rounded-2xl border border-[#f2ebe3] hover:border-[#d9c2ad] hover:shadow-md transition-all"
+                  className="group flex items-center justify-between p-4 rounded-2xl border border-surface-3 hover:border-input-bg hover:shadow-md transition-all"
                 >
                   <div className="flex items-center gap-4 min-w-0">
                     {/* Rank */}
@@ -88,12 +88,12 @@ export default function TopProducts({
                     <div
                       className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm shrink-0
                       ${index === 0
-                          ? "bg-yellow-100 text-yellow-700"
+                          ? "bg-warning-light text-warning"
                           : index === 1
                             ? "bg-gray-100 text-gray-700"
                             : index === 2
-                              ? "bg-orange-100 text-orange-700"
-                              : "bg-[#f5efe8] text-[#8b5e3c]"
+                              ? "bg-primary-light text-primary-dark"
+                              : "bg-surface-3 text-secondary"
                         }`}
                     >
                       #{index + 1}
@@ -115,7 +115,7 @@ export default function TopProducts({
                     {/* Product Info */}
 
                     <div className="min-w-0">
-                      <h3 className="font-semibold text-[#1f1a17] truncate">
+                      <h3 className="font-semibold text-foreground truncate">
                         {product.displayName}
                       </h3>
 
@@ -139,7 +139,7 @@ export default function TopProducts({
                         Sold
                       </p>
 
-                      <p className="font-bold text-indigo-600">
+                      <p className="font-bold text-info">
                         {sold}
                       </p>
                     </div>
@@ -160,13 +160,13 @@ export default function TopProducts({
                         Revenue
                       </p>
 
-                      <p className="font-bold text-green-600">
+                      <p className="font-bold text-success">
                         ₹
                         {revenue.toLocaleString()}
                       </p>
                     </div>
 
-                    <TrendingUp className="w-5 h-5 text-green-500" />
+                    <TrendingUp className="w-5 h-5 text-success" />
                   </div>
                 </div>
               );

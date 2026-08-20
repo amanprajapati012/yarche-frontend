@@ -48,7 +48,7 @@ export default function AddressCard({
       className="
         bg-[var(--background)] 
         border-2
-        border-[#d8b98c]
+        border-input-bg
         rounded-2xl
         p-5
         shadow-sm
@@ -98,7 +98,7 @@ export default function AddressCard({
                     px-3
                     py-1
                     rounded-full
-                    bg-green-600
+                    bg-success
                     text-white
                     text-xs
                     font-semibold
@@ -128,7 +128,7 @@ export default function AddressCard({
             className="text-foreground mt-1 flex-shrink-0"
           />
 
-          <div className="text-[#4d3725] leading-6">
+          <div className="text-foreground-2 leading-6">
 
             <p>{data.addressLine}</p>
 
@@ -181,7 +181,7 @@ export default function AddressCard({
             text-white
             py-3
             font-semibold
-            hover:bg-[#3c2515]
+            hover:bg-foreground-2
             transition
           "
         >
@@ -199,11 +199,11 @@ export default function AddressCard({
             gap-2
             rounded-xl
             border-2
-            border-red-600
-            text-red-600
+            border-error
+            text-error
             py-3
             font-semibold
-            hover:bg-red-600
+            hover:bg-error
             hover:text-white
             transition
           "

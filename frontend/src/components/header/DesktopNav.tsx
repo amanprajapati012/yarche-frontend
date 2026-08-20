@@ -33,7 +33,7 @@ export default function DesktopNav({
         w-full
         bg-background
         border-t
-        border-[#28170D]/10
+        border-foreground/10
       "
     >
 
@@ -57,7 +57,7 @@ export default function DesktopNav({
             w-full
             h-[64px]
             bg-footer
-            text-[#FFF6E2]
+            text-footer-text
             flex
             items-center
             gap-3
@@ -87,7 +87,7 @@ export default function DesktopNav({
               w-full
               bg-background
               border
-              border-[#28170D]/10
+              border-foreground/10
               shadow-lg
               z-50
             "
@@ -104,8 +104,8 @@ export default function DesktopNav({
                   py-4
                   text-[15px]
                   border-b
-                  border-[#28170D]/5
-                  hover:bg-[#F5E9CC]
+                  border-foreground/5
+                  hover:bg-footer-heading
                   transition
                 "
               >
@@ -133,23 +133,41 @@ export default function DesktopNav({
         "
       >
 
-        {navLinks.map((link)=>(
-          <Link
-            key={link.name}
-            href={link.href}
-            className="
-              h-full
-              flex
-              items-center
-              px-5
-              font-semibold
-              hover:text-[#6F4A2D]
-              transition
-            "
-          >
-            {link.name}
-          </Link>
-        ))}
+        {navLinks.map((link) => {
+          const active = pathname === link.href;
+          return (
+            <Link
+              key={link.name}
+              href={link.href}
+              className={`
+                relative
+                h-full
+                flex
+                items-center
+                px-5
+                font-semibold
+                transition-colors
+                after:content-['']
+                after:absolute
+                after:left-5
+                after:right-5
+                after:bottom-0
+                after:h-[2.5px]
+                after:rounded-full
+                after:bg-primary
+                after:origin-left
+                after:scale-x-0
+                after:transition-transform
+                after:duration-300
+                hover:text-primary
+                hover:after:scale-x-100
+                ${active ? "text-primary after:scale-x-100" : ""}
+              `}
+            >
+              {link.name}
+            </Link>
+          );
+        })}
 
       </div>
 

@@ -15,7 +15,7 @@ export default function LatestCustomers({ users }: any) {
       <div className="flex items-start justify-between mb-4">
         
         <div>
-          <h2 className="text-lg font-semibold text-[#1f1a17]">
+          <h2 className="text-lg font-semibold text-foreground">
             New Customers
           </h2>
           <p className="text-xs text-gray-500">
@@ -30,7 +30,7 @@ export default function LatestCustomers({ users }: any) {
             text-xs
             px-3 py-1.5
             rounded-full
-            bg-[#1f1a17]
+            bg-foreground
             text-white
             hover:opacity-90
             transition
@@ -45,10 +45,10 @@ export default function LatestCustomers({ users }: any) {
         {latest5.map((user: any, i: number) => (
           <div
             key={i}
-            className="flex items-center justify-between p-3 rounded-xl bg-gray-50 hover:bg-emerald-50 transition"
+            className="flex items-center justify-between p-3 rounded-xl bg-gray-50 hover:bg-success-light transition"
           >
             <div className="min-w-0">
-              <p className="font-medium text-sm text-[#1f1a17] truncate">
+              <p className="font-medium text-sm text-foreground truncate">
                 {user.name}
               </p>
               <p className="text-xs text-gray-500 truncate">

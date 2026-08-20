@@ -45,7 +45,7 @@ export default function HomeCombosSection() {
         className="pointer-events-none absolute -top-16 -left-16 w-60 h-60 rounded-full blur-3xl opacity-50"
         style={{ background: "var(--input-bg)" }}
       />
-      <div className="pointer-events-none absolute -bottom-20 -right-20 w-72 h-72 rounded-full bg-[#FF6E23]/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-20 -right-20 w-72 h-72 rounded-full bg-primary/10 blur-3xl" />
 
       <div className="relative max-w-7xl mx-auto px-4">
 
@@ -65,7 +65,7 @@ export default function HomeCombosSection() {
               style={{ color: "var(--foreground)" }}
             >
               Combo Deals
-              <span className="inline-flex align-middle ml-2 text-[#FF6E23]">
+              <span className="inline-flex align-middle ml-2 text-primary">
                 <Sparkles className="w-6 h-6 sm:w-8 sm:h-8" />
               </span>
             </h2>

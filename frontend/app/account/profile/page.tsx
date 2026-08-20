@@ -82,7 +82,7 @@ export default function ProfilePage() {
             <div className="grid grid-cols-1 xl:grid-cols-[320px_1fr] gap-6">
 
               {/* LEFT CARD */}
-              <div className="bg-surface border border-[#28170d]/10 rounded-[28px] p-6 text-center min-w-0">
+              <div className="bg-surface border border-foreground/10 rounded-[28px] p-6 text-center min-w-0">
                 <div className="w-28 h-28 mx-auto rounded-full bg-footer text-white flex items-center justify-center">
                   <User size={42} />
                 </div>
@@ -101,7 +101,7 @@ export default function ProfilePage() {
               </div>
 
               {/* RIGHT CARD */}
-              <div className="bg-surface border border-[#28170d]/10 rounded-[28px] p-4 md:p-6 min-w-0">
+              <div className="bg-surface border border-foreground/10 rounded-[28px] p-4 md:p-6 min-w-0">
 
                 {/* top bar */}
                 <div className="flex flex-col md:flex-row md:justify-between gap-4 mb-6">
@@ -183,7 +183,7 @@ export default function ProfilePage() {
 
               <button
                 onClick={() => setOpenEdit(false)}
-                className="flex-1 py-3 rounded-2xl border border-[#28170d]/20"
+                className="flex-1 py-3 rounded-2xl border border-foreground/20"
               >
                 Cancel
               </button>
@@ -208,7 +208,7 @@ export default function ProfilePage() {
 
 function InfoCard({ icon, title, value }: any) {
   return (
-    <div className="bg-background border border-[#28170d]/10 rounded-2xl p-4 flex gap-4 min-w-0">
+    <div className="bg-background border border-foreground/10 rounded-2xl p-4 flex gap-4 min-w-0">
 
       <div className="w-12 h-12 rounded-xl bg-footer text-white flex items-center justify-center shrink-0">
         {icon}
@@ -239,7 +239,7 @@ function InputField({ label, value, onChange, type = "text" }: any) {
         type={type}
         value={value}
         onChange={onChange}
-        className="w-full h-12 px-4 rounded-2xl border border-[#28170d]/15 bg-background outline-none"
+        className="w-full h-12 px-4 rounded-2xl border border-foreground/15 bg-background outline-none"
       />
     </div>
   );

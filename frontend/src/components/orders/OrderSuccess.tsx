@@ -30,9 +30,9 @@ export default function OrderSuccess({ order }: Props) {
 
                     {/* TOP */}
 
-                    <div className="bg-gradient-to-r from-[#28170d] to-[#4b2f1f] p-10 text-center text-white">
+                    <div className="bg-gradient-to-r from-foreground to-foreground-2 p-10 text-center text-white">
 
-                        <div className="w-28 h-28 rounded-full bg-green-500 flex items-center justify-center mx-auto">
+                        <div className="w-28 h-28 rounded-full bg-success flex items-center justify-center mx-auto">
 
                             <CheckCircle2 size={70} />
 
@@ -74,7 +74,7 @@ export default function OrderSuccess({ order }: Props) {
 
                                 <div className="flex items-center gap-3 mb-6">
 
-                                    <Receipt className="text-[#28170d]" />
+                                    <Receipt className="text-foreground" />
 
                                     <h2 className="font-bold text-2xl">
 
@@ -157,7 +157,7 @@ export default function OrderSuccess({ order }: Props) {
 
                                     </div>
 
-                                    <div className="flex justify-between text-green-700">
+                                    <div className="flex justify-between text-success">
 
                                         <span>Coupon</span>
 
@@ -191,7 +191,7 @@ export default function OrderSuccess({ order }: Props) {
 
                         <div className="space-y-6">
 
-                            <div className="bg-[#fffbf5] rounded-3xl border border-[var(--border)] p-6">
+                            <div className="bg-background rounded-3xl border border-[var(--border)] p-6">
 
                                 <div className="flex items-center gap-3">
 
@@ -257,7 +257,7 @@ export default function OrderSuccess({ order }: Props) {
 
                             </div>
 
-                            <div className="bg-[#fffbf5] rounded-3xl border border-[var(--border)] p-6">
+                            <div className="bg-background rounded-3xl border border-[var(--border)] p-6">
 
                                 <div className="flex items-center gap-3">
 
@@ -289,7 +289,7 @@ export default function OrderSuccess({ order }: Props) {
 
                                         <span>Status</span>
 
-                                        <span className="text-green-600 font-semibold">
+                                        <span className="text-success font-semibold">
 
                                             {order.paymentStatus}
 
@@ -313,7 +313,7 @@ export default function OrderSuccess({ order }: Props) {
 
                             </div>
 
-                            <div className="bg-[#fffbf5] rounded-3xl border border-[var(--border)] p-6">
+                            <div className="bg-background rounded-3xl border border-[var(--border)] p-6">
 
                                 <div className="flex items-center gap-3">
 
@@ -333,7 +333,7 @@ export default function OrderSuccess({ order }: Props) {
 
                                 </p>
 
-                                <div className="mt-3 inline-flex bg-yellow-100 text-yellow-800 px-5 py-2 rounded-full font-semibold">
+                                <div className="mt-3 inline-flex bg-warning-light text-warning px-5 py-2 rounded-full font-semibold">
 
                                     <Package className="mr-2" size={18} />
 
@@ -349,7 +349,7 @@ export default function OrderSuccess({ order }: Props) {
 
                                     href="/account/orders"
 
-                                    className="bg-[#28170d] text-white rounded-2xl py-4 flex justify-center items-center gap-2"
+                                    className="bg-foreground text-white rounded-2xl py-4 flex justify-center items-center gap-2"
 
                                 >
 
@@ -363,7 +363,7 @@ export default function OrderSuccess({ order }: Props) {
 
                                     href="/products"
 
-                                    className="bg-[#ead7b8] rounded-2xl py-4 text-center"
+                                    className="bg-border-light rounded-2xl py-4 text-center"
 
                                 >
 

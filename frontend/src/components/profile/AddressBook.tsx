@@ -17,7 +17,7 @@ export default function AddressBook() {
           Address Book
         </h2>
 
-        <button className="bg-[#FF6E23] text-white px-4 py-2 rounded-xl flex items-center gap-2">
+        <button className="bg-primary text-white px-4 py-2 rounded-xl flex items-center gap-2">
           <Plus size={18} />
           Add Address
         </button>
@@ -26,9 +26,9 @@ export default function AddressBook() {
 
       <div className="grid lg:grid-cols-2 gap-4 mt-5">
 
-        <div className="border-2 border-[#FF6E23] rounded-2xl p-5 relative">
+        <div className="border-2 border-primary rounded-2xl p-5 relative">
 
-          <span className="absolute top-3 right-3 bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full">
+          <span className="absolute top-3 right-3 bg-success-light text-success text-xs px-3 py-1 rounded-full">
             Default
           </span>
 

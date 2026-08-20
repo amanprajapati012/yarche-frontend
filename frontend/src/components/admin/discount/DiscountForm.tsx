@@ -101,10 +101,10 @@ export default function DiscountForm({
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
       <div
         className="w-[900px] rounded-2xl shadow-2xl overflow-hidden"
-        style={{ background: "#fff6e2" }}
+        style={{ background: "var(--footer-text)" }}
       >
         {/* HEADER */}
-        <div className="px-6 py-4 border-b border-[#f2d9a6] flex justify-between items-center">
+        <div className="px-6 py-4 border-b border-input-bg flex justify-between items-center">
           <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
             <Gift size={18} />
             {editData ? "Update Discount" : "Create Discount"}
@@ -123,7 +123,7 @@ export default function DiscountForm({
 
           {/* CODE */}
           <div className="flex items-center gap-2 p-3 rounded-xl bg-surface">
-            <Tag size={18} color="#28170d" />
+            <Tag size={18} color="var(--foreground)" />
             <input
               placeholder="Coupon Code"
               className="w-full outline-none bg-transparent text-foreground"
@@ -134,7 +134,7 @@ export default function DiscountForm({
 
           {/* TYPE */}
           <div className="flex items-center gap-2 p-3 rounded-xl bg-surface">
-            <Percent size={18} color="#28170d" />
+            <Percent size={18} color="var(--foreground)" />
             <select
               className="w-full bg-transparent outline-none text-foreground"
               value={form.type}
@@ -147,7 +147,7 @@ export default function DiscountForm({
 
           {/* VALUE */}
           <div className="flex items-center gap-2 p-3 rounded-xl bg-surface">
-            <IndianRupee size={18} color="#28170d" />
+            <IndianRupee size={18} color="var(--foreground)" />
             <input
               type="number"
               placeholder="Discount Value"
@@ -159,7 +159,7 @@ export default function DiscountForm({
 
           {/* MIN ORDER */}
           <div className="flex items-center gap-2 p-3 rounded-xl bg-surface">
-            <Users size={18} color="#28170d" />
+            <Users size={18} color="var(--foreground)" />
             <input
               type="number"
               placeholder="Minimum Order Amount"
@@ -173,7 +173,7 @@ export default function DiscountForm({
 
           {/* MAX DISCOUNT */}
           <div className="flex items-center gap-2 p-3 rounded-xl bg-surface">
-            <Gift size={18} color="#28170d" />
+            <Gift size={18} color="var(--foreground)" />
             <input
               type="number"
               placeholder="Max Discount (optional)"
@@ -187,7 +187,7 @@ export default function DiscountForm({
 
           {/* USER LIMIT */}
           <div className="flex items-center gap-2 p-3 rounded-xl bg-surface">
-            <UserCheck size={18} color="#28170d" />
+            <UserCheck size={18} color="var(--foreground)" />
             <input
               type="number"
               placeholder="Max Users Can Use Coupon"
@@ -201,7 +201,7 @@ export default function DiscountForm({
 
           {/* USAGE LIMIT */}
           <div className="flex items-center gap-2 p-3 rounded-xl bg-surface">
-            <Hash size={18} color="#28170d" />
+            <Hash size={18} color="var(--foreground)" />
             <input
               type="number"
               placeholder="Total Usage Limit"
@@ -215,7 +215,7 @@ export default function DiscountForm({
 
           {/* START DATE */}
           <div className="flex items-center gap-2 p-3 rounded-xl bg-surface">
-            <Calendar size={18} color="#28170d" />
+            <Calendar size={18} color="var(--foreground)" />
             <input
               type="date"
               className="w-full outline-none bg-transparent text-foreground"
@@ -228,7 +228,7 @@ export default function DiscountForm({
 
           {/* END DATE */}
           <div className="flex items-center gap-2 p-3 rounded-xl bg-surface">
-            <Calendar size={18} color="#28170d" />
+            <Calendar size={18} color="var(--foreground)" />
             <input
               type="date"
               className="w-full outline-none bg-transparent text-foreground"
@@ -264,7 +264,7 @@ export default function DiscountForm({
         </div>
 
         {/* FOOTER */}
-        <div className="flex justify-end gap-3 px-6 py-4 border-t border-[#f2d9a6]">
+        <div className="flex justify-end gap-3 px-6 py-4 border-t border-input-bg">
           <button
             onClick={() => setOpen(false)}
             className="px-4 py-2 rounded-lg text-foreground font-medium"

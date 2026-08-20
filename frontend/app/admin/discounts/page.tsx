@@ -95,8 +95,8 @@ export default function DiscountsPage() {
         <span
           className={`px-2 py-1 rounded text-xs ${
             row.isActive
-              ? "bg-green-100 text-green-700"
-              : "bg-red-100 text-red-600"
+              ? "bg-success-light text-success"
+              : "bg-error-light text-error"
           }`}
         >
           {row.isActive ? "Active" : "Inactive"}

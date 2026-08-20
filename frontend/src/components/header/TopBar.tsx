@@ -87,12 +87,12 @@ export default function TopBar({
 
   return (
     <div
-className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-b border-[#28170D]/10 bg-background px-4 lg:px-0">
+className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-b border-foreground/10 bg-background px-4 lg:px-0">
 
       {/* LOGO */}
    <Link
   href="/"
-  className="w-auto lg:w-[290px] h-full flex items-center justify-center lg:border-r border-[#28170D]/10 lg:pl-5"
+  className="w-auto lg:w-[290px] h-full flex items-center justify-center lg:border-r border-foreground/10 lg:pl-5"
 
 >
        <Image
@@ -110,9 +110,9 @@ className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-
         ref={searchRef}
         className="hidden lg:flex flex-1 px-10 relative"
       >
-        <div className="w-full h-[54px] flex rounded-2xl overflow-hidden border border-[#E8D9C7] shadow-sm">
+        <div className="w-full h-[54px] flex rounded-2xl overflow-hidden border border-border shadow-sm">
 
-          <button className="w-[180px] bg-background border-r border-[#E8D9C7] flex items-center justify-center gap-2 font-medium">
+          <button className="w-[180px] bg-background border-r border-border flex items-center justify-center gap-2 font-medium">
             All Products
             <IconChevronDown size={16} />
           </button>
@@ -125,13 +125,13 @@ className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-
             className="flex-1 px-6 outline-none bg-surface text-[15px]"
           />
 
-          <button className="w-[120px] bg-footer text-white flex items-center justify-center hover:bg-[#241108] transition">
+          <button className="w-[120px] bg-footer text-white flex items-center justify-center hover:bg-footer-2 transition">
             <IconSearch size={22} />
           </button>
         </div>
 
         {openSearch && (
-          <div className="absolute top-[64px] left-10 right-10 bg-background rounded-xl border border-[#28170D]/10 shadow-xl overflow-hidden z-[999]">
+          <div className="absolute top-[64px] left-10 right-10 bg-background rounded-xl border border-foreground/10 shadow-xl overflow-hidden z-[999]">
 
             {loading ? (
               <div className="p-5 text-center">
@@ -152,7 +152,7 @@ className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-
                       setOpenSearch(false);
                       setQuery("");
                     }}
-                    className="flex gap-3 p-3 border-b border-[#28170D]/5 hover:bg-[#F5E9CC] transition"
+                    className="flex gap-3 p-3 border-b border-foreground/5 hover:bg-footer-heading transition"
                   >
                     <img
   src={getImageUrl(product.images?.[0])}
@@ -201,7 +201,7 @@ className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-
             href="/account/profile"
             className="flex items-center gap-3"
           >
-            <div className="w-12 h-12 rounded-full bg-footer text-[#FFF6E2] flex items-center justify-center font-bold overflow-hidden">
+            <div className="w-12 h-12 rounded-full bg-footer text-footer-text flex items-center justify-center font-bold overflow-hidden">
               {user.profileImage ? (
                 <img
                   src={user.profileImage}
@@ -248,7 +248,7 @@ className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-
         >
           <IconShoppingCart size={30} />
 
-          <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-footer text-[#FFF6E2] text-[10px] flex items-center justify-center font-bold">
+          <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-footer text-footer-text text-[10px] flex items-center justify-center font-bold">
             {cartItems.length > 9 ? "9+" : cartItems.length}
           </span>
         </Link>
@@ -275,7 +275,7 @@ className="flex items-center justify-between h-[64px] lg:h-[88px] w-full border-
         >
           <IconShoppingCart size={28} />
 
-          <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-footer text-[#FFF6E2] text-[10px] flex items-center justify-center font-bold">
+          <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-footer text-footer-text text-[10px] flex items-center justify-center font-bold">
             {cartItems.length > 9 ? "9+" : cartItems.length}
           </span>
         </Link>

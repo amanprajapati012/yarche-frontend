@@ -27,16 +27,16 @@ export default function OrderCard({ order }: Props) {
   const paymentColor = () => {
     switch (order.paymentStatus) {
       case "success":
-        return "bg-green-100 text-green-700";
+        return "bg-success-light text-success";
 
       case "pending":
-        return "bg-yellow-100 text-yellow-700";
+        return "bg-warning-light text-warning";
 
       case "failed":
-        return "bg-red-100 text-red-700";
+        return "bg-error-light text-error";
 
       default:
-        return "bg-blue-100 text-blue-700";
+        return "bg-info-light text-info";
     }
   };
 
@@ -256,10 +256,10 @@ export default function OrderCard({ order }: Props) {
       py-3
       rounded-2xl
       border-2
-      border-[#ff6b1a]
-      text-[#ff6b1a]
+      border-primary
+      text-primary
       font-semibold
-      hover:bg-[#ff6b1a]
+      hover:bg-primary
       hover:text-white
       transition-all
       duration-300

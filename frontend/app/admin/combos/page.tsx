@@ -100,7 +100,7 @@ export default function CombosPage() {
         </button>
       </div>
 
-      <div className="rounded-2xl border border-[#E7D6B4] bg-white p-6">
+      <div className="rounded-2xl border border-border-light bg-white p-6">
         {loading ? (
           <div className="py-12 text-center text-gray-500">
             Loading combos...

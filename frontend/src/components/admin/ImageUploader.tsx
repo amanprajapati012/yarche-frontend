@@ -76,9 +76,9 @@ export default function ImageUploader({
         onClick={() => inputRef.current?.click()}
         className="
           flex cursor-pointer flex-col items-center justify-center
-          rounded-2xl border-2 border-dashed border-[#d8c7a4]
-          bg-[#fffaf1] p-10 transition
-          hover:border-[#28170D]
+          rounded-2xl border-2 border-dashed border-input-bg
+          bg-background p-10 transition
+          hover:border-foreground
         "
       >
         <Upload className="mb-3" size={28} />

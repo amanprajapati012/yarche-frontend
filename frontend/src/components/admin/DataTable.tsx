@@ -75,10 +75,10 @@ export default function DataTable({
   };
 
   return (
-    <div className="rounded-2xl border border-[#ead9b7] bg-white shadow-sm">
+    <div className="rounded-2xl border border-border-light bg-white shadow-sm">
 
       {/* SEARCH BAR */}
-      <div className="flex items-center justify-between border-b border-[#f2e4c5] px-5 py-4">
+      <div className="flex items-center justify-between border-b border-border px-5 py-4">
         <h2 className="text-sm font-semibold text-foreground">
           Table
         </h2>
@@ -95,7 +95,7 @@ export default function DataTable({
               setPage(1);
             }}
             placeholder="Search..."
-            className="w-full rounded-lg border pl-9 pr-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#28170D]"
+            className="w-full rounded-lg border pl-9 pr-3 py-2 text-sm outline-none focus:ring-2 focus:ring-foreground"
           />
         </div>
       </div>
@@ -143,7 +143,7 @@ export default function DataTable({
               paginatedData.map((row, index) => (
                 <tr
                   key={index}
-                  className="border-t border-[#f2e4c5] hover:bg-[#fffaf0]"
+                  className="border-t border-border hover:bg-background"
                 >
                   {columns.map((column) => (
                     <td
@@ -161,7 +161,7 @@ export default function DataTable({
                       {onView && (
                         <button
                           onClick={() => onView(row)}
-                          className="rounded-lg p-2 hover:bg-blue-100"
+                          className="rounded-lg p-2 hover:bg-info-light"
                         >
                           <Eye size={18} />
                         </button>
@@ -170,7 +170,7 @@ export default function DataTable({
                       {onEdit && (
                         <button
                           onClick={() => onEdit(row)}
-                          className="rounded-lg p-2 hover:bg-yellow-100"
+                          className="rounded-lg p-2 hover:bg-warning-light"
                         >
                           <Edit size={18} />
                         </button>
@@ -179,7 +179,7 @@ export default function DataTable({
                       {onDelete && (
                         <button
                           onClick={() => onDelete(row)}
-                          className="rounded-lg p-2 hover:bg-red-100"
+                          className="rounded-lg p-2 hover:bg-error-light"
                         >
                           <Trash2 size={18} />
                         </button>
@@ -195,7 +195,7 @@ export default function DataTable({
 
       {/* PAGINATION */}
       {!loading && filteredData.length > 0 && (
-        <div className="flex items-center justify-between border-t border-[#f2e4c5] px-5 py-4">
+        <div className="flex items-center justify-between border-t border-border px-5 py-4">
           <p className="text-sm text-gray-600">
             Page {page} of {totalPages}
           </p>

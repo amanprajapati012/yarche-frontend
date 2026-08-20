@@ -98,7 +98,7 @@ export default function Header({ setOpen }: HeaderProps) {
       className="
         sticky top-0 z-30
         h-20
-        border-b border-[#ead9b7]
+        border-b border-border-light
         bg-surface/90
         backdrop-blur-xl
       "
@@ -146,11 +146,11 @@ export default function Header({ setOpen }: HeaderProps) {
                   hidden md:flex
                   items-center gap-1
                   rounded-full
-                  bg-green-100
+                  bg-success-light
                   px-2 py-1
                   text-[10px]
                   font-semibold
-                  text-green-700
+                  text-success
                 "
               >
                 <Sparkles size={10} />
@@ -181,7 +181,7 @@ export default function Header({ setOpen }: HeaderProps) {
       rounded-xl
       p-3
       bg-white
-      border border-[#ead9b7]
+      border border-border-light
       hover:shadow-md
       transition
     "
@@ -198,7 +198,7 @@ export default function Header({ setOpen }: HeaderProps) {
           h-5
           px-1
           rounded-full
-          bg-red-500
+          bg-error
           text-white
           text-[10px]
           font-bold
@@ -221,7 +221,7 @@ export default function Header({ setOpen }: HeaderProps) {
         w-[340px]
         max-w-[90vw]
         bg-white
-        border border-[#ead9b7]
+        border border-border-light
         rounded-3xl
         shadow-2xl
         overflow-hidden
@@ -267,17 +267,17 @@ export default function Header({ setOpen }: HeaderProps) {
                         key={item._id}
                         className={`
                 p-4 border-b last:border-b-0
-                hover:bg-[#fff7e7]
+                hover:bg-surface
                 transition
                 ${!item.read
-                            ? "bg-[#fff9ef]"
+                            ? "bg-background"
                             : ""
                           }
               `}
                       >
                         <div className="flex items-start gap-3">
                           {!item.read && (
-                            <div className="w-2 h-2 mt-2 rounded-full bg-red-500 shrink-0" />
+                            <div className="w-2 h-2 mt-2 rounded-full bg-error shrink-0" />
                           )}
 
                           <div className="flex-1">
@@ -305,7 +305,7 @@ export default function Header({ setOpen }: HeaderProps) {
               className="
                 flex items-center gap-3
                 rounded-2xl
-                border border-[#ead9b7]
+                border border-border-light
                 bg-white
                 px-3 py-2
                 hover:shadow-md
@@ -351,7 +351,7 @@ top-16
                   w-64
                   overflow-hidden
                   rounded-3xl
-                  border border-[#ead9b7]
+                  border border-border-light
                   bg-white
                   shadow-2xl
                 "
@@ -372,8 +372,8 @@ top-16
                   className="
                     flex w-full items-center gap-3
                     px-5 py-4
-                    text-red-600
-                    hover:bg-red-50
+                    text-error
+                    hover:bg-error-light
                     transition
                   "
                 >

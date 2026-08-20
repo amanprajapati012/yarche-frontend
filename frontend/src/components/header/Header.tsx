@@ -23,6 +23,14 @@ export default function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const navLinks = [
     { name: "Best Sellers", href: "/best-sellers" },
@@ -57,15 +65,18 @@ export default function Header() {
   return (
     <>
       <header
-        className="
+        className={`
           w-full
           bg-background
           sticky
           top-0
           z-[1000]
           border-b
-          border-[#28170D]/10
-        "
+          border-foreground/10
+          transition-shadow
+          duration-300
+          ${scrolled ? "shadow-[0_6px_24px_rgba(40,23,13,0.08)]" : ""}
+        `}
       >
         <div className="max-w-[1440px] mx-auto">
 

@@ -87,7 +87,7 @@ export default function BannerCard() {
             <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-black/5 to-black/15" />
 
             {/* Content */}
-            <div className="absolute inset-0 flex flex-col justify-between p-3 md:p-4 text-[#F8F8F8]">
+            <div className="absolute inset-0 flex flex-col justify-between p-3 md:p-4 text-background">
               {/* Top */}
               <div className="flex justify-end">
                 {banner.topText && (

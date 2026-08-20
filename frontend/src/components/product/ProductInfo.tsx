@@ -51,14 +51,14 @@ export default function ProductInfo({
 
         <div className="flex flex-wrap items-center gap-3">
 
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#28170D] to-[#4a2a1c] text-white shadow-lg">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-foreground to-foreground-2 text-white shadow-lg">
             <BadgeCheck size={14} />
             <span className="text-xs font-bold uppercase tracking-wider">
               {product.category}
             </span>
           </div>
 
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FF6E23] text-white shadow-lg">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-white shadow-lg">
             <Star size={14} fill="currentColor" />
             <span className="text-xs font-bold">
               Premium Product
@@ -72,7 +72,7 @@ export default function ProductInfo({
         </h1>
 
         {!isVariant && (
-          <p className="text-[#6c5b4f] text-sm md:text-lg mt-3 leading-7 break-words">
+          <p className="text-text-secondary text-sm md:text-lg mt-3 leading-7 break-words">
             {product.title}
           </p>
         )}
@@ -81,8 +81,8 @@ export default function ProductInfo({
 
           <div
             className={`flex items-center gap-2 text-sm font-semibold ${active.quantity > 0
-                ? "text-green-700"
-                : "text-red-600"
+                ? "text-success"
+                : "text-error"
               }`}
           >
             <CheckCircle2 size={16} />
@@ -91,7 +91,7 @@ export default function ProductInfo({
               : "Out of Stock"}
           </div>
 
-          <div className="text-[#6c5b4f] text-sm">
+          <div className="text-text-secondary text-sm">
             Ready To Dispatch
           </div>
 
@@ -101,7 +101,7 @@ export default function ProductInfo({
           product?.category) && (
             <div className="flex flex-wrap gap-2 mt-5">
 
-              <div className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-[#fff3e2] border border-[#28170D]/10 text-foreground text-xs font-semibold">
+              <div className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-surface-2 border border-foreground/10 text-foreground text-xs font-semibold">
                 <Tag size={12} />
                 {product.category}
               </div>
@@ -114,7 +114,7 @@ export default function ProductInfo({
                   ) => (
                     <div
                       key={index}
-                      className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-[#fff3e2] border border-[#28170D]/10 text-foreground text-xs font-semibold hover:border-[#FF6E23] transition-all"
+                      className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-surface-2 border border-foreground/10 text-foreground text-xs font-semibold hover:border-primary transition-all"
                     >
                       <Tag size={12} />
                       {tag}
@@ -136,30 +136,30 @@ export default function ProductInfo({
       ₹{active.discountedPrice}
     </span>
 
-    <span className="text-xl md:text-2xl text-[#8f7a68] line-through">
+    <span className="text-xl md:text-2xl text-secondary line-through">
       ₹{active.price}
     </span>
 
-    <span className="bg-footer text-[#FF6E23] px-3 py-2 rounded-full text-sm font-bold">
+    <span className="bg-footer text-primary px-3 py-2 rounded-full text-sm font-bold">
       {discount}% OFF
     </span>
   </div>
 
   <div className="mt-4 flex flex-wrap gap-2">
-    <span className="px-3 py-1.5 rounded-full bg-green-100 text-green-700 text-xs font-bold">
+    <span className="px-3 py-1.5 rounded-full bg-success-light text-success text-xs font-bold">
       Free Shipping
     </span>
 
-    <span className="px-3 py-1.5 rounded-full bg-blue-100 text-blue-700 text-xs font-bold">
+    <span className="px-3 py-1.5 rounded-full bg-info-light text-info text-xs font-bold">
       Secure Payment
     </span>
 
-    <span className="px-3 py-1.5 rounded-full bg-orange-100 text-orange-700 text-xs font-bold">
+    <span className="px-3 py-1.5 rounded-full bg-primary-light text-primary-dark text-xs font-bold">
       Easy Return
     </span>
   </div>
 
-  <p className="mt-5 text-[#5f5147] leading-7">
+  <p className="mt-5 text-text-secondary leading-7">
     {active.description}
   </p>
 
@@ -190,7 +190,7 @@ export default function ProductInfo({
 
       router.push("/cart");
     }}
-    className="h-14 md:h-16 rounded-2xl border-2 border-[#28170D] bg-[#fff3e2] text-foreground font-black flex items-center justify-center gap-2 hover:bg-footer hover:text-white transition-all"
+    className="h-14 md:h-16 rounded-2xl border-2 border-foreground bg-surface-2 text-foreground font-black flex items-center justify-center gap-2 hover:bg-footer hover:text-white transition-all"
   >
     <ShoppingCart size={18} />
     Add To Cart
@@ -209,13 +209,13 @@ export default function ProductInfo({
 
         <div className="flex items-center gap-3">
 
-          <div className="w-12 h-12 rounded-xl bg-footer flex items-center justify-center text-[#FF6E23]">
+          <div className="w-12 h-12 rounded-xl bg-footer flex items-center justify-center text-primary">
             <ScanBarcode size={22} />
           </div>
 
           <div>
 
-            <p className="text-xs text-[#6f6257] uppercase tracking-wider">
+            <p className="text-xs text-text-secondary uppercase tracking-wider">
               Product SKU
             </p>
 
@@ -234,12 +234,12 @@ export default function ProductInfo({
       <div className="bg-[var(--surface)] border border-bg-[var(--footer)]/10 rounded-[28px] p-5 space-y-4">
 
         <div className="flex gap-4">
-          <Truck className="text-[#FF6E23]" />
+          <Truck className="text-primary" />
           <div>
             <h4 className="font-black text-foreground">
               Estimated Delivery
             </h4>
-            <p className="text-[#6d5f53]">
+            <p className="text-text-secondary">
               Jun 23 - Jun 27
             </p>
           </div>
@@ -248,12 +248,12 @@ export default function ProductInfo({
         <div className="h-px bg-footer/10" />
 
         <div className="flex gap-4">
-          <PackageCheck className="text-[#FF6E23]" />
+          <PackageCheck className="text-primary" />
           <div>
             <h4 className="font-black text-foreground">
               Free Shipping & Replacement
             </h4>
-            <p className="text-[#6d5f53]">
+            <p className="text-text-secondary">
               Ships within 24hrs with 7-Day easy replacement.
             </p>
           </div>
@@ -262,12 +262,12 @@ export default function ProductInfo({
         <div className="h-px bg-footer/10" />
 
         <div className="flex gap-4">
-          <ShieldCheck className="text-[#FF6E23]" />
+          <ShieldCheck className="text-primary" />
           <div>
             <h4 className="font-black text-foreground">
               Secure Checkout
             </h4>
-            <p className="text-[#6d5f53]">
+            <p className="text-text-secondary">
               100% secure payments & protected transactions.
             </p>
           </div>

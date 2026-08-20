@@ -40,10 +40,10 @@ export default function FAQClient() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <div className="min-h-screen bg-[#faf7f2] py-16 px-5">
+    <div className="min-h-screen bg-background py-16 px-5">
       <div className="mx-auto max-w-4xl">
         <div className="mb-12 text-center">
-          <h1 className="text-4xl font-bold text-[#3b2a1d]">
+          <h1 className="text-4xl font-bold text-foreground-2">
             Frequently Asked Questions
           </h1>
 
@@ -65,11 +65,11 @@ export default function FAQClient() {
                 }
                 className="flex w-full items-center justify-between px-6 py-5 text-left"
               >
-                <span className="font-semibold text-[#3b2a1d]">
+                <span className="font-semibold text-foreground-2">
                   {faq.question}
                 </span>
 
-                <span className="text-2xl font-bold text-[#8B5E3C]">
+                <span className="text-2xl font-bold text-secondary">
                   {open === index ? "−" : "+"}
                 </span>
               </button>
@@ -83,7 +83,7 @@ export default function FAQClient() {
           ))}
         </div>
 
-        <div className="mt-14 rounded-2xl bg-[#8B5E3C] p-8 text-center text-white">
+        <div className="mt-14 rounded-2xl bg-secondary p-8 text-center text-white">
           <h2 className="mb-3 text-2xl font-semibold">
             Still have a question?
           </h2>
@@ -95,7 +95,7 @@ export default function FAQClient() {
 
           <Link
             href="/contact"
-            className="inline-block rounded-lg bg-white px-6 py-3 font-semibold text-[#8B5E3C] transition hover:bg-gray-100"
+            className="inline-block rounded-lg bg-white px-6 py-3 font-semibold text-secondary transition hover:bg-gray-100"
           >
             Contact Us
           </Link>

@@ -245,12 +245,12 @@ export default function OrderDetails({
                 className={`px-3 py-1 rounded-full text-sm font-semibold
                 ${
                   order.paymentStatus === "success"
-                    ? "bg-green-100 text-green-700"
+                    ? "bg-success-light text-success"
                     : order.paymentStatus === "pending"
-                    ? "bg-yellow-100 text-yellow-700"
+                    ? "bg-warning-light text-warning"
                     : order.paymentStatus === "failed"
-                    ? "bg-red-100 text-red-700"
-                    : "bg-blue-100 text-blue-700"
+                    ? "bg-error-light text-error"
+                    : "bg-info-light text-info"
                 }`}
               >
                 {order.paymentStatus.toUpperCase()}
@@ -316,7 +316,7 @@ export default function OrderDetails({
                   Discount
                 </span>
 
-                <span className="font-medium text-green-700">
+                <span className="font-medium text-success">
                   - ₹{order.couponDiscount}
                 </span>
               </div>

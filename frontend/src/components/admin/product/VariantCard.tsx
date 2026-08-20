@@ -72,10 +72,10 @@ export default function VariantCard({
           className="
             flex items-center gap-2
             rounded-lg
-            bg-red-50
+            bg-error-light
             px-3 py-2
-            text-red-600
-            hover:bg-red-100
+            text-error
+            hover:bg-error-light
           "
         >
           <Trash2 size={16} />
@@ -106,7 +106,7 @@ export default function VariantCard({
               px-4 py-3
               outline-none
               focus:ring-2
-              focus:ring-[#28170D]
+              focus:ring-foreground
             "
           />
         </div>
@@ -131,7 +131,7 @@ export default function VariantCard({
               px-4 py-3
               outline-none
               focus:ring-2
-              focus:ring-[#28170D]
+              focus:ring-foreground
             "
           />
         </div>
@@ -156,7 +156,7 @@ export default function VariantCard({
               px-4 py-3
               outline-none
               focus:ring-2
-              focus:ring-[#28170D]
+              focus:ring-foreground
             "
           />
         </div>
@@ -181,7 +181,7 @@ export default function VariantCard({
               px-4 py-3
               outline-none
               focus:ring-2
-              focus:ring-[#28170D]
+              focus:ring-foreground
             "
           />
         </div>
@@ -206,7 +206,7 @@ export default function VariantCard({
               px-4 py-3
               outline-none
               focus:ring-2
-              focus:ring-[#28170D]
+              focus:ring-foreground
             "
           />
         </div>
@@ -234,7 +234,7 @@ export default function VariantCard({
             px-4 py-3
             outline-none
             focus:ring-2
-            focus:ring-[#28170D]
+            focus:ring-foreground
           "
         />
       </div>

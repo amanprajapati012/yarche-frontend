@@ -38,7 +38,7 @@ export default function ComboCard({ combo }: any) {
   return (
     <Link
       href={`/combos/${slugify(combo.title)}`}
-      className="group flex flex-col h-full bg-surface rounded-[28px] overflow-hidden border border-[#e6d8bc] shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+      className="group flex flex-col h-full bg-surface rounded-[28px] overflow-hidden border border-border shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
     >
       {/* IMAGE */}
       <div className="relative aspect-square w-full p-3 overflow-hidden">
@@ -51,13 +51,13 @@ export default function ComboCard({ combo }: any) {
         </div>
 
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
-  <div className="flex items-center gap-1 bg-[#2d1a10] text-white text-[10px] sm:text-[11px] font-bold px-2.5 sm:px-3 py-1 rounded-full shadow max-w-[60%]">
+  <div className="flex items-center gap-1 bg-foreground-3 text-white text-[10px] sm:text-[11px] font-bold px-2.5 sm:px-3 py-1 rounded-full shadow max-w-[60%]">
     <Layers size={11} className="shrink-0" />
     <span className="truncate">Combo</span>
   </div>
 
   {discount > 0 && (
-    <div className="bg-[#FF6E23] text-white text-[10px] sm:text-[11px] font-bold px-2.5 sm:px-3 py-1 rounded-full shadow whitespace-nowrap">
+    <div className="bg-primary text-white text-[10px] sm:text-[11px] font-bold px-2.5 sm:px-3 py-1 rounded-full shadow whitespace-nowrap">
       {discount}% OFF
     </div>
   )}
@@ -66,15 +66,15 @@ export default function ComboCard({ combo }: any) {
 
       {/* CONTENT */}
       <div className="flex flex-col flex-1 px-4 sm:px-5 pb-5">
-        <p className="text-[11px] uppercase tracking-[2.5px] text-[#8A7B47] font-bold mb-2">
+        <p className="text-[11px] uppercase tracking-[2.5px] text-secondary font-bold mb-2">
           {combo.products?.length || 0} Products Included
         </p>
 
-        <h3 className="text-xl font-bold text-[#3F2A1D] leading-tight line-clamp-2">
+        <h3 className="text-xl font-bold text-foreground-2 leading-tight line-clamp-2">
           {combo.title}
         </h3>
 
-        <p className="mt-1 text-[15px] text-[#74685A] line-clamp-1">
+        <p className="mt-1 text-[15px] text-text-secondary line-clamp-1">
           {combo.description}
         </p>
 
@@ -82,12 +82,12 @@ export default function ComboCard({ combo }: any) {
         <div className="flex items-center justify-between gap-3 mt-4">
           <div className="flex-1 min-w-0">
             <div className="flex items-end gap-1 flex-wrap">
-              <span className="text-xl sm:text-3xl font-extrabold text-[#2D1A10] leading-none">
+              <span className="text-xl sm:text-3xl font-extrabold text-foreground-3 leading-none">
                 ₹{combo.discountedPrice}
               </span>
 
               {combo.price > combo.discountedPrice && (
-                <span className="text-xs sm:text-base text-[#8A8175] line-through mb-1">
+                <span className="text-xs sm:text-base text-text-secondary line-through mb-1">
                   ₹{combo.price}
                 </span>
               )}
@@ -125,7 +125,7 @@ export default function ComboCard({ combo }: any) {
 
               router.push("/cart");
             }}
-            className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full bg-[#3B281C] text-white flex items-center justify-center shadow-lg hover:scale-105 transition"
+            className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full bg-foreground-2 text-white flex items-center justify-center shadow-lg hover:scale-105 transition"
           >
             <ShoppingCart size={18} />
           </button>
@@ -134,13 +134,13 @@ export default function ComboCard({ combo }: any) {
         {/* STOCK STATUS */}
         <div className="mt-2 h-5">
           {availableStock <= 0 ? (
-            <div className="flex items-center gap-2 text-sm font-medium text-red-600">
-              <div className="w-2 h-2 rounded-full bg-red-600" />
+            <div className="flex items-center gap-2 text-sm font-medium text-error">
+              <div className="w-2 h-2 rounded-full bg-error" />
               Out of Stock
             </div>
           ) : availableStock <= 3 ? (
-            <div className="flex items-center gap-2 text-sm font-medium text-red-600">
-              <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
+            <div className="flex items-center gap-2 text-sm font-medium text-error">
+              <div className="w-2 h-2 rounded-full bg-error animate-pulse" />
               Hurry! Only {availableStock} combo(s) left
             </div>
           ) : (

@@ -40,7 +40,7 @@ export default function EditCategoryPage() {
   }, [id]);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (error) return <p className="text-error">{error}</p>;
 
   return (
     <div className="space-y-6">

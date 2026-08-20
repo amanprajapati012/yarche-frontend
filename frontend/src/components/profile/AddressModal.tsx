@@ -86,7 +86,7 @@ export default function AddressModal({
 
             <button
               onClick={getCurrentLocation}
-              className="w-full bg-[#FF6E23] text-white py-3 rounded-xl"
+              className="w-full bg-primary text-white py-3 rounded-xl"
             >
               Use Current Location
             </button>

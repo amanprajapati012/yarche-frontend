@@ -42,12 +42,12 @@ export default function FeatureBar({ categories }: Props) {
   return (
     <section
       id="home-hero"
-      className="w-full overflow-hidden bg-[#FFF6E2]"
+      className="w-full overflow-hidden bg-footer-text"
     >
       {/* ================= DESKTOP ================= */}
       <div className="hidden lg:grid grid-cols-[290px_1fr]">
         {/* CATEGORY SIDEBAR */}
-        <div className="bg-background border border-[#28170D]/10">
+        <div className="bg-background border border-foreground/10">
           {categories.map((cat) => (
             <Link
               key={cat}
@@ -58,8 +58,8 @@ export default function FeatureBar({ categories }: Props) {
                 py-4
                 text-[15px]
                 border-b
-                border-[#28170D]/5
-                hover:bg-[#F5E9CC]
+                border-foreground/5
+                hover:bg-footer-heading
                 transition
               "
             >

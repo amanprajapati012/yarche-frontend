@@ -75,7 +75,7 @@ export default function CollectionTiles() {
   return (
     <section className="relative bg-[var(--background)]  overflow-hidden">
       {/* Pattern */}
-      <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#28170D_1px,transparent_1px)] [background-size:28px_28px]" />
+      <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(var(--foreground)_1px,transparent_1px)] [background-size:28px_28px]" />
 
       <motion.div
         variants={containerVariants}
@@ -107,14 +107,14 @@ export default function CollectionTiles() {
             <div className="flex gap-3 mt-8">
               <button
                 onClick={scrollLeft}
-                className="w-11 h-11 rounded-full border border-[#28170D]/20 flex items-center justify-center hover:bg-footer hover:text-white transition-all"
+                className="w-11 h-11 rounded-full border border-foreground/20 flex items-center justify-center hover:bg-footer hover:text-white transition-all"
               >
                 <ArrowLeft size={18} />
               </button>
 
               <button
                 onClick={scrollRight}
-                className="w-11 h-11 rounded-full border border-[#28170D]/20 flex items-center justify-center hover:bg-footer hover:text-white transition-all"
+                className="w-11 h-11 rounded-full border border-foreground/20 flex items-center justify-center hover:bg-footer hover:text-white transition-all"
               >
                 <ArrowRight size={18} />
               </button>
@@ -218,7 +218,7 @@ function CollectionCard({
       />
 
       {/* OVERLAY */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#28170D]/80 via-[#28170D]/30 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/30 to-transparent" />
 
       {/* CONTENT */}
       <div className="relative z-10 h-full flex flex-col justify-between p-6 md:p-8">

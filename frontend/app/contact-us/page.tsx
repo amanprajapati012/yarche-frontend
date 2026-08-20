@@ -31,8 +31,8 @@ export default function ContactUs() {
     <main
       className="min-h-screen overflow-hidden"
       style={{
-        background: "#fffbf5",
-        color: "#28170d",
+        background: "var(--background)",
+        color: "var(--foreground)",
       }}
     >
       {/* =========================
@@ -44,7 +44,7 @@ export default function ContactUs() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="mb-5 text-sm uppercase tracking-[7px]"
-            style={{ color: "#6b5a4d" }}
+            style={{ color: "var(--text-secondary)" }}
           >
             Get In Touch
           </motion.p>
@@ -54,7 +54,7 @@ export default function ContactUs() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className="font-serif text-5xl md:text-7xl leading-tight"
-            style={{ color: "#28170d" }}
+            style={{ color: "var(--foreground)" }}
           >
             Contact Us
           </motion.h1>
@@ -64,7 +64,7 @@ export default function ContactUs() {
             animate={{ width: 90 }}
             transition={{ delay: 0.3, duration: 0.7 }}
             className="mx-auto mt-7 h-[2px]"
-            style={{ background: "#28170d" }}
+            style={{ background: "var(--foreground)" }}
           />
         </div>
       </section>
@@ -87,7 +87,7 @@ export default function ContactUs() {
             >
               <p
                 className="font-serif text-3xl md:text-4xl mb-8"
-                style={{ color: "#28170d" }}
+                style={{ color: "var(--foreground)" }}
               >
                 We would love to hear from you.
               </p>
@@ -100,7 +100,7 @@ export default function ContactUs() {
                       size={19}
                       strokeWidth={1.7}
                       className="absolute left-5 top-1/2 -translate-y-1/2 pointer-events-none"
-                      style={{ color: "#6b5a4d" }}
+                      style={{ color: "var(--text-secondary)" }}
                     />
                     <input
                       type="text"
@@ -109,9 +109,9 @@ export default function ContactUs() {
                       required
                       className="w-full rounded-xl pl-13 pr-5 py-4 outline-none transition-all"
                       style={{
-                        background: "#efd6ad",
-                        border: "1px solid #e8d9bd",
-                        color: "#28170d",
+                        background: "var(--input-bg)",
+                        border: "1px solid var(--border)",
+                        color: "var(--foreground)",
                       }}
                     />
                   </div>
@@ -122,7 +122,7 @@ export default function ContactUs() {
                       size={19}
                       strokeWidth={1.7}
                       className="absolute left-5 top-1/2 -translate-y-1/2 pointer-events-none"
-                      style={{ color: "#6b5a4d" }}
+                      style={{ color: "var(--text-secondary)" }}
                     />
                     <input
                       type="email"
@@ -131,9 +131,9 @@ export default function ContactUs() {
                       required
                       className="w-full rounded-xl pl-13 pr-5 py-4 outline-none transition-all"
                       style={{
-                        background: "#efd6ad",
-                        border: "1px solid #e8d9bd",
-                        color: "#28170d",
+                        background: "var(--input-bg)",
+                        border: "1px solid var(--border)",
+                        color: "var(--foreground)",
                       }}
                     />
                   </div>
@@ -145,7 +145,7 @@ export default function ContactUs() {
                     size={19}
                     strokeWidth={1.7}
                     className="absolute left-5 top-1/2 -translate-y-1/2 pointer-events-none"
-                    style={{ color: "#6b5a4d" }}
+                    style={{ color: "var(--text-secondary)" }}
                   />
                   <input
                     type="tel"
@@ -154,9 +154,9 @@ export default function ContactUs() {
                     required
                     className="w-full rounded-xl pl-13 pr-5 py-4 outline-none"
                     style={{
-                      background: "#efd6ad",
-                      border: "1px solid #e8d9bd",
-                      color: "#28170d",
+                      background: "var(--input-bg)",
+                      border: "1px solid var(--border)",
+                      color: "var(--foreground)",
                     }}
                   />
                 </div>
@@ -167,7 +167,7 @@ export default function ContactUs() {
                     size={19}
                     strokeWidth={1.7}
                     className="absolute left-5 top-5 pointer-events-none"
-                    style={{ color: "#6b5a4d" }}
+                    style={{ color: "var(--text-secondary)" }}
                   />
                   <textarea
                     name="message"
@@ -176,9 +176,9 @@ export default function ContactUs() {
                     rows={8}
                     className="w-full rounded-xl pl-13 pr-5 py-4 outline-none resize-none"
                     style={{
-                      background: "#efd6ad",
-                      border: "1px solid #e8d9bd",
-                      color: "#28170d",
+                      background: "var(--input-bg)",
+                      border: "1px solid var(--border)",
+                      color: "var(--foreground)",
                     }}
                   />
                 </div>
@@ -192,23 +192,23 @@ export default function ContactUs() {
                       className="peer sr-only"
                     />
                     <span
-                      className="flex h-5 w-5 items-center justify-center rounded border transition-all peer-checked:bg-[#28170d] peer-checked:border-[#28170d]"
+                      className="flex h-5 w-5 items-center justify-center rounded border transition-all peer-checked:bg-foreground peer-checked:border-foreground"
                       style={{
-                        borderColor: "#28170d",
-                        background: "#fffbf5",
+                        borderColor: "var(--foreground)",
+                        background: "var(--background)",
                       }}
                     >
                       <CheckCircle2
                         size={13}
                         strokeWidth={3}
-                        className="hidden text-[#fffbf5] peer-checked:block"
+                        className="hidden text-background peer-checked:block"
                       />
                     </span>
                   </span>
 
                   <span
                     className="text-sm md:text-base leading-7"
-                    style={{ color: "#6b5a4d" }}
+                    style={{ color: "var(--text-secondary)" }}
                   >
                     I hereby give my consent to receive further communication
                     from Yarche via call, SMS, email, WhatsApp, or RCS about
@@ -223,8 +223,8 @@ export default function ContactUs() {
                     type="submit"
                     className="group inline-flex items-center justify-center rounded-full px-10 py-4 text-base font-medium transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                     style={{
-                      background: "#28170d",
-                      color: "#fffbf5",
+                      background: "var(--foreground)",
+                      color: "var(--background)",
                     }}
                   >
                     Submit Now
@@ -239,7 +239,7 @@ export default function ContactUs() {
                 {submitted && (
                   <p
                     className="flex items-center gap-2 pt-2 text-sm"
-                    style={{ color: "#6b5a4d" }}
+                    style={{ color: "var(--text-secondary)" }}
                   >
                     <CheckCircle2 size={17} />
                     Thank you! Your message has been received.
@@ -267,7 +267,7 @@ export default function ContactUs() {
 
                 <p
                   className="text-lg leading-8 pl-8"
-                  style={{ color: "#6b5a4d" }}
+                  style={{ color: "var(--text-secondary)" }}
                 >
                   Add your business address here.
                   <br />
@@ -284,7 +284,7 @@ export default function ContactUs() {
 
                 <div
                   className="space-y-2 pl-8 text-lg"
-                  style={{ color: "#6b5a4d" }}
+                  style={{ color: "var(--text-secondary)" }}
                 >
                   <a
                     href="tel:+919511115584"
@@ -311,7 +311,7 @@ export default function ContactUs() {
 
                 <div
                   className="space-y-2 pl-8 text-lg"
-                  style={{ color: "#6b5a4d" }}
+                  style={{ color: "var(--text-secondary)" }}
                 >
                   <a
                     href="mailto:partners@yarche.com"
@@ -370,19 +370,19 @@ export default function ContactUs() {
       ========================== */}
       <section
         className="py-20 md:py-24"
-        style={{ background: "#28170d" }}
+        style={{ background: "var(--foreground)" }}
       >
         <div className="container mx-auto max-w-4xl px-6 text-center">
           <p
             className="uppercase tracking-[6px] text-sm"
-            style={{ color: "#efd6ad" }}
+            style={{ color: "var(--input-bg)" }}
           >
             We are here for you
           </p>
 
           <h2
             className="font-serif text-4xl md:text-6xl mt-5"
-            style={{ color: "#fffbf5" }}
+            style={{ color: "var(--background)" }}
           >
             Let&apos;s start a conversation.
           </h2>

@@ -122,7 +122,7 @@ export default function CategoryPage() {
     : "/placeholder.png";
 
     return (
-        <div className="min-h-screen bg-[#fff8eb]">
+        <div className="min-h-screen bg-surface">
             {/* HERO */}
            <section className="relative h-[280px] md:h-[500px] overflow-hidden rounded-b-[40px]">
                 {categoryImage && (
@@ -152,7 +152,7 @@ export default function CategoryPage() {
             </section>
 
             {/* FILTER */}
-            <section className="sticky top-0 z-20 bg-[#fff8eb]/95 backdrop-blur border-b border-[#ead9b8]">
+            <section className="sticky top-0 z-20 bg-surface/95 backdrop-blur border-b border-border-light">
                 <div className="max-w-7xl mx-auto px-4 py-5">
                     <div className="relative">
                         <Search
@@ -168,7 +168,7 @@ export default function CategoryPage() {
                                 )
                             }
                             placeholder="Search Products..."
-                            className="w-full h-12 pl-11 pr-4 rounded-xl border border-[#e5d6ba] bg-white outline-none"
+                            className="w-full h-12 pl-11 pr-4 rounded-xl border border-border bg-white outline-none"
                         />
                     </div>
 
@@ -181,7 +181,7 @@ export default function CategoryPage() {
                             }
                             className={`px-5 py-2 rounded-full whitespace-nowrap font-medium transition ${selectedSubcategory ===
                                 "All"
-                                ? "bg-[#ff6e23] text-white"
+                                ? "bg-primary text-white"
                                 : "bg-white border"
                                 }`}
                         >
@@ -199,7 +199,7 @@ export default function CategoryPage() {
                                     }
                                     className={`px-5 py-2 rounded-full whitespace-nowrap font-medium transition ${selectedSubcategory ===
                                         sub.sub_category
-                                        ? "bg-[#ff6e23] text-white"
+                                        ? "bg-primary text-white"
                                         : "bg-white border"
                                         }`}
                                 >

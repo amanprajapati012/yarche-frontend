@@ -66,7 +66,7 @@ export default function Banner() {
                 className="w-full h-full object-cover"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#28170D]/30" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-foreground/30" />
             </div>
           </motion.div>
 
@@ -78,7 +78,7 @@ export default function Banner() {
             <div className="flex items-center justify-center gap-3 mb-2">
               <div className="h-px w-8 bg-background/40" />
 
-              <span className="text-[10px] uppercase tracking-[0.25em] text-[#FFF6E2]/60">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-footer-text/60">
                 Artisan Made
               </span>
 
@@ -87,7 +87,7 @@ export default function Banner() {
 
             <h2 className="font-serif text-lg md:text-2xl lg:text-3xl leading-tight">
               Not just crockery,
-              <span className="italic font-light text-[#FFF6E2]">
+              <span className="italic font-light text-footer-text">
                 {" "}
                 it's a story.
               </span>
@@ -108,10 +108,10 @@ export default function Banner() {
                   className="flex flex-col items-center text-center"
                 >
                   <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-2">
-                    <Icon className="w-4 h-4 text-[#FFF6E2]" />
+                    <Icon className="w-4 h-4 text-footer-text" />
                   </div>
 
-                  <p className="text-[10px] md:text-xs text-[#FFF6E2]/70 whitespace-nowrap">
+                  <p className="text-[10px] md:text-xs text-footer-text/70 whitespace-nowrap">
                     {item.title}
                   </p>
                 </div>

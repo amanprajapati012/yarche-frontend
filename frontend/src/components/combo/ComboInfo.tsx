@@ -39,14 +39,14 @@ export default function ComboInfo({ combo }: any) {
       {/* BADGES + TITLE */}
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-3">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#28170D] to-[#4a2a1c] text-white shadow-lg">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-foreground to-foreground-2 text-white shadow-lg">
             <Layers size={14} />
             <span className="text-xs font-bold uppercase tracking-wider">
               Combo Deal
             </span>
           </div>
 
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FF6E23] text-white shadow-lg">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-white shadow-lg">
             <BadgeCheck size={14} />
             <span className="text-xs font-bold">
               {combo.products?.length || 0} Products Included
@@ -61,7 +61,7 @@ export default function ComboInfo({ combo }: any) {
         <div className="flex flex-wrap items-center gap-4 mt-5">
           <div
             className={`flex items-center gap-2 text-sm font-semibold ${
-              availableStock > 0 ? "text-green-700" : "text-red-600"
+              availableStock > 0 ? "text-success" : "text-error"
             }`}
           >
             <CheckCircle2 size={16} />
@@ -82,31 +82,31 @@ export default function ComboInfo({ combo }: any) {
           </span>
 
           {combo.price > combo.discountedPrice && (
-            <span className="text-lg sm:text-xl md:text-2xl text-[#8f7a68] line-through">
+            <span className="text-lg sm:text-xl md:text-2xl text-secondary line-through">
               ₹{combo.price}
             </span>
           )}
 
           {discount > 0 && (
-            <span className="bg-footer text-[#FF6E23] px-3 py-2 rounded-full text-sm font-bold">
+            <span className="bg-footer text-primary px-3 py-2 rounded-full text-sm font-bold">
               {discount}% OFF
             </span>
           )}
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2">
-          <span className="px-3 py-1.5 rounded-full bg-green-100 text-green-700 text-xs font-bold">
+          <span className="px-3 py-1.5 rounded-full bg-success-light text-success text-xs font-bold">
             Free Shipping
           </span>
-          <span className="px-3 py-1.5 rounded-full bg-blue-100 text-blue-700 text-xs font-bold">
+          <span className="px-3 py-1.5 rounded-full bg-info-light text-info text-xs font-bold">
             Secure Payment
           </span>
-          <span className="px-3 py-1.5 rounded-full bg-orange-100 text-orange-700 text-xs font-bold">
+          <span className="px-3 py-1.5 rounded-full bg-primary-light text-primary-dark text-xs font-bold">
             Easy Return
           </span>
         </div>
 
-        <p className="mt-5 text-[#5f5147] leading-7">{combo.description}</p>
+        <p className="mt-5 text-text-secondary leading-7">{combo.description}</p>
       </div>
 
       {/* BUTTONS */}
@@ -140,7 +140,7 @@ export default function ComboInfo({ combo }: any) {
 
             router.push("/cart");
           }}
-          className="h-12 sm:h-14 md:h-16 rounded-2xl border-2 border-[#28170D] bg-[#fff3e2] text-foreground font-black flex items-center justify-center gap-2 hover:bg-footer hover:text-white transition-all"
+          className="h-12 sm:h-14 md:h-16 rounded-2xl border-2 border-foreground bg-surface-2 text-foreground font-black flex items-center justify-center gap-2 hover:bg-footer hover:text-white transition-all"
         >
           <ShoppingCart size={18} />
           Add To Cart
@@ -155,12 +155,12 @@ export default function ComboInfo({ combo }: any) {
       {/* SKU */}
       <div className="bg-[var(--surface)] border border-bg-[var(--footer)]/10 rounded-2xl p-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-footer flex items-center justify-center text-[#FF6E23]">
+          <div className="w-12 h-12 rounded-xl bg-footer flex items-center justify-center text-primary">
             <ScanBarcode size={22} />
           </div>
 
           <div>
-            <p className="text-xs text-[#6f6257] uppercase tracking-wider">
+            <p className="text-xs text-text-secondary uppercase tracking-wider">
               Combo SKU
             </p>
             <p className="font-black text-foreground break-all">
@@ -173,22 +173,22 @@ export default function ComboInfo({ combo }: any) {
       {/* DELIVERY */}
       <div className="bg-[var(--surface)] border border-bg-[var(--footer)]/10 rounded-2xl md:rounded-[28px] p-4 sm:p-5 space-y-4">
         <div className="flex gap-4">
-          <Truck className="text-[#FF6E23]" />
+          <Truck className="text-primary" />
           <div>
             <h4 className="font-black text-foreground">Estimated Delivery</h4>
-            <p className="text-[#6d5f53]">Jun 23 - Jun 27</p>
+            <p className="text-text-secondary">Jun 23 - Jun 27</p>
           </div>
         </div>
 
         <div className="h-px bg-footer/10" />
 
         <div className="flex gap-4">
-          <PackageCheck className="text-[#FF6E23]" />
+          <PackageCheck className="text-primary" />
           <div>
             <h4 className="font-black text-foreground">
               Free Shipping & Replacement
             </h4>
-            <p className="text-[#6d5f53]">
+            <p className="text-text-secondary">
               Ships within 24hrs with 7-Day easy replacement.
             </p>
           </div>
@@ -197,10 +197,10 @@ export default function ComboInfo({ combo }: any) {
         <div className="h-px bg-footer/10" />
 
         <div className="flex gap-4">
-          <ShieldCheck className="text-[#FF6E23]" />
+          <ShieldCheck className="text-primary" />
           <div>
             <h4 className="font-black text-foreground">Secure Checkout</h4>
-            <p className="text-[#6d5f53]">
+            <p className="text-text-secondary">
               100% secure payments & protected transactions.
             </p>
           </div>

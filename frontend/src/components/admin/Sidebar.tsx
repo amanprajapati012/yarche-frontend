@@ -75,7 +75,7 @@ export default function Sidebar({ open, setOpen }: any) {
       <aside
         className={`
           fixed top-0 left-0 z-50 h-screen w-72
-          bg-[#1f130b]
+          bg-footer-2
           text-white
           transition-transform duration-300
           lg:translate-x-0
@@ -112,13 +112,13 @@ export default function Sidebar({ open, setOpen }: any) {
                         flex items-center gap-3 px-4 py-3 rounded-xl
                         relative transition
                         ${isActive(item.href)
-                          ? "bg-surface text-[#1f130b]"
+                          ? "bg-surface text-footer-2"
                           : "hover:bg-white/10"
                         }
                       `}
                     >
                       {isActive(item.href) && (
-                        <span className="absolute left-0 top-2 bottom-2 w-1 bg-yellow-400 rounded-r" />
+                        <span className="absolute left-0 top-2 bottom-2 w-1 bg-warning rounded-r" />
                       )}
 
                       <Icon size={18} />
@@ -156,7 +156,7 @@ export default function Sidebar({ open, setOpen }: any) {
                       className={`
                         flex items-center gap-2 px-3 py-2 rounded-lg text-sm
                         ${isActive(tag.href)
-                          ? "bg-surface text-[#1f130b]"
+                          ? "bg-surface text-footer-2"
                           : "hover:bg-white/10"
                         }
                       `}
@@ -178,16 +178,16 @@ export default function Sidebar({ open, setOpen }: any) {
           }
 
           .sidebar-scroll::-webkit-scrollbar-track {
-            background: #1f130b;
+            background: var(--footer-2);
           }
 
           .sidebar-scroll::-webkit-scrollbar-thumb {
-            background: #1f130b; /* same as sidebar */
+            background: var(--footer-2); /* same as sidebar */
             border-radius: 10px;
           }
 
           .sidebar-scroll {
-            scrollbar-color: #1f130b #1f130b; /* Firefox */
+            scrollbar-color: var(--footer-2) var(--footer-2); /* Firefox */
             scrollbar-width: thin;
           }
         `}</style>

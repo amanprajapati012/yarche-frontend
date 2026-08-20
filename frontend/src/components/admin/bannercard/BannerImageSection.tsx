@@ -142,7 +142,7 @@ export default function BannerImageSection({
               }}
               className="mt-3 px-4 py-2 rounded-xl text-white"
               style={{
-                background: "#dc2626",
+                background: "var(--error)",
               }}
             >
               Remove Image

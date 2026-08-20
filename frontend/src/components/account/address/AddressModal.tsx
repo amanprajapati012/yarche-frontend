@@ -208,10 +208,10 @@ export default function AddressModal({
     w-full
     max-w-3xl
     rounded-3xl
-    bg-[#f7e6c6]
+    bg-warning-light
     shadow-2xl
     border
-    border-[#d8b98c]
+    border-input-bg
     max-h-[calc(100vh-170px)]
     overflow-y-auto
     relative
@@ -220,14 +220,14 @@ export default function AddressModal({
             >
 
                 {/* Header */}
-                <div className="sticky top-0 bg-[#f2d9b1] border-b border-[#d8b98c] px-6 py-4 flex items-center justify-between rounded-t-3xl">
+                <div className="sticky top-0 bg-input-bg border-b border-input-bg px-6 py-4 flex items-center justify-between rounded-t-3xl">
                     <h2 className="text-2xl font-bold text-foreground">
                         {editData ? "Edit Address" : "Add New Address"}
                     </h2>
 
                     <button
                         onClick={onClose}
-                        className="w-10 h-10 rounded-full hover:bg-[#e7cda2] flex items-center justify-center transition"
+                        className="w-10 h-10 rounded-full hover:bg-input-bg flex items-center justify-center transition"
                     >
                         <X />
                     </button>
@@ -247,7 +247,7 @@ export default function AddressModal({
                             name="type"
                             value={form.type}
                             onChange={handleChange}
-                            className="w-full rounded-xl border border-[#cfae7d] bg-[#efd6ad] px-4 py-3 outline-none focus:border-[#28170d]"
+                            className="w-full rounded-xl border border-input-bg bg-input-bg px-4 py-3 outline-none focus:border-foreground"
                         >
                             <option value="home">Home</option>
                             <option value="office">Office</option>
@@ -343,7 +343,7 @@ export default function AddressModal({
                         type="button"
                         onClick={getCurrentLocation}
                         disabled={loading}
-                        className="mt-6 w-full flex items-center justify-center gap-2 rounded-xl bg-footer text-white py-3 font-semibold hover:bg-[#3a2415] transition"
+                        className="mt-6 w-full flex items-center justify-center gap-2 rounded-xl bg-footer text-white py-3 font-semibold hover:bg-foreground-2 transition"
                     >
                         <MapPin size={18} />
 
@@ -356,14 +356,14 @@ export default function AddressModal({
 
                         <button
                             onClick={onClose}
-                            className="flex-1 rounded-xl border border-[#28170d] py-3 font-semibold text-foreground hover:bg-footer hover:text-white transition"
+                            className="flex-1 rounded-xl border border-foreground py-3 font-semibold text-foreground hover:bg-footer hover:text-white transition"
                         >
                             Cancel
                         </button>
 
                         <button
                             onClick={handleSave}
-                            className="flex-1 rounded-xl bg-footer py-3 font-semibold text-white hover:bg-[#3a2415] transition"
+                            className="flex-1 rounded-xl bg-footer py-3 font-semibold text-white hover:bg-foreground-2 transition"
                         >
                             {editData ? "Update Address" : "Save Address"}
                         </button>
@@ -414,18 +414,18 @@ function Input({
           py-3
           outline-none
           transition
-          bg-[#efd6ad]
+          bg-input-bg
           text-foreground
-          placeholder:text-[#7d5d38]
+          placeholder:text-secondary
           ${error
-                        ? "border-red-500"
-                        : "border-[#cfae7d] focus:border-[#28170d]"
+                        ? "border-error"
+                        : "border-input-bg focus:border-foreground"
                     }
         `}
             />
 
             {error && (
-                <p className="text-red-600 text-sm mt-1">
+                <p className="text-error text-sm mt-1">
                     {error}
                 </p>
             )}

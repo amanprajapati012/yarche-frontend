@@ -53,10 +53,10 @@ export default function OrderSummary({
 }: OrderSummaryProps) {
     return (
         <div className="lg:sticky lg:top-24">
-            <div className="bg-surface p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-[#d8c2a0]">
+            <div className="bg-surface p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-input-bg">
 
                 {/* Heading */}
-                <h2 className="text-xl font-bold text-[#3B281C]">
+                <h2 className="text-xl font-bold text-foreground-2">
                     Order Summary
                 </h2>
 
@@ -76,7 +76,7 @@ export default function OrderSummary({
                             <div className="flex-1">
                                 <div className="flex items-center gap-1.5 flex-wrap">
                                     {item.type === "combo" && (
-                                        <span className="inline-flex items-center gap-1 bg-[#2d1a10] text-white text-[9px] font-bold px-2 py-0.5 rounded-full">
+                                        <span className="inline-flex items-center gap-1 bg-foreground-3 text-white text-[9px] font-bold px-2 py-0.5 rounded-full">
                                             <Layers size={9} />
                                             Combo
                                         </span>
@@ -119,16 +119,35 @@ export default function OrderSummary({
                     <button
                         disabled={!coupon}
                         onClick={() => applyCoupon()}
-                        className="px-4 py-2 bg-[#3B281C] text-white rounded-lg disabled:opacity-50"
+                        className="px-4 py-2 bg-foreground-2 text-white rounded-lg disabled:opacity-50"
                     >
                         Apply
                     </button>
                 </div>
 
                 {appliedCoupon && (
-                    <p className="text-green-700 text-sm mt-2">
-                        Coupon <strong>{appliedCoupon}</strong> Applied Successfully 🎉
-                    </p>
+                    <div
+                        key={appliedCoupon}
+                        className="yc-coupon-applied yc-coupon-shine relative mt-3 flex items-center gap-2.5 overflow-hidden rounded-xl border border-success bg-success-light px-4 py-3"
+                    >
+                        <span className="relative flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-success">
+                            <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="white"
+                                strokeWidth="3"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <path className="yc-check-draw" d="M4 12l5 5L20 6" />
+                            </svg>
+                        </span>
+                        <p className="text-sm text-success">
+                            Coupon <strong>{appliedCoupon}</strong> applied — you're saving ₹{couponDiscount}!
+                        </p>
+                    </div>
                 )}
                 <AvailableCoupons
                     onSelectCoupon={selectCoupon}
@@ -149,13 +168,13 @@ export default function OrderSummary({
                     </div>
 
                     {couponDiscount > 0 && (
-                        <div className="flex justify-between text-green-700">
+                        <div className="flex justify-between text-success">
                             <span>Discount</span>
                             <span>-₹{couponDiscount}</span>
                         </div>
                     )}
 
-                    <div className="flex justify-between text-lg font-bold pt-3 border-t border-[#d8c2a0]">
+                    <div className="flex justify-between text-lg font-bold pt-3 border-t border-input-bg">
                         <span>Total</span>
                         <span>₹{total}</span>
                     </div>
@@ -164,7 +183,7 @@ export default function OrderSummary({
                 {/* Place Order */}
                 <button
                     onClick={onPlaceOrder}
-                    className="mt-6 w-full bg-[#2D1A10] text-white py-4 rounded-2xl flex justify-center items-center gap-2 hover:bg-[#3B281C] transition"
+                    className="mt-6 w-full bg-foreground-3 text-white py-4 rounded-2xl flex justify-center items-center gap-2 hover:bg-foreground-2 transition"
                 >
                     Place Order
                     <ArrowRight size={18} />

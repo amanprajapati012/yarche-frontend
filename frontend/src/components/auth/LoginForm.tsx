@@ -91,12 +91,12 @@ export default function LoginForm() {
     <div className="w-full max-w-md">
       
       {/* Card */}
-      <div className="bg-surface rounded-3xl shadow-2xl border border-[#28170d]/10 
+      <div className="bg-surface rounded-3xl shadow-2xl border border-foreground/10 
                       max-h-[90vh] overflow-y-auto p-6 md:p-8">
         
         {/* Header */}
         <div className="text-center mb-6">
-          <div className="w-14 h-14 mx-auto bg-[#ff6e23] rounded-2xl flex items-center justify-center text-white">
+          <div className="w-14 h-14 mx-auto bg-primary rounded-2xl flex items-center justify-center text-white">
             <User size={24} />
           </div>
 
@@ -115,8 +115,8 @@ export default function LoginForm() {
           <input
             name="identifier"
             placeholder="Email or Phone Number"
-            className="w-full px-4 py-3 rounded-xl bg-white border border-[#28170d]/10 
-                       focus:ring-2 focus:ring-[#ff6e32]/40 outline-none"
+            className="w-full px-4 py-3 rounded-xl bg-white border border-foreground/10 
+                       focus:ring-2 focus:ring-primary/40 outline-none"
             onChange={handleChange}
           />
 
@@ -124,8 +124,8 @@ export default function LoginForm() {
             name="password"
             type="password"
             placeholder="Password"
-            className="w-full px-4 py-3 rounded-xl bg-white border border-[#28170d]/10 
-                       focus:ring-2 focus:ring-[#ff6e32]/40 outline-none"
+            className="w-full px-4 py-3 rounded-xl bg-white border border-foreground/10 
+                       focus:ring-2 focus:ring-primary/40 outline-none"
             onChange={handleChange}
           />
 
@@ -142,7 +142,7 @@ export default function LoginForm() {
         {/* Register link */}
         <p className="text-center text-sm mt-5 text-foreground">
           Don’t have an account?{" "}
-          <Link href="/auth/register" className="text-[#ff6e32] font-semibold">
+          <Link href="/auth/register" className="text-primary font-semibold">
             Create Account
           </Link>
         </p>

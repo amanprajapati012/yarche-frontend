@@ -113,7 +113,7 @@ export default function CollectionForm({
 
       {/* MODAL */}
       <div className="w-[600px] max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl p-6 space-y-5"
-        style={{ backgroundColor: "#fff6e2" }}
+        style={{ backgroundColor: "var(--footer-text)" }}
       >
 
         {/* HEADER */}
@@ -153,7 +153,7 @@ export default function CollectionForm({
             onChange={(e) => handleName(e.target.value)}
             placeholder="Collection Name"
             className="w-full p-3 rounded-lg outline-none"
-            style={{ backgroundColor: "#fff0d3" }}
+            style={{ backgroundColor: "var(--footer-heading)" }}
           />
         </div>
 
@@ -170,7 +170,7 @@ export default function CollectionForm({
             }
             placeholder="collection-slug"
             className="w-full p-3 rounded-lg outline-none"
-            style={{ backgroundColor: "#fff0d3" }}
+            style={{ backgroundColor: "var(--footer-heading)" }}
           />
         </div>
 
@@ -187,7 +187,7 @@ export default function CollectionForm({
             }
             placeholder="Write description..."
             className="w-full p-3 rounded-lg outline-none min-h-[100px]"
-            style={{ backgroundColor: "#fff0d3" }}
+            style={{ backgroundColor: "var(--footer-heading)" }}
           />
         </div>
 
@@ -204,7 +204,7 @@ export default function CollectionForm({
               setForm({ ...form, sortOrder: Number(e.target.value) })
             }
             className="w-full p-3 rounded-lg outline-none"
-            style={{ backgroundColor: "#fff0d3" }}
+            style={{ backgroundColor: "var(--footer-heading)" }}
           />
         </div>
 
@@ -238,7 +238,7 @@ export default function CollectionForm({
         <button
           onClick={handleSubmit}
           className="w-full py-3 rounded-xl font-medium transition hover:opacity-90"
-          style={{ backgroundColor: "#28170D", color: "white" }}
+          style={{ backgroundColor: "var(--foreground)", color: "white" }}
         >
           {editData ? "Update Collection" : "Create Collection"}
         </button>

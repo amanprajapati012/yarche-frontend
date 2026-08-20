@@ -106,7 +106,7 @@ export default function NewArrivalPage() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl border border-[#ead9b7] bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-border-light bg-white p-6 shadow-sm">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-foreground">
@@ -119,7 +119,7 @@ export default function NewArrivalPage() {
             </p>
           </div>
 
-          <div className="rounded-xl bg-[#fff6e7] px-4 py-3">
+          <div className="rounded-xl bg-surface px-4 py-3">
             <p className="text-xs text-gray-500">
               Selected Products
             </p>

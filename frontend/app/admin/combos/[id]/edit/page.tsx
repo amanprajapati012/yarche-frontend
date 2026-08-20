@@ -40,7 +40,7 @@ export default function EditComboPage() {
 
   if (!combo) {
     return (
-      <div className="py-10 text-center text-red-500">Combo not found</div>
+      <div className="py-10 text-center text-error">Combo not found</div>
     );
   }
 

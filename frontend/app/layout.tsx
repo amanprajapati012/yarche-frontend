@@ -13,6 +13,13 @@ const poppins = Poppins({
   display: "swap",
 });
 
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-cormorant",
+  display: "swap",
+});
+
 
 
 export const metadata: Metadata = {
@@ -28,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${poppins.variable}  h-full antialiased`}
+      className={`${poppins.variable} ${cormorant.variable} h-full antialiased`}
     >
       <Script
         src="https://checkout.razorpay.com/v1/checkout.js"
@@ -48,15 +55,15 @@ export default function RootLayout({
       unstyled: true,
       classNames: {
         toast:
-          "group flex items-center gap-3 rounded-2xl border border-[#E6D4B8] bg-[#FFF8EA] px-4 py-3 shadow-[0_10px_30px_rgba(40,23,13,0.12)]",
+          "group flex items-center gap-3 rounded-2xl border border-border-light bg-surface px-4 py-3 shadow-[0_10px_30px_rgba(40,23,13,0.12)]",
         title: "text-foreground font-semibold text-sm",
-        description: "text-[#6B5B4D] text-xs",
-        success: "!border-green-200 !bg-green-50",
-        error: "!border-red-200 !bg-red-50",
-        warning: "!border-amber-200 !bg-amber-50",
-        info: "!border-blue-200 !bg-blue-50",
+        description: "text-text-secondary text-xs",
+        success: "!border-success !bg-success-light",
+        error: "!border-error !bg-error-light",
+        warning: "!border-primary !bg-primary-light",
+        info: "!border-info !bg-info-light",
         closeButton:
-          "!bg-white !border !border-[#E6D4B8] !text-foreground",
+          "!bg-white !border !border-border-light !text-foreground",
       },
     }}
   />

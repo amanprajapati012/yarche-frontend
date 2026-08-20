@@ -13,7 +13,7 @@ import {
 export default function RevenueChart({ data }: any) {
   return (
     <div className="relative bg-white rounded-2xl shadow-md border border-gray-100 p-5 overflow-hidden">
-      <div className="absolute -top-10 -right-10 w-40 h-40 bg-indigo-400 opacity-20 blur-3xl rounded-full" />
+      <div className="absolute -top-10 -right-10 w-40 h-40 bg-info opacity-20 blur-3xl rounded-full" />
 
       <div className="flex items-center justify-between mb-4">
         <div>
@@ -25,7 +25,7 @@ export default function RevenueChart({ data }: any) {
           </p>
         </div>
 
-        <span className="text-xs px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full">
+        <span className="text-xs px-3 py-1 bg-info-light text-info rounded-full">
           Live
         </span>
       </div>
@@ -58,14 +58,14 @@ export default function RevenueChart({ data }: any) {
                 ]}
                 contentStyle={{
                   borderRadius: "12px",
-                  border: "1px solid #eee",
+                  border: "1px solid var(--border)",
                 }}
               />
 
               <Line
                 type="monotone"
                 dataKey="revenue"
-                stroke="#4f46e5"
+                stroke="var(--info)"
                 strokeWidth={3}
                 dot={{ r: 4 }}
                 activeDot={{ r: 7 }}

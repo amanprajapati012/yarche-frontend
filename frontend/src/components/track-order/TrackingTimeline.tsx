@@ -115,8 +115,8 @@ export default function TrackingTimeline({
             animate-pulse
             "
                         style={{
-                            background: "#DCFCE7",
-                            color: "#15803d",
+                            background: "var(--success-light)",
+                            color: "var(--success)",
                         }}
                     >
                         {status}
@@ -133,8 +133,8 @@ export default function TrackingTimeline({
             font-semibold
             "
                         style={{
-                            background: "#FEE2E2",
-                            color: "#DC2626",
+                            background: "var(--error-light)",
+                            color: "var(--error)",
                         }}
                     >
                         Cancelled
@@ -184,8 +184,8 @@ export default function TrackingTimeline({
                                             background:
                                                 completed ||
                                                     active
-                                                    ? "#22C55E"
-                                                    : "#E5E7EB",
+                                                    ? "var(--success)"
+                                                    : "var(--surface-3)",
                                         }}
                                     />
                                 )}
@@ -211,15 +211,15 @@ export default function TrackingTimeline({
                 `}
                                 style={{
                                     background: completed
-                                        ? "#22C55E"
+                                        ? "var(--success)"
                                         : active
-                                            ? "#C58B63"
-                                            : "#F5F5F5",
+                                            ? "var(--secondary)"
+                                            : "var(--background)",
 
                                     color:
                                         completed || active
-                                            ? "#fff"
-                                            : "#999",
+                                            ? "var(--background)"
+                                            : "var(--muted)",
                                 }}
                             >
                                 {completed ? (
@@ -240,7 +240,7 @@ export default function TrackingTimeline({
                                             completed ||
                                                 active
                                                 ? "var(--foreground)"
-                                                : "#999",
+                                                : "var(--muted)",
                                     }}
                                 >
                                     {step.label}
@@ -252,7 +252,7 @@ export default function TrackingTimeline({
                                         color:
                                             completed || active
                                                 ? "var(--text-secondary)"
-                                                : "#B0B0B0",
+                                                : "var(--muted)",
                                     }}
                                 >
                                     {timelineItem
@@ -291,24 +291,24 @@ export default function TrackingTimeline({
             p-5
             "
                         style={{
-                            background: "#FEF2F2",
-                            borderColor: "#FCA5A5",
+                            background: "var(--background)",
+                            borderColor: "var(--input-bg)",
                         }}
                     >
                         <div className="flex gap-3">
 
                             <Ban
-                                className="text-red-600"
+                                className="text-error"
                                 size={26}
                             />
 
                             <div>
 
-                                <h3 className="font-bold text-red-600">
+                                <h3 className="font-bold text-error">
                                     Order Cancelled
                                 </h3>
 
-                                <p className="text-sm text-red-500 mt-2">
+                                <p className="text-sm text-error mt-2">
                                     This order has been
                                     cancelled. If payment
                                     was completed, refund

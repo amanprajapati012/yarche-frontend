@@ -30,7 +30,7 @@ export default function OrdersTable() {
               <td>#YR12345</td>
               <td>22 Jun 2026</td>
               <td>
-                <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full">
+                <span className="bg-success-light text-success px-3 py-1 rounded-full">
                   Delivered
                 </span>
               </td>
@@ -39,7 +39,7 @@ export default function OrdersTable() {
               <td>
                 <Link
                   href="/orders/YR12345"
-                  className="text-[#FF6E23]"
+                  className="text-primary"
                 >
                   View
                 </Link>

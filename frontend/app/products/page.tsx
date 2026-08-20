@@ -244,7 +244,7 @@ export default function ProductsPage() {
             <SlidersHorizontal size={16} />
             Filters
             {activeFilterCount > 0 && (
-              <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-[#FF6E23] text-white text-[10px] flex items-center justify-center font-bold">
+              <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-primary text-white text-[10px] flex items-center justify-center font-bold">
                 {activeFilterCount}
               </span>
             )}
@@ -274,7 +274,7 @@ export default function ProductsPage() {
                 {activeFilterCount > 0 && (
                   <button
                     onClick={resetFilters}
-                    className="text-xs font-semibold text-[#FF6E23] hover:underline"
+                    className="text-xs font-semibold text-primary hover:underline"
                   >
                     Clear All
                   </button>
@@ -412,7 +412,7 @@ export default function ProductsPage() {
                           className="w-10 h-10 rounded-xl text-sm font-semibold transition"
                           style={
                             page === p
-                              ? { background: "var(--footer)", color: "#fff" }
+                              ? { background: "var(--footer)", color: "var(--background)" }
                               : {
                                   background: "var(--surface)",
                                   color: "var(--foreground)",

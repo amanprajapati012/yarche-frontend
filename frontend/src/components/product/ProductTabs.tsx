@@ -45,7 +45,7 @@ export default function ProductTabs({
             h-12
             rounded-2xl
             bg-footer
-            text-[#FF6E23]
+            text-primary
             flex
             items-center
             justify-center
@@ -66,7 +66,7 @@ export default function ProductTabs({
               Product Details
             </h2>
 
-            <p className="text-[#6b5c50] text-sm mt-1">
+            <p className="text-text-secondary text-sm mt-1">
               Everything you need to know
             </p>
           </div>
@@ -90,11 +90,11 @@ export default function ProductTabs({
 
           <div
             className="
-            bg-[#fff3e2]
+            bg-surface-2
             rounded-2xl
             p-4
             border
-            border-[#28170D]/10
+            border-foreground/10
           "
           >
             <ShieldCheck
@@ -106,18 +106,18 @@ export default function ProductTabs({
               Premium Quality
             </h4>
 
-            <p className="text-xs text-[#6b5c50] mt-1">
+            <p className="text-xs text-text-secondary mt-1">
               Carefully selected quality products.
             </p>
           </div>
 
           <div
             className="
-            bg-[#fff3e2]
+            bg-surface-2
             rounded-2xl
             p-4
             border
-            border-[#28170D]/10
+            border-foreground/10
           "
           >
             <Truck
@@ -129,18 +129,18 @@ export default function ProductTabs({
               Fast Delivery
             </h4>
 
-            <p className="text-xs text-[#6b5c50] mt-1">
+            <p className="text-xs text-text-secondary mt-1">
               Quick shipping across locations.
             </p>
           </div>
 
           <div
             className="
-            bg-[#fff3e2]
+            bg-surface-2
             rounded-2xl
             p-4
             border
-            border-[#28170D]/10
+            border-foreground/10
           "
           >
             <PackageCheck
@@ -152,18 +152,18 @@ export default function ProductTabs({
               Easy Replacement
             </h4>
 
-            <p className="text-xs text-[#6b5c50] mt-1">
+            <p className="text-xs text-text-secondary mt-1">
               Hassle-free replacement support.
             </p>
           </div>
 
           <div
             className="
-            bg-[#fff3e2]
+            bg-surface-2
             rounded-2xl
             p-4
             border
-            border-[#28170D]/10
+            border-foreground/10
           "
           >
             <Sparkles
@@ -175,7 +175,7 @@ export default function ProductTabs({
               Trusted Product
             </h4>
 
-            <p className="text-xs text-[#6b5c50] mt-1">
+            <p className="text-xs text-text-secondary mt-1">
               Designed for everyday satisfaction.
             </p>
           </div>
@@ -186,12 +186,12 @@ export default function ProductTabs({
 
         <div
           className="
-          bg-[#fff3e2]
+          bg-surface-2
           rounded-[28px]
           p-5
           md:p-8
           border
-          border-[#28170D]/10
+          border-foreground/10
         "
         >
           <div className="mb-5">
@@ -205,7 +205,7 @@ export default function ProductTabs({
               py-2
               rounded-full
               bg-footer
-              text-[#FF6E23]
+              text-primary
               text-xs
               font-bold
             "
@@ -217,7 +217,7 @@ export default function ProductTabs({
 
           <div
             className="
-            text-[#55463c]
+            text-text-secondary
             text-[15px]
             md:text-[17px]
             leading-8
@@ -241,18 +241,18 @@ export default function ProductTabs({
 
           <div
             className="
-            bg-[#fff3e2]
+            bg-surface-2
             rounded-2xl
             p-5
             border
-            border-[#28170D]/10
+            border-foreground/10
           "
           >
             <h4 className="font-black text-foreground">
               Premium Experience
             </h4>
 
-            <p className="text-sm text-[#6b5c50] mt-2">
+            <p className="text-sm text-text-secondary mt-2">
               Crafted to deliver a better everyday
               shopping experience.
             </p>
@@ -260,18 +260,18 @@ export default function ProductTabs({
 
           <div
             className="
-            bg-[#fff3e2]
+            bg-surface-2
             rounded-2xl
             p-5
             border
-            border-[#28170D]/10
+            border-foreground/10
           "
           >
             <h4 className="font-black text-foreground">
               Secure Packaging
             </h4>
 
-            <p className="text-sm text-[#6b5c50] mt-2">
+            <p className="text-sm text-text-secondary mt-2">
               Carefully packed to reach you safely
               and securely.
             </p>
@@ -279,18 +279,18 @@ export default function ProductTabs({
 
           <div
             className="
-            bg-[#fff3e2]
+            bg-surface-2
             rounded-2xl
             p-5
             border
-            border-[#28170D]/10
+            border-foreground/10
           "
           >
             <h4 className="font-black text-foreground">
               Customer First
             </h4>
 
-            <p className="text-sm text-[#6b5c50] mt-2">
+            <p className="text-sm text-text-secondary mt-2">
               Built around quality, trust and
               customer satisfaction.
             </p>

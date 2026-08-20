@@ -122,7 +122,7 @@ export default function AddressesPage() {
 
           {/* HEADER */}
 
-          <div className="bg-[#f2d9b1] rounded-3xl p-6 shadow">
+          <div className="bg-input-bg rounded-3xl p-6 shadow">
 
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
@@ -132,7 +132,7 @@ export default function AddressesPage() {
                   My Addresses
                 </h1>
 
-                <p className="text-[#6d533c] mt-1">
+                <p className="text-text-secondary mt-1">
                   Manage your saved delivery addresses.
                 </p>
 
@@ -161,13 +161,13 @@ export default function AddressesPage() {
 
             ) : addresses.length === 0 ? (
 
-              <div className="bg-[#f2d9b1] rounded-2xl p-12 text-center">
+              <div className="bg-input-bg rounded-2xl p-12 text-center">
 
                 <h2 className="text-2xl font-bold text-foreground">
                   No Address Found
                 </h2>
 
-                <p className="text-[#6d533c] mt-2">
+                <p className="text-text-secondary mt-2">
                   Add your first delivery address.
                 </p>
 

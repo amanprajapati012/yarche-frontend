@@ -63,22 +63,22 @@ export default function CartPage() {
 
     if (!items.length) {
         return (
-            <section className="min-h-screen flex items-center justify-center bg-[#f3e7d3]">
+            <section className="min-h-screen flex items-center justify-center bg-footer-heading">
                 <div className="text-center">
                     <ShoppingBag
                         size={80}
-                        className="mx-auto text-[#3B281C]"
+                        className="mx-auto text-foreground-2"
                     />
-                    <h2 className="text-3xl font-bold mt-5 text-[#3B281C]">
+                    <h2 className="text-3xl font-bold mt-5 text-foreground-2">
                         Your Cart is Empty
                     </h2>
-                    <p className="text-[#6f5f52] mt-3">
+                    <p className="text-text-secondary mt-3">
                         Add products to continue shopping
                     </p>
 
                     <Link
                         href="/products"
-                        className="inline-flex mt-6 bg-[#3B281C] text-[#f3e7d3] px-8 py-4 rounded-2xl"
+                        className="inline-flex mt-6 bg-foreground-2 text-footer-heading px-8 py-4 rounded-2xl"
                     >
                         Continue Shopping
                     </Link>
@@ -93,11 +93,11 @@ export default function CartPage() {
 
                 {/* HEADER */}
                 <div className="flex items-center justify-between mb-8">
-                    <h1 className="text-4xl font-bold text-[#3B281C]">
+                    <h1 className="text-4xl font-bold text-foreground-2">
                         Shopping Cart
                     </h1>
 
-                    <span className="text-[#6f5f52] font-medium">
+                    <span className="text-text-secondary font-medium">
                         {totalItems} Items
                     </span>
                 </div>
@@ -110,11 +110,11 @@ export default function CartPage() {
                         {items.map((item) => (
                             <div
                                 key={`${item._id}-${item.variant_id || "default"}-${item.type || "product"}`}
-                                className=" bg-[var(--background)] rounded-[30px] border border-[#d8c2a0] p-5 shadow-md"
+                                className=" bg-[var(--background)] rounded-[30px] border border-input-bg p-5 shadow-md"
                             >
                                 <div className="flex flex-col md:flex-row gap-5">
 
-                                    <div className="w-full md:w-[150px] h-[150px] bg-[#e0caa8] rounded-3xl overflow-hidden">
+                                    <div className="w-full md:w-[150px] h-[150px] bg-input-bg rounded-3xl overflow-hidden">
                                         <img
                                             src={item.image}
                                             alt={item.name}
@@ -126,13 +126,13 @@ export default function CartPage() {
 
                                         <div className="flex items-center gap-2 flex-wrap">
                                             {item.type === "combo" && (
-                                                <span className="inline-flex items-center gap-1 bg-[#2d1a10] text-white text-[10px] font-bold px-2.5 py-1 rounded-full">
+                                                <span className="inline-flex items-center gap-1 bg-foreground-3 text-white text-[10px] font-bold px-2.5 py-1 rounded-full">
                                                     <Layers size={11} />
                                                     Combo
                                                 </span>
                                             )}
 
-                                            <h3 className="text-2xl font-bold text-[#3F2A1D]">
+                                            <h3 className="text-2xl font-bold text-foreground-2">
                                                 {item.isVariant && item.title
                                                     ? item.title
                                                     : item.name}
@@ -140,13 +140,13 @@ export default function CartPage() {
                                         </div>
 
                                         <div className="mt-4 flex items-center gap-3">
-                                            <span className="text-3xl font-extrabold text-[#2D1A10]">
+                                            <span className="text-3xl font-extrabold text-foreground-3">
                                                 ₹{item.price}
                                             </span>
 
                                             {item.originalPrice &&
                                                 item.originalPrice > item.price && (
-                                                    <span className="line-through text-[#7d6c5e]">
+                                                    <span className="line-through text-text-secondary">
                                                         ₹{item.originalPrice}
                                                     </span>
                                                 )}
@@ -155,7 +155,7 @@ export default function CartPage() {
                                         {/* QUANTITY CONTROLS */}
                                         <div className="mt-6 flex items-center justify-between">
 
-                                            <div className="flex items-center overflow-hidden rounded-2xl border border-[#cbb28f]  bg-[var(--surface)]">
+                                            <div className="flex items-center overflow-hidden rounded-2xl border border-input-bg  bg-[var(--surface)]">
                                                 <button
                                                     onClick={() =>
                                                         decreaseQty(
@@ -185,7 +185,7 @@ export default function CartPage() {
                                                     className={`w-12 h-12 flex items-center justify-center transition
                                                         ${item.quantity >= item.stock
                                                             ? "opacity-40 cursor-not-allowed"
-                                                            : "hover:bg-[#ddc39a]"
+                                                            : "hover:bg-input-bg"
                                                         }`}
                                                 >
                                                     <Plus size={18} />
@@ -200,14 +200,14 @@ export default function CartPage() {
                                                         item.type || "product"
                                                     )
                                                 }
-                                                className="w-12 h-12 rounded-xl bg-[#e3c1b8] text-[#7a2e2e] flex items-center justify-center"
+                                                className="w-12 h-12 rounded-xl bg-border text-error flex items-center justify-center"
                                             >
                                                 <Trash2 size={18} />
                                             </button>
                                         </div>
 
                                         {item.quantity >= item.stock && (
-                                            <p className="text-xs text-red-500 mt-2">
+                                            <p className="text-xs text-error mt-2">
                                                 Maximum stock reached
                                             </p>
                                         )}
@@ -224,7 +224,7 @@ export default function CartPage() {
 
                         <div className="bg-[var(--background)] border border-bg-[var(--footer)] rounded-[34px] p-7 shadow-xl">
 
-                            <h2 className="text-2xl font-bold text-[#3B281C]">
+                            <h2 className="text-2xl font-bold text-foreground-2">
                                 Order Summary
                             </h2>
 
@@ -238,17 +238,17 @@ export default function CartPage() {
 
                                 <div className="h-3 bg-[var(--surface)] rounded-full overflow-hidden">
                                     <div
-                                        className="h-full bg-[#3B281C]"
+                                        className="h-full bg-foreground-2"
                                         style={{ width: `${progress}%` }}
                                     />
                                 </div>
 
                                 {subtotal < freeShippingTarget ? (
-                                    <p className="mt-3 text-sm text-[#6f5f52]">
+                                    <p className="mt-3 text-sm text-text-secondary">
                                         Add ₹{freeShippingTarget - subtotal} more for FREE delivery 🚚
                                     </p>
                                 ) : (
-                                    <p className="mt-3 text-sm font-semibold text-green-700">
+                                    <p className="mt-3 text-sm font-semibold text-success">
                                         🎉 Free Delivery Unlocked
                                     </p>
                                 )}
@@ -258,17 +258,17 @@ export default function CartPage() {
                             <div className="grid grid-cols-3 gap-3 mt-5">
 
                                 <div className="bg-[var(--surface)] rounded-2xl p-3 text-center">
-                                    <Truck size={20} className="mx-auto text-[#3B281C]" />
+                                    <Truck size={20} className="mx-auto text-foreground-2" />
                                     <p className="text-xs mt-2">Fast Delivery</p>
                                 </div>
 
                                 <div className="bg-[var(--surface)] rounded-2xl p-3 text-center">
-                                    <ShieldCheck size={20} className="mx-auto text-[#3B281C]" />
+                                    <ShieldCheck size={20} className="mx-auto text-foreground-2" />
                                     <p className="text-xs mt-2">Secure</p>
                                 </div>
 
                                 <div className="bg-[var(--surface)] rounded-2xl p-3 text-center">
-                                    <BadgeCheck size={20} className="mx-auto text-[#3B281C]" />
+                                    <BadgeCheck size={20} className="mx-auto text-foreground-2" />
                                     <p className="text-xs mt-2">Quality</p>
                                 </div>
 
@@ -290,16 +290,16 @@ export default function CartPage() {
 
                                     <span className="font-semibold">
                                         {shipping === 0 ? (
-                                            <span className="text-green-700">FREE</span>
+                                            <span className="text-success">FREE</span>
                                         ) : (
                                             `₹${shipping}`
                                         )}
                                     </span>
                                 </div>
 
-                                <hr className="border-[#cbb28f]" />
+                                <hr className="border-input-bg" />
 
-                                <div className="flex justify-between text-2xl font-bold text-[#2D1A10]">
+                                <div className="flex justify-between text-2xl font-bold text-foreground-3">
                                     <span>Total</span>
                                     <span>₹{total}</span>
                                 </div>
@@ -309,13 +309,13 @@ export default function CartPage() {
                             {/* CHECKOUT */}
                             <button
                                 onClick={handleCheckout}
-                                className="mt-8 h-14 w-full bg-[#2D1A10] text-[#f3e7d3] rounded-2xl font-semibold flex items-center justify-center gap-2 hover:scale-[1.02] transition-all shadow-lg"
+                                className="mt-8 h-14 w-full bg-foreground-3 text-footer-heading rounded-2xl font-semibold flex items-center justify-center gap-2 hover:scale-[1.02] transition-all shadow-lg"
                             >
                                 Proceed To Checkout
                                 <ArrowRight size={18} />
                             </button>
 
-                            <div className="flex items-center justify-center gap-2 mt-5 text-[#6f5f52] text-sm">
+                            <div className="flex items-center justify-center gap-2 mt-5 text-text-secondary text-sm">
                                 <ShieldCheck size={14} />
                                 Secure Checkout
                             </div>

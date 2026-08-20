@@ -63,14 +63,14 @@ export default function MobileDrawer({
       {/* Drawer */}
 
       <div
-        className={`absolute left-0 top-0 h-full w-[86%] bg-[#FCF9F5] shadow-2xl transform transition-transform duration-300 flex flex-col ${isDrawerOpen
+        className={`absolute left-0 top-0 h-full w-[86%] bg-background shadow-2xl transform transition-transform duration-300 flex flex-col ${isDrawerOpen
             ? "translate-x-0"
             : "-translate-x-full"
           }`}
       >
         {/* Header */}
 
-        <div className="bg-gradient-to-r from-[#3A2315] via-[#5A3824] to-[#7A5333] text-white px-5 pt-6 pb-5">
+        <div className="bg-gradient-to-r from-foreground-2 via-foreground-2 to-secondary text-white px-5 pt-6 pb-5">
 
           <div className="flex items-center justify-between">
 
@@ -138,7 +138,7 @@ export default function MobileDrawer({
             <Link
               href="/auth/login"
               onClick={() => setIsDrawerOpen(false)}
-              className="mt-6 flex items-center justify-center gap-2 h-12 rounded-xl bg-white text-[#4B2E1E] font-semibold"
+              className="mt-6 flex items-center justify-center gap-2 h-12 rounded-xl bg-white text-foreground-2 font-semibold"
             >
               <IconLogin size={18} />
               Login / Register
@@ -159,7 +159,7 @@ export default function MobileDrawer({
                   <Link
                     href="/account/profile"
                     onClick={() => setIsDrawerOpen(false)}
-                    className="flex items-center gap-4 rounded-xl px-4 py-4 hover:bg-[#F5EEE6] transition"
+                    className="flex items-center gap-4 rounded-xl px-4 py-4 hover:bg-surface-3 transition"
                   >
                     <IconUser size={22} />
                     <span className="font-medium">
@@ -170,7 +170,7 @@ export default function MobileDrawer({
                   <Link
                     href="/account/orders"
                     onClick={() => setIsDrawerOpen(false)}
-                    className="flex items-center gap-4 rounded-xl px-4 py-4 hover:bg-[#F5EEE6] transition"
+                    className="flex items-center gap-4 rounded-xl px-4 py-4 hover:bg-surface-3 transition"
                   >
                     <IconPackage size={22} />
                     <span className="font-medium">
@@ -181,7 +181,7 @@ export default function MobileDrawer({
                   <Link
                     href="/wishlist"
                     onClick={() => setIsDrawerOpen(false)}
-                    className="flex items-center gap-4 rounded-xl px-4 py-4 hover:bg-[#F5EEE6] transition"
+                    className="flex items-center gap-4 rounded-xl px-4 py-4 hover:bg-surface-3 transition"
                   >
                     <IconHeart size={22} />
                     <span className="font-medium">
@@ -194,7 +194,7 @@ export default function MobileDrawer({
                       logout();
                       setIsDrawerOpen(false);
                     }}
-                    className="w-full flex items-center gap-4 rounded-xl px-4 py-4 hover:bg-red-50 text-red-600 transition"
+                    className="w-full flex items-center gap-4 rounded-xl px-4 py-4 hover:bg-error-light text-error transition"
                   >
                     <IconLogout size={22} />
                     <span className="font-medium">
@@ -202,14 +202,14 @@ export default function MobileDrawer({
                     </span>
                   </button>
 
-                  <div className="my-3 border-t border-[#e9dfd5]" />
+                  <div className="my-3 border-t border-border" />
 
                 </>
               )}
 
               <button
                 onClick={() => setShowCategories(true)}
-                className="w-full flex items-center justify-between rounded-xl px-4 py-4 hover:bg-[#F5EEE6] transition font-semibold"
+                className="w-full flex items-center justify-between rounded-xl px-4 py-4 hover:bg-surface-3 transition font-semibold"
               >
                 Shop By Categories
 
@@ -222,7 +222,7 @@ export default function MobileDrawer({
                     key={link.name}
                     href={link.href}
                     onClick={() => setIsDrawerOpen(false)}
-                    className="flex items-center justify-between rounded-xl px-4 py-4 text-[15px] font-medium text-[#2E2017] hover:bg-[#F5EEE6] transition-all duration-200"
+                    className="flex items-center justify-between rounded-xl px-4 py-4 text-[15px] font-medium text-foreground-3 hover:bg-surface-3 transition-all duration-200"
                   >
                     {link.name}
                     <IconChevronRight size={18} />
@@ -234,7 +234,7 @@ export default function MobileDrawer({
             <>
               <button
                 onClick={() => setShowCategories(false)}
-                className="flex items-center gap-3 rounded-xl px-4 py-4 font-semibold hover:bg-[#F5EEE6] transition"
+                className="flex items-center gap-3 rounded-xl px-4 py-4 font-semibold hover:bg-surface-3 transition"
               >
                 <IconArrowLeft size={20} />
                 Back
@@ -249,7 +249,7 @@ export default function MobileDrawer({
                       setIsDrawerOpen(false);
                       setShowCategories(false);
                     }}
-                    className="flex items-center justify-between rounded-xl px-4 py-4 text-[15px] hover:bg-[#F5EEE6] transition"
+                    className="flex items-center justify-between rounded-xl px-4 py-4 text-[15px] hover:bg-surface-3 transition"
                   >
                     {cat}
                     <IconChevronRight size={18} />
@@ -262,7 +262,7 @@ export default function MobileDrawer({
 
         {/* Bottom Section */}
 
-        <div className="border-t border-[#E8DDD0] px-5 py-5 bg-white">
+        <div className="border-t border-border px-5 py-5 bg-white">
 
           <p className="text-xs uppercase tracking-[2px] text-gray-500 font-semibold mb-4">
             Follow Us
@@ -273,7 +273,7 @@ export default function MobileDrawer({
             <a
               href="https://instagram.com/"
               target="_blank"
-              className="w-12 h-12 rounded-full bg-[#F5EEE6] flex items-center justify-center hover:bg-[#E8D7C6] transition"
+              className="w-12 h-12 rounded-full bg-surface-3 flex items-center justify-center hover:bg-border transition"
             >
               <IconBrandInstagram size={22} />
             </a>
@@ -281,7 +281,7 @@ export default function MobileDrawer({
             <a
               href="https://facebook.com/"
               target="_blank"
-              className="w-12 h-12 rounded-full bg-[#F5EEE6] flex items-center justify-center hover:bg-[#E8D7C6] transition"
+              className="w-12 h-12 rounded-full bg-surface-3 flex items-center justify-center hover:bg-border transition"
             >
               <IconBrandFacebook size={22} />
             </a>
@@ -289,7 +289,7 @@ export default function MobileDrawer({
             <a
               href="https://youtube.com/"
               target="_blank"
-              className="w-12 h-12 rounded-full bg-[#F5EEE6] flex items-center justify-center hover:bg-[#E8D7C6] transition"
+              className="w-12 h-12 rounded-full bg-surface-3 flex items-center justify-center hover:bg-border transition"
             >
               <IconBrandYoutube size={22} />
             </a>
@@ -297,7 +297,7 @@ export default function MobileDrawer({
             <a
               href="https://wa.me/919999999999"
               target="_blank"
-              className="w-12 h-12 rounded-full bg-[#F5EEE6] flex items-center justify-center hover:bg-[#E8D7C6] transition"
+              className="w-12 h-12 rounded-full bg-surface-3 flex items-center justify-center hover:bg-border transition"
             >
               <IconBrandWhatsapp size={22} />
             </a>
@@ -306,7 +306,7 @@ export default function MobileDrawer({
 
           <div className="mt-5 text-center">
 
-            <h3 className="font-bold tracking-widest text-[#3A2315]">
+            <h3 className="font-bold tracking-widest text-foreground-2">
               YARCHE
             </h3>
 

@@ -246,7 +246,7 @@ export default function CheckoutPage() {
 
       theme: {
 
-        color: "#3B281C",
+        color: "var(--foreground-2)",
 
       },
 
@@ -268,13 +268,13 @@ export default function CheckoutPage() {
     return (
       <section className="min-h-screen flex items-center justify-center bg-[var(--background)] py-20">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-[#3B281C]">
+          <h2 className="text-3xl font-bold text-foreground-2">
             No Items To Checkout
           </h2>
 
           <Link
             href="/products"
-            className="inline-flex mt-6 rounded-xl bg-[#3B281C] px-6 py-3 text-white"
+            className="inline-flex mt-6 rounded-xl bg-foreground-2 px-6 py-3 text-white"
           >
             Go Shopping
           </Link>

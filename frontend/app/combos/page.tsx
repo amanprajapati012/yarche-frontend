@@ -31,7 +31,7 @@ export default function CombosPage() {
         <h1 className="text-3xl md:text-4xl font-black text-foreground">
           Combo Deals
         </h1>
-        <p className="text-[#6c5b4f] mt-2">
+        <p className="text-text-secondary mt-2">
           Save more when you buy these curated combos.
         </p>
       </div>

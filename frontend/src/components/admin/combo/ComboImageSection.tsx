@@ -75,7 +75,7 @@ export default function ComboImageSection({
             <button
               type="button"
               onClick={() => onRemoveExisting(img.public_id)}
-              className="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
+              className="absolute -right-2 -top-2 rounded-full bg-error p-1 text-white hover:bg-error"
             >
               <X size={14} />
             </button>
@@ -94,7 +94,7 @@ export default function ComboImageSection({
             <button
               type="button"
               onClick={() => removeNewImage(i)}
-              className="absolute -right-2 -top-2 rounded-full bg-red-500 p-1 text-white hover:bg-red-600"
+              className="absolute -right-2 -top-2 rounded-full bg-error p-1 text-white hover:bg-error"
             >
               <X size={14} />
             </button>
@@ -116,7 +116,7 @@ export default function ComboImageSection({
       </div>
 
       {totalCount === 0 && (
-        <p className="mt-3 text-sm text-red-500">
+        <p className="mt-3 text-sm text-error">
           At least one image is required.
         </p>
       )}

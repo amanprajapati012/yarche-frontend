@@ -4,7 +4,7 @@ import { Crown } from "lucide-react";
 
 export default function ProfileHeader() {
   return (
-    <div className="bg-gradient-to-r from-[#28170D] to-[#4A2D20] rounded-3xl p-8 text-white">
+    <div className="bg-gradient-to-r from-foreground to-foreground-2 rounded-3xl p-8 text-white">
 
       <div className="flex items-center gap-5">
 

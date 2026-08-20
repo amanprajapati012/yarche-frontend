@@ -63,7 +63,7 @@ export default function ProfileSidebar() {
           );
         })}
 
-        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-red-500 hover:bg-red-50">
+        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-error hover:bg-error-light">
           <LogOut size={20} />
           Logout
         </button>

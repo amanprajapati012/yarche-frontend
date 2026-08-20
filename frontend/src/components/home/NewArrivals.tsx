@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import API from "@/src/lib/api";
 import ProductCard from "@/src/components/product/ProductCard";
+import ProductPagedCarousel from "@/src/components/product/ProductPagedCarousel";
 import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 
 interface NewArrivalsProps {
@@ -66,7 +67,7 @@ export default function NewArrivals({
                 color: "var(--foreground)",
               }}
             >
-              <Sparkles size={11} className="text-[#FF6E23]" />
+              <Sparkles size={11} className="text-primary" />
               JUST LANDED
             </div>
 
@@ -158,15 +159,8 @@ export default function NewArrivals({
           </div>
         ) : (
           <>
-            {/* Mobile */}
-            <div className="grid grid-cols-2 gap-3 md:hidden">
-              {products.map((product) => (
-                <ProductCard
-                  key={product._id}
-                  product={product}
-                />
-              ))}
-            </div>
+            {/* Mobile — 8 products per page, swipe or use the arrows */}
+            <ProductPagedCarousel products={products} perPage={8} />
 
             {/* Tablet & Desktop */}
             <div

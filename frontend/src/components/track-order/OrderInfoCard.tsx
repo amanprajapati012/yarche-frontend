@@ -138,7 +138,7 @@ export default function OrderInfoCard({ order }: Props) {
 
             <User
               size={18}
-              color="#6b5a4d"
+              color="var(--text-secondary)"
             />
 
             <span>{order.address.fullName}</span>
@@ -149,7 +149,7 @@ export default function OrderInfoCard({ order }: Props) {
 
             <Phone
               size={18}
-              color="#6b5a4d"
+              color="var(--text-secondary)"
             />
 
             <span>{order.address.mobile}</span>
@@ -160,7 +160,7 @@ export default function OrderInfoCard({ order }: Props) {
 
             <MapPin
               size={18}
-              color="#6b5a4d"
+              color="var(--text-secondary)"
             />
 
             <span>
@@ -277,7 +277,7 @@ export default function OrderInfoCard({ order }: Props) {
             <span
               className="font-semibold"
               style={{
-                color: "#16a34a",
+                color: "var(--success)",
               }}
             >
               {order.couponCode || "-"}
@@ -298,7 +298,7 @@ export default function OrderInfoCard({ order }: Props) {
             <span
               className="font-semibold"
               style={{
-                color: "#16a34a",
+                color: "var(--success)",
               }}
             >
               -₹{order.couponDiscount || 0}

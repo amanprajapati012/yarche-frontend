@@ -117,23 +117,23 @@ export default function ShippingForm({
   };
 
   return (
-    <div className="bg-background border border-[#d8c2a0] rounded-3xl p-6">
+    <div className="bg-background border border-input-bg rounded-3xl p-6">
 
       <div className="flex items-center justify-between mb-6">
 
         <div>
-          <h2 className="text-2xl font-bold text-[#3B281C]">
+          <h2 className="text-2xl font-bold text-foreground-2">
             Shipping Address
           </h2>
 
-          <p className="text-[#6f5f52] text-sm mt-1">
+          <p className="text-text-secondary text-sm mt-1">
             Select your saved delivery address
           </p>
         </div>
 
         <Link
           href="/account/addresses"
-          className="text-sm font-semibold underline text-[#3B281C]"
+          className="text-sm font-semibold underline text-foreground-2"
         >
           Manage Address
         </Link>
@@ -146,24 +146,24 @@ export default function ShippingForm({
         </div>
       ) : addresses.length === 0 ? (
 
-        <div className="rounded-2xl border border-dashed border-[#c8ae89] p-10 text-center">
+        <div className="rounded-2xl border border-dashed border-input-bg p-10 text-center">
 
           <MapPin
             size={45}
-            className="mx-auto text-[#3B281C]"
+            className="mx-auto text-foreground-2"
           />
 
-          <h3 className="mt-4 text-2xl font-bold text-[#3B281C]">
+          <h3 className="mt-4 text-2xl font-bold text-foreground-2">
             No Address Found
           </h3>
 
-          <p className="mt-2 text-[#6f5f52]">
+          <p className="mt-2 text-text-secondary">
             Please add an address before checkout.
           </p>
 
           <Link
             href="/account/addresses"
-            className="inline-flex mt-5 bg-[#3B281C] text-white px-6 py-3 rounded-xl"
+            className="inline-flex mt-5 bg-foreground-2 text-white px-6 py-3 rounded-xl"
           >
             Add Address
           </Link>
@@ -187,7 +187,7 @@ export default function ShippingForm({
                   selectAddress(address);
                 }
               }}
-              className="w-full appearance-none rounded-xl border border-[#d8c2a0] bg-[#e0caa8] px-4 py-3 pr-10 outline-none"
+              className="w-full appearance-none rounded-xl border border-input-bg bg-input-bg px-4 py-3 pr-10 outline-none"
             >
               {addresses.map((item) => (
                 <option
@@ -213,8 +213,8 @@ export default function ShippingForm({
               <label
                 key={address._id}
                 className={`block cursor-pointer rounded-2xl border-2 p-5 transition ${selectedAddress?._id === address._id
-                  ? "border-[#3B281C] bg-[#f7ebd9]"
-                  : "border-[#d8c2a0] bg-[#e9d3b2]"
+                  ? "border-foreground-2 bg-footer-heading"
+                  : "border-input-bg bg-border-light"
                   }`}
               >
 
@@ -224,30 +224,30 @@ export default function ShippingForm({
                     type="radio"
                     checked={selectedAddress?._id === address._id}
                     onChange={() => selectAddress(address)}
-                    className="mt-1 accent-[#3B281C]"
+                    className="mt-1 accent-foreground-2"
                   />
 
                   <div className="flex-1">
 
                     <div className="flex items-center justify-between">
 
-                      <h3 className="font-bold text-lg text-[#3B281C]">
+                      <h3 className="font-bold text-lg text-foreground-2">
                         {address.name}
                       </h3>
 
                       {address.isDefault && (
-                        <span className="bg-green-600 text-white text-xs px-3 py-1 rounded-full">
+                        <span className="bg-success text-white text-xs px-3 py-1 rounded-full">
                           Default
                         </span>
                       )}
 
                     </div>
 
-                    <p className="mt-2 text-[#6f5f52]">
+                    <p className="mt-2 text-text-secondary">
                       {address.mobile}
                     </p>
 
-                    <p className="mt-2 text-[#6f5f52] leading-6">
+                    <p className="mt-2 text-text-secondary leading-6">
                       {address.addressLine}
                       {address.landmark && `, ${address.landmark}`}
                       <br />
@@ -263,14 +263,14 @@ export default function ShippingForm({
                       <button
                         type="button"
                         onClick={() => selectAddress(address)}
-                        className="px-4 py-2 rounded-xl bg-[#3B281C] text-white text-sm"
+                        className="px-4 py-2 rounded-xl bg-foreground-2 text-white text-sm"
                       >
                         Deliver Here
                       </button>
 
                       <Link
                         href="/account/addresses"
-                        className="px-4 py-2 rounded-xl border border-[#3B281C] text-[#3B281C] text-sm"
+                        className="px-4 py-2 rounded-xl border border-foreground-2 text-foreground-2 text-sm"
                       >
                         Edit
                       </Link>
@@ -357,7 +357,7 @@ function Input({
     <div className={`relative ${className}`}>
 
       {icon && (
-        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6f5f52]">
+        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">
           {icon}
         </div>
       )}
@@ -368,13 +368,13 @@ function Input({
           w-full
           rounded-xl
           border
-          border-[#d8c2a0]
-          bg-[#e0caa8]
+          border-input-bg
+          bg-input-bg
           py-3
           pr-4
           ${icon ? "pl-10" : "pl-4"}
           outline-none
-          focus:border-[#3B281C]
+          focus:border-foreground-2
         `}
       />
 
@@ -393,7 +393,7 @@ function Textarea({
     <div className={`relative ${className}`}>
 
       {icon && (
-        <div className="absolute left-3 top-3 text-[#6f5f52]">
+        <div className="absolute left-3 top-3 text-text-secondary">
           {icon}
         </div>
       )}
@@ -405,14 +405,14 @@ function Textarea({
           w-full
           rounded-xl
           border
-          border-[#d8c2a0]
-          bg-[#e0caa8]
+          border-input-bg
+          bg-input-bg
           py-3
           pr-4
           resize-none
           ${icon ? "pl-10" : "pl-4"}
           outline-none
-          focus:border-[#3B281C]
+          focus:border-foreground-2
         `}
       />
 

@@ -55,7 +55,7 @@ export default function AccountSidebar() {
       shrink-0
       bg-surface
       border
-      border-[#28170d]/10
+      border-foreground/10
       rounded-[32px]
       overflow-hidden
       shadow-[0_15px_40px_rgba(40,23,13,0.08)]
@@ -63,7 +63,7 @@ export default function AccountSidebar() {
     >
       {/* Header */}
 
-      <div className="p-6 border-b border-[#28170d]/10">
+      <div className="p-6 border-b border-foreground/10">
         <h2 className="text-xl font-bold text-foreground">
           My Account
         </h2>
@@ -137,10 +137,10 @@ export default function AccountSidebar() {
           py-3.5
           rounded-2xl
 
-          text-red-600
-          bg-red-50
+          text-error
+          bg-error-light
 
-          hover:bg-red-100
+          hover:bg-error-light
           transition
           "
         >

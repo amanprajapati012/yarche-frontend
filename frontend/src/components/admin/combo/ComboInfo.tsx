@@ -38,7 +38,7 @@ export default function ComboInfo({ formData, setFormData }: Props) {
             value={formData.comboSku}
             onChange={handleChange}
             placeholder="Enter Combo SKU"
-            className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-[#28170D]"
+            className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-foreground"
           />
         </div>
 
@@ -54,7 +54,7 @@ export default function ComboInfo({ formData, setFormData }: Props) {
             value={formData.title}
             onChange={handleChange}
             placeholder="Enter Combo Title"
-            className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-[#28170D]"
+            className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-foreground"
           />
         </div>
 
@@ -70,7 +70,7 @@ export default function ComboInfo({ formData, setFormData }: Props) {
             value={formData.discountedPrice}
             onChange={handleChange}
             placeholder="Leave 0 to auto-use total price"
-            className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-[#28170D]"
+            className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-foreground"
           />
         </div>
 
@@ -85,7 +85,7 @@ export default function ComboInfo({ formData, setFormData }: Props) {
             min={0}
             value={formData.landingPrice}
             onChange={handleChange}
-            className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-[#28170D]"
+            className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-foreground"
           />
         </div>
 
@@ -101,7 +101,7 @@ export default function ComboInfo({ formData, setFormData }: Props) {
             value={formData.description}
             onChange={handleChange}
             placeholder="Enter Combo Description"
-            className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-[#28170D]"
+            className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-foreground"
           />
         </div>
       </div>

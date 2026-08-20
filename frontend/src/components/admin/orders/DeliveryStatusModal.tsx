@@ -15,16 +15,16 @@ type Props = {
 };
 
 const STATUS_FLOW = [
-  { label: "Pending", icon: Clock, color: "#f59e0b" },
-  { label: "Processing", icon: Package, color: "#3b82f6" },
-  { label: "Packed", icon: PackageCheck, color: "#8b5cf6" },
-  { label: "Shipped", icon: Truck, color: "#06b6d4" },
-  { label: "Out for Delivery", icon: Truck, color: "#f97316" },
-  { label: "Delivered", icon: CheckCircle2, color: "#16a34a" },
-  { label: "Cancelled", icon: Ban, color: "#ef4444" },
-  { label: "RTO Initiated", icon: Truck, color: "#dc2626" },
-  { label: "RTO In Transit", icon: Truck, color: "#b91c1c" },
-  { label: "RTO Delivered", icon: PackageCheck, color: "#991b1b" },
+  { label: "Pending", icon: Clock, color: "var(--warning)" },
+  { label: "Processing", icon: Package, color: "var(--info)" },
+  { label: "Packed", icon: PackageCheck, color: "var(--info)" },
+  { label: "Shipped", icon: Truck, color: "var(--info)" },
+  { label: "Out for Delivery", icon: Truck, color: "var(--primary)" },
+  { label: "Delivered", icon: CheckCircle2, color: "var(--success)" },
+  { label: "Cancelled", icon: Ban, color: "var(--error)" },
+  { label: "RTO Initiated", icon: Truck, color: "var(--error)" },
+  { label: "RTO In Transit", icon: Truck, color: "var(--error)" },
+  { label: "RTO Delivered", icon: PackageCheck, color: "var(--error)" },
 ];
 const ALLOWED_TRANSITIONS: Record<string, string[]> = {
   Pending: ["Processing", "Cancelled"],
@@ -122,7 +122,7 @@ if (
   };
 
   const getColor = (label: string) => {
-    return STATUS_FLOW.find((s) => s.label === label)?.color || "#6b7280";
+    return STATUS_FLOW.find((s) => s.label === label)?.color || "var(--text-secondary)";
   };
 
   return (
@@ -131,7 +131,7 @@ if (
   <div className="w-full max-w-lg h-[95vh] sm:h-[90vh] rounded-2xl border bg-white shadow-2xl flex flex-col overflow-hidden">
 
         {/* HEADER */}
-        <div className="flex items-center justify-between px-6 py-4 border-b bg-gradient-to-r from-orange-50 to-amber-50">
+        <div className="flex items-center justify-between px-6 py-4 border-b bg-gradient-to-r from-primary-light to-primary-light">
           <div>
             <h2 className="text-lg font-semibold text-gray-800">
               Update Delivery Status
@@ -180,7 +180,7 @@ if (
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="w-full rounded-xl border px-3 py-3 outline-none focus:ring-2 focus:ring-orange-300"
+              className="w-full rounded-xl border px-3 py-3 outline-none focus:ring-2 focus:ring-primary"
             >
               {STATUS_FLOW.filter((s) =>
   availableStatuses.includes(s.label)
@@ -257,7 +257,7 @@ if (
                     key={s.label}
                     onClick={() => setStatus(s.label)}
                     className={`flex items-center gap-2 rounded-lg border p-2 cursor-pointer transition
-                      ${active ? "bg-orange-50 border-orange-300" : "hover:bg-gray-50"}
+                      ${active ? "bg-primary-light border-primary" : "hover:bg-gray-50"}
                     `}
                   >
                     <Icon size={16} color={s.color} />
@@ -280,7 +280,7 @@ if (
             <button
               onClick={handleUpdate}
               disabled={loading}
-              className="rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 px-5 py-2 text-white font-medium disabled:opacity-60"
+              className="rounded-xl bg-gradient-to-r from-primary to-primary px-5 py-2 text-white font-medium disabled:opacity-60"
             >
               {loading ? "Updating..." : "Update Status"}
             </button>

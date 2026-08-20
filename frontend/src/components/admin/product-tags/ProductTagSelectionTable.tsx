@@ -56,7 +56,7 @@ export default function ProductTagSelectionTable({
                   e.target.checked
                 )
               }
-              className="h-5 w-5 cursor-pointer accent-[#28170D]"
+              className="h-5 w-5 cursor-pointer accent-foreground"
             />
           </div>
         );
@@ -73,7 +73,7 @@ export default function ProductTagSelectionTable({
               `/admin/products/${row._id}/edit`
             )
           }
-          className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#ead9b7] bg-white transition hover:bg-[#fff6e7]"
+          className="flex h-9 w-9 items-center justify-center rounded-lg border border-border-light bg-white transition hover:bg-surface"
         >
           <Pencil size={16} />
         </button>

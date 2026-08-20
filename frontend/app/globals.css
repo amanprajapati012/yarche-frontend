@@ -1,30 +1,89 @@
 @import "tailwindcss";
 
+/* ============================================================
+   YARCHE — SINGLE SOURCE OF TRUTH FOR COLOR
+   Every color used anywhere on the site is driven from here.
+   Change a value below and it updates across the whole app.
+   ============================================================ */
 :root {
-  /* Main Colors */
+  /* Surfaces */
   --background: #fffbf5;
   --surface: #fff6e8;
-  --footer: #28170d;
-
-  /* Text */
-  --foreground: #28170d;
-  --text-secondary: #6b5a4d;
-
-  /* Inputs */
+  --surface-2: #fff3e2;
+  --surface-3: #f5eee6;
   --input-bg: #efd6ad;
   --border: #e8d9bd;
+  --border-light: #ead9b7;
+
+  /* Text / ink */
+  --foreground: #28170d;
+  --foreground-2: #3b281c;
+  --foreground-3: #2d1a10;
+  --text-secondary: #6b5a4d;
+  --muted: #a89484;
+
+  /* Footer */
+  --footer: #28170d;
+  --footer-2: #1f130b;
+  --footer-text: #fff6e2;
+  --footer-heading: #fff0d3;
+
+  /* Brand */
+  --primary: #ff6e23;
+  --primary-dark: #e85a12;
+  --primary-light: #fff0e2;
+  --secondary: #8b5e3c;
+
+  /* Semantic / status */
+  --success: #16a34a;
+  --success-light: #dcfce7;
+  --error: #dc2626;
+  --error-light: #fee2e2;
+  --info: #2563eb;
+  --info-light: #dbeafe;
+  --warning: #f59e0b;
+  --warning-light: #fef3c7;
+
+  /* Overlays */
+  --overlay: rgba(40, 23, 13, 0.55);
 }
 
 @theme inline {
-  /* Tailwind Colors */
+  /* Tailwind color utilities: bg-*, text-*, border-*, from-*, to-*, ring-*, fill-* etc. */
   --color-background: var(--background);
   --color-surface: var(--surface);
-  --color-footer: var(--footer);
-
-  --color-foreground: var(--foreground);
-  --color-text-secondary: var(--text-secondary);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
   --color-input-bg: var(--input-bg);
   --color-border: var(--border);
+  --color-border-light: var(--border-light);
+
+  --color-foreground: var(--foreground);
+  --color-foreground-2: var(--foreground-2);
+  --color-foreground-3: var(--foreground-3);
+  --color-text-secondary: var(--text-secondary);
+  --color-muted: var(--muted);
+
+  --color-footer: var(--footer);
+  --color-footer-2: var(--footer-2);
+  --color-footer-text: var(--footer-text);
+  --color-footer-heading: var(--footer-heading);
+
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-light: var(--primary-light);
+  --color-secondary: var(--secondary);
+
+  --color-success: var(--success);
+  --color-success-light: var(--success-light);
+  --color-error: var(--error);
+  --color-error-light: var(--error-light);
+  --color-info: var(--info);
+  --color-info-light: var(--info-light);
+  --color-warning: var(--warning);
+  --color-warning-light: var(--warning-light);
+
+  --color-overlay: var(--overlay);
 
   /* Fonts */
   --font-sans: var(--font-poppins);
@@ -76,33 +135,291 @@ select:-webkit-autofill {
   caret-color: var(--foreground) !important;
 }
 
-
-
-
-
-.loader-ring {
-  position: absolute;
-  width: 92px;
-  height: 92px;
-  border-radius: 50%;
-  border: 2.5px solid rgba(0, 0, 0, 0.08);
-  border-top-color: #ff6e23;
-  border-right-color: #28170d;
-  animation: smoothSpin 1s linear infinite;
+/* ============================================================
+   PREMIUM LOADER
+   Lightweight, GPU-only (transform/opacity), no layout thrash —
+   loads instantly and feels fast.
+   ============================================================ */
+.yc-loader {
+  position: relative;
+  width: 68px;
+  height: 68px;
+  display: grid;
+  place-items: center;
 }
 
-@keyframes smoothSpin {
+.yc-loader-mark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-cormorant);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--primary);
+  animation: yc-pulse 1.1s ease-in-out infinite;
+}
+
+.yc-loader-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2.5px solid var(--border);
+  border-top-color: var(--primary);
+  border-right-color: var(--foreground-2);
+  animation: yc-spin 0.85s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+}
+
+.yc-loader-ring--outer {
+  inset: -10px;
+  border-width: 1.5px;
+  border-color: transparent;
+  border-top-color: var(--primary-light);
+  animation: yc-spin-rev 1.6s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes yc-spin {
   100% {
     transform: rotate(360deg);
   }
 }
 
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+@keyframes yc-spin-rev {
+  100% {
+    transform: rotate(-360deg);
+  }
 }
 
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+@keyframes yc-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.88);
+    opacity: 0.65;
+  }
+}
+
+/* legacy class kept as alias so nothing breaks if referenced elsewhere */
+.loader-ring {
+  position: absolute;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 2.5px solid var(--border);
+  border-top-color: var(--primary);
+  border-right-color: var(--foreground);
+  animation: yc-spin 0.85s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+}
+
+/* Route/global top progress bar */
+.yc-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  z-index: 9999;
+  background: transparent;
+  pointer-events: none;
+}
+
+.yc-topbar-fill {
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  box-shadow: 0 0 8px var(--primary);
+  animation: yc-topbar-slide 0.9s ease-in-out infinite;
+}
+
+@keyframes yc-topbar-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(60%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+/* ============================================================
+   LAUNCH / CELEBRATION ANIMATION (confetti burst)
+   ============================================================ */
+.yc-launch-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.yc-confetti-piece {
+  position: absolute;
+  top: -12px;
+  will-change: transform, opacity;
+  animation-name: yc-confetti-fall;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-fill-mode: forwards;
+}
+
+@keyframes yc-confetti-fall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--yc-drift, 0px), 110vh, 0) rotate(var(--yc-rot, 540deg)) scale(0.85);
+    opacity: 0;
+  }
+}
+
+.yc-launch-badge {
+  animation: yc-badge-pop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes yc-badge-pop {
+  0% {
+    transform: scale(0.4) translateY(20px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.08) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ============================================================
+   COUPON APPLIED ANIMATION
+   ============================================================ */
+@keyframes yc-coupon-pop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.035);
+  }
+  60% {
+    transform: scale(0.99);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.yc-coupon-applied {
+  animation: yc-coupon-pop 0.5s ease-out both;
+}
+
+@keyframes yc-coupon-shine {
+  0% {
+    transform: translateX(-120%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(220%) skewX(-15deg);
+  }
+}
+
+.yc-coupon-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 80%
+  );
+  animation: yc-coupon-shine 0.9s ease-out;
+  pointer-events: none;
+}
+
+@keyframes yc-check-draw {
+  from {
+    stroke-dashoffset: 24;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.yc-check-draw {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  animation: yc-check-draw 0.4s 0.1s ease-out forwards;
+}
+
+@keyframes yc-spark {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(90deg);
+    opacity: 0;
+  }
+}
+
+.yc-spark {
+  position: absolute;
+  animation: yc-spark 0.6s ease-out forwards;
+}
+
+/* ============================================================
+   PRODUCT CAROUSEL (Top Products / New Arrivals / Best Sellers)
+   ============================================================ */
+.yc-carousel-track {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.yc-carousel-item {
+  scroll-snap-align: start;
+}
+
+.yc-carousel-nav {
+  transition: transform 0.15s ease, background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.yc-carousel-nav:active {
+  transform: scale(0.92);
+}
+
+/* Fade edges on mobile scroller */
+.yc-carousel-fade {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 24px,
+    black calc(100% - 24px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 24px,
+    black calc(100% - 24px),
+    transparent 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

@@ -149,7 +149,7 @@ export default function ComboProductsSection({
               setSelectedProductId(e.target.value);
               setSelectedVariantId("");
             }}
-            className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-[#28170D]"
+            className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-foreground"
           >
             <option value="">
               {loading ? "Loading products..." : "Select Product"}
@@ -170,7 +170,7 @@ export default function ComboProductsSection({
             <select
               value={selectedVariantId}
               onChange={(e) => setSelectedVariantId(e.target.value)}
-              className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-[#28170D]"
+              className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-foreground"
             >
               <option value="">
                 Base Product (₹{selectedDbProduct.price})
@@ -193,7 +193,7 @@ export default function ComboProductsSection({
             min={1}
             value={selectedQty}
             onChange={(e) => setSelectedQty(Number(e.target.value))}
-            className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-[#28170D]"
+            className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-foreground"
           />
         </div>
 
@@ -257,13 +257,13 @@ export default function ComboProductsSection({
                     onChange={(e) =>
                       handleQuantityChange(key, Number(e.target.value))
                     }
-                    className="w-20 rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-[#28170D]"
+                    className="w-20 rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-foreground"
                   />
 
                   <button
                     type="button"
                     onClick={() => handleRemoveProduct(key)}
-                    className="rounded-lg bg-red-50 p-2 text-red-600 hover:bg-red-100"
+                    className="rounded-lg bg-error-light p-2 text-error hover:bg-error-light"
                   >
                     <Trash2 size={16} />
                   </button>

@@ -9,8 +9,8 @@ export default function OurStory() {
     <main
       className="overflow-hidden"
       style={{
-        background: "#fffbf5",
-        color: "#28170d",
+        background: "var(--background)",
+        color: "var(--foreground)",
       }}
     >
       {/* ================================================= */}
@@ -20,12 +20,12 @@ export default function OurStory() {
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <div
           className="absolute -top-52 -left-52 w-[650px] h-[650px] rounded-full blur-3xl opacity-30"
-          style={{ background: "#efd6ad" }}
+          style={{ background: "var(--input-bg)" }}
         />
 
         <div
           className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full blur-3xl opacity-25"
-          style={{ background: "#fff6e8" }}
+          style={{ background: "var(--surface)" }}
         />
       </div>
 
@@ -60,7 +60,7 @@ export default function OurStory() {
               <p
                 className="uppercase tracking-[8px] text-sm mb-8"
                 style={{
-                  color: "#6b5a4d",
+                  color: "var(--text-secondary)",
                 }}
               >
                 OUR STORY
@@ -76,7 +76,7 @@ export default function OurStory() {
                 lg:text-7xl
                 xl:text-8xl"
                 style={{
-                  color: "#28170d",
+                  color: "var(--foreground)",
                 }}
               >
                 A Journey
@@ -84,7 +84,7 @@ export default function OurStory() {
 
                 <span
                   style={{
-                    color: "#9a7048",
+                    color: "var(--secondary)",
                   }}
                 >
                   I Chose to Continue
@@ -106,7 +106,7 @@ export default function OurStory() {
                 }}
                 className="h-[2px] mt-10"
                 style={{
-                  background: "#28170d",
+                  background: "var(--foreground)",
                 }}
               />
 
@@ -127,7 +127,7 @@ export default function OurStory() {
                 }}
                 className="mt-10 max-w-2xl leading-9 text-lg md:text-xl"
                 style={{
-                  color: "#6b5a4d",
+                  color: "var(--text-secondary)",
                 }}
               >
                 Some journeys begin with an idea.
@@ -163,7 +163,7 @@ export default function OurStory() {
                 <p
                   className="text-base tracking-[5px] uppercase font-medium"
                   style={{
-                    color: "#9a7048",
+                    color: "var(--secondary)",
                   }}
                 >
                   Since 2013
@@ -193,7 +193,7 @@ export default function OurStory() {
               <div
                 className="absolute -bottom-6 -right-6 w-full h-full rounded-[40px]"
                 style={{
-                  background: "#efd6ad",
+                  background: "var(--input-bg)",
                 }}
               />
 
@@ -202,7 +202,7 @@ export default function OurStory() {
               <div
                 className="relative overflow-hidden rounded-[40px] shadow-2xl"
                 style={{
-                  background: "#fff6e8",
+                  background: "var(--surface)",
                 }}
               >
                 <Image
@@ -220,8 +220,8 @@ export default function OurStory() {
               <div
                 className="absolute -bottom-5 left-6 md:left-10 px-6 py-3 rounded-full shadow-lg"
                 style={{
-                  background: "#28170d",
-                  color: "#efd6ad",
+                  background: "var(--foreground)",
+                  color: "var(--input-bg)",
                 }}
               >
                 <span className="text-sm tracking-[3px] uppercase">
@@ -248,7 +248,7 @@ export default function OurStory() {
         >
           <ArrowDown
             size={30}
-            color="#28170d"
+            color="var(--foreground)"
           />
         </motion.div>
       </section>
@@ -282,7 +282,7 @@ export default function OurStory() {
             <p
               className="uppercase tracking-[8px] text-sm mb-6"
               style={{
-                color: "#6b5a4d",
+                color: "var(--text-secondary)",
               }}
             >
               OUR BEGINNING
@@ -293,7 +293,7 @@ export default function OurStory() {
             <h2
               className="font-serif text-4xl md:text-6xl leading-tight max-w-4xl"
               style={{
-                color: "#28170d",
+                color: "var(--foreground)",
               }}
             >
               Every journey has
@@ -307,13 +307,13 @@ export default function OurStory() {
             <div
               className="mt-20 border-l-[5px] pl-8"
               style={{
-                borderColor: "#28170d",
+                borderColor: "var(--foreground)",
               }}
             >
               <p
                 className="text-2xl md:text-4xl font-serif leading-relaxed"
                 style={{
-                  color: "#28170d",
+                  color: "var(--foreground)",
                 }}
               >
                 People often ask me,
@@ -322,7 +322,7 @@ export default function OurStory() {
               <p
                 className="mt-8 italic text-3xl md:text-5xl font-serif leading-relaxed"
                 style={{
-                  color: "#28170d",
+                  color: "var(--foreground)",
                 }}
               >
                 “When did you start
@@ -336,7 +336,7 @@ export default function OurStory() {
               <p
                 className="text-xl leading-10"
                 style={{
-                  color: "#6b5a4d",
+                  color: "var(--text-secondary)",
                 }}
               >
                 The truth is...
@@ -345,7 +345,7 @@ export default function OurStory() {
               <p
                 className="text-3xl md:text-5xl font-serif leading-relaxed"
                 style={{
-                  color: "#28170d",
+                  color: "var(--foreground)",
                 }}
               >
                 I didn't start it—
@@ -355,12 +355,12 @@ export default function OurStory() {
                             <p
                 className="text-xl leading-10"
                 style={{
-                  color: "#6b5a4d",
+                  color: "var(--text-secondary)",
                 }}
               >
-                In <strong style={{ color: "#28170d" }}>2013</strong>, my father
+                In <strong style={{ color: "var(--foreground)" }}>2013</strong>, my father
                 started{" "}
-                <strong style={{ color: "#28170d" }}>
+                <strong style={{ color: "var(--foreground)" }}>
                   UJJWAL KITCHEN KING PRODUCT
                 </strong>{" "}
                 with a simple vision: to provide quality kitchenware and
@@ -371,7 +371,7 @@ export default function OurStory() {
               <p
                 className="text-xl leading-10"
                 style={{
-                  color: "#6b5a4d",
+                  color: "var(--text-secondary)",
                 }}
               >
                 At that time, I was just a child. But I had the privilege of
@@ -412,14 +412,14 @@ export default function OurStory() {
                 <div
                   className="absolute -top-6 -left-6 w-full h-full rounded-[32px]"
                   style={{
-                    background: "#efd6ad",
+                    background: "var(--input-bg)",
                   }}
                 />
 
                 <div
                   className="relative overflow-hidden rounded-[32px] shadow-2xl"
                   style={{
-                    background: "#fff6e8",
+                    background: "var(--surface)",
                   }}
                 >
                   <Image
@@ -439,7 +439,7 @@ export default function OurStory() {
                 <p
                   className="uppercase tracking-[8px] text-sm mb-6"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   2013
@@ -448,7 +448,7 @@ export default function OurStory() {
                 <h2
                   className="font-serif text-5xl leading-tight"
                   style={{
-                    color: "#28170d",
+                    color: "var(--foreground)",
                   }}
                 >
                   Where Everything
@@ -459,14 +459,14 @@ export default function OurStory() {
                 <div
                   className="w-24 h-[2px] mt-8 mb-10"
                   style={{
-                    background: "#28170d",
+                    background: "var(--foreground)",
                   }}
                 />
 
                 <p
                   className="text-lg leading-10"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   Every successful business has a beginning. Ours started with
@@ -477,7 +477,7 @@ export default function OurStory() {
                 <p
                   className="mt-8 text-lg leading-10"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   My father believed that businesses aren't built by selling
@@ -488,7 +488,7 @@ export default function OurStory() {
                 <p
                   className="mt-8 text-lg leading-10"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   That philosophy became the strongest foundation of our
@@ -499,14 +499,14 @@ export default function OurStory() {
                 <div
                   className="mt-12 rounded-3xl p-8"
                   style={{
-                    background: "#fff6e8",
-                    border: "1px solid #e8d9bd",
+                    background: "var(--surface)",
+                    border: "1px solid var(--border)",
                   }}
                 >
                   <p
                     className="text-2xl font-serif leading-relaxed"
                     style={{
-                      color: "#28170d",
+                      color: "var(--foreground)",
                     }}
                   >
                     "Trust isn't earned in a day.
@@ -548,7 +548,7 @@ export default function OurStory() {
                 <p
                   className="uppercase tracking-[8px] text-sm mb-6"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   2015
@@ -557,7 +557,7 @@ export default function OurStory() {
                 <h2
                   className="font-serif text-5xl leading-tight"
                   style={{
-                    color: "#28170d",
+                    color: "var(--foreground)",
                   }}
                 >
                   Learning Before
@@ -568,24 +568,24 @@ export default function OurStory() {
                 <div
                   className="w-24 h-[2px] mt-8 mb-10"
                   style={{
-                    background: "#28170d",
+                    background: "var(--foreground)",
                   }}
                 />
 
                 <p
                   className="text-lg leading-10"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
-                  By <strong style={{ color: "#28170d" }}>2015</strong>, I began
+                  By <strong style={{ color: "var(--foreground)" }}>2015</strong>, I began
                   spending more time understanding the business.
                 </p>
 
                 <p
                   className="mt-8 text-lg leading-10"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   I wasn't preparing to become an entrepreneur.
@@ -595,7 +595,7 @@ export default function OurStory() {
                 <p
                   className="mt-8 text-lg leading-10"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   Watching customers return again and again taught me something
@@ -606,7 +606,7 @@ export default function OurStory() {
                 <p
                   className="mt-8 text-lg leading-10"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   Those years became my greatest education. Every conversation,
@@ -623,14 +623,14 @@ export default function OurStory() {
                 <div
                   className="absolute -bottom-6 -right-6 w-full h-full rounded-[32px]"
                   style={{
-                    background: "#efd6ad",
+                    background: "var(--input-bg)",
                   }}
                 />
 
                 <div
                   className="relative overflow-hidden rounded-[32px] shadow-2xl"
                   style={{
-                    background: "#fff6e8",
+                    background: "var(--surface)",
                   }}
                 >
                   <Image
@@ -665,7 +665,7 @@ export default function OurStory() {
               <p
                 className="uppercase tracking-[8px] text-sm"
                 style={{
-                  color: "#6b5a4d",
+                  color: "var(--text-secondary)",
                 }}
               >
                 LESSONS
@@ -674,7 +674,7 @@ export default function OurStory() {
               <h2
                 className="font-serif text-5xl mt-6 leading-tight"
                 style={{
-                  color: "#28170d",
+                  color: "var(--foreground)",
                 }}
               >
                 Those years taught me lessons
@@ -691,16 +691,16 @@ export default function OurStory() {
               <div
                 className="rounded-[30px] p-10 transition-all duration-500 hover:-translate-y-2"
                 style={{
-                  background: "#fff6e8",
-                  border: "1px solid #e8d9bd",
+                  background: "var(--surface)",
+                  border: "1px solid var(--border)",
                 }}
               >
 
                 <div
                   className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold"
                   style={{
-                    background: "#efd6ad",
-                    color: "#28170d",
+                    background: "var(--input-bg)",
+                    color: "var(--foreground)",
                   }}
                 >
                   01
@@ -709,7 +709,7 @@ export default function OurStory() {
                 <h3
                   className="font-serif text-3xl mt-8"
                   style={{
-                    color: "#28170d",
+                    color: "var(--foreground)",
                   }}
                 >
                   Trust
@@ -718,7 +718,7 @@ export default function OurStory() {
                 <p
                   className="mt-6 leading-9"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   Trust is never built overnight.
@@ -734,16 +734,16 @@ export default function OurStory() {
               <div
                 className="rounded-[30px] p-10 transition-all duration-500 hover:-translate-y-2"
                 style={{
-                  background: "#fff6e8",
-                  border: "1px solid #e8d9bd",
+                  background: "var(--surface)",
+                  border: "1px solid var(--border)",
                 }}
               >
 
                 <div
                   className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold"
                   style={{
-                    background: "#efd6ad",
-                    color: "#28170d",
+                    background: "var(--input-bg)",
+                    color: "var(--foreground)",
                   }}
                 >
                   02
@@ -752,7 +752,7 @@ export default function OurStory() {
                 <h3
                   className="font-serif text-3xl mt-8"
                   style={{
-                    color: "#28170d",
+                    color: "var(--foreground)",
                   }}
                 >
                   Quality
@@ -761,7 +761,7 @@ export default function OurStory() {
                 <p
                   className="mt-6 leading-9"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   Customers may forget prices,
@@ -777,16 +777,16 @@ export default function OurStory() {
               <div
                 className="rounded-[30px] p-10 transition-all duration-500 hover:-translate-y-2"
                 style={{
-                  background: "#fff6e8",
-                  border: "1px solid #e8d9bd",
+                  background: "var(--surface)",
+                  border: "1px solid var(--border)",
                 }}
               >
 
                 <div
                   className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold"
                   style={{
-                    background: "#efd6ad",
-                    color: "#28170d",
+                    background: "var(--input-bg)",
+                    color: "var(--foreground)",
                   }}
                 >
                   03
@@ -795,7 +795,7 @@ export default function OurStory() {
                 <h3
                   className="font-serif text-3xl mt-8"
                   style={{
-                    color: "#28170d",
+                    color: "var(--foreground)",
                   }}
                 >
                   Consistency
@@ -804,7 +804,7 @@ export default function OurStory() {
                 <p
                   className="mt-6 leading-9"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   Great businesses aren't built
@@ -840,14 +840,14 @@ export default function OurStory() {
                 <div
                   className="absolute -top-6 -left-6 w-full h-full rounded-[32px]"
                   style={{
-                    background: "#efd6ad",
+                    background: "var(--input-bg)",
                   }}
                 />
 
                 <div
                   className="relative overflow-hidden rounded-[32px] shadow-2xl"
                   style={{
-                    background: "#fff6e8",
+                    background: "var(--surface)",
                   }}
                 >
                   <Image
@@ -868,7 +868,7 @@ export default function OurStory() {
                 <p
                   className="uppercase tracking-[8px] text-sm mb-6"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   GROWING TOGETHER
@@ -877,7 +877,7 @@ export default function OurStory() {
                 <h2
                   className="font-serif text-5xl leading-tight"
                   style={{
-                    color: "#28170d",
+                    color: "var(--foreground)",
                   }}
                 >
                   Trust Spread
@@ -888,14 +888,14 @@ export default function OurStory() {
                 <div
                   className="w-24 h-[2px] mt-8 mb-10"
                   style={{
-                    background: "#28170d",
+                    background: "var(--foreground)",
                   }}
                 />
 
                 <p
                   className="text-lg leading-10"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   Over the years, our offline network expanded across different
@@ -906,7 +906,7 @@ export default function OurStory() {
                 <p
                   className="mt-8 text-lg leading-10"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   We never measured our success by the number of products we
@@ -917,7 +917,7 @@ export default function OurStory() {
                 <p
                   className="mt-8 text-lg leading-10"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   That trust became our greatest achievement—and the strongest
@@ -944,15 +944,15 @@ export default function OurStory() {
             <div
               className="rounded-[40px] px-10 md:px-20 py-20 text-center"
               style={{
-                background: "#fff6e8",
-                border: "1px solid #e8d9bd",
+                background: "var(--surface)",
+                border: "1px solid var(--border)",
               }}
             >
 
               <p
                 className="font-serif text-3xl md:text-5xl leading-relaxed"
                 style={{
-                  color: "#28170d",
+                  color: "var(--foreground)",
                 }}
               >
                 "Businesses don't become successful
@@ -988,7 +988,7 @@ export default function OurStory() {
                 <p
                   className="uppercase tracking-[8px] text-sm mb-6"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   THE NEXT CHAPTER
@@ -997,7 +997,7 @@ export default function OurStory() {
                 <h2
                   className="font-serif text-5xl leading-tight"
                   style={{
-                    color: "#28170d",
+                    color: "var(--foreground)",
                   }}
                 >
                   The Birth
@@ -1008,14 +1008,14 @@ export default function OurStory() {
                 <div
                   className="w-24 h-[2px] mt-8 mb-10"
                   style={{
-                    background: "#28170d",
+                    background: "var(--foreground)",
                   }}
                 />
 
                 <p
                   className="text-lg leading-10"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   Years of offline experience inspired us to take the next step.
@@ -1026,11 +1026,11 @@ export default function OurStory() {
                 <p
                   className="mt-8 text-lg leading-10"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   That vision gave birth to
-                  <strong style={{ color: "#28170d" }}>
+                  <strong style={{ color: "var(--foreground)" }}>
                     {" "}Yarche.
                   </strong>
                 </p>
@@ -1038,7 +1038,7 @@ export default function OurStory() {
                 <p
                   className="mt-8 text-lg leading-10"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   Yarche isn't just an online store.
@@ -1056,14 +1056,14 @@ export default function OurStory() {
                 <div
                   className="absolute -bottom-6 -right-6 w-full h-full rounded-[32px]"
                   style={{
-                    background: "#efd6ad",
+                    background: "var(--input-bg)",
                   }}
                 />
 
                 <div
                   className="relative overflow-hidden rounded-[32px] shadow-2xl"
                   style={{
-                    background: "#fff6e8",
+                    background: "var(--surface)",
                   }}
                 >
 
@@ -1096,8 +1096,8 @@ export default function OurStory() {
             <div
               className="rounded-[40px] p-10 md:p-16 lg:p-20"
               style={{
-                background: "#fff6e8",
-                border: "1px solid #e8d9bd",
+                background: "var(--surface)",
+                border: "1px solid var(--border)",
               }}
             >
               <div className="max-w-5xl">
@@ -1105,7 +1105,7 @@ export default function OurStory() {
                 <p
                   className="uppercase tracking-[8px] text-sm mb-6"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   2026
@@ -1114,7 +1114,7 @@ export default function OurStory() {
                 <h2
                   className="font-serif text-4xl md:text-6xl leading-tight"
                   style={{
-                    color: "#28170d",
+                    color: "var(--foreground)",
                   }}
                 >
                   A New Identity,
@@ -1125,23 +1125,23 @@ export default function OurStory() {
                 <div
                   className="w-24 h-[2px] mt-8 mb-10"
                   style={{
-                    background: "#28170d",
+                    background: "var(--foreground)",
                   }}
                 />
 
                 <p
                   className="text-lg leading-10"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
-                  In <strong style={{ color: "#28170d" }}>2026</strong>, our
+                  In <strong style={{ color: "var(--foreground)" }}>2026</strong>, our
                   journey entered a new chapter as{" "}
-                  <strong style={{ color: "#28170d" }}>
+                  <strong style={{ color: "var(--foreground)" }}>
                     UJJWAL KITCHEN KING PRODUCT
                   </strong>{" "}
                   evolved into{" "}
-                  <strong style={{ color: "#28170d" }}>
+                  <strong style={{ color: "var(--foreground)" }}>
                     Ujjwal Household Pvt. Ltd.
                   </strong>
                   .
@@ -1150,7 +1150,7 @@ export default function OurStory() {
                 <p
                   className="mt-8 text-lg leading-10"
                   style={{
-                    color: "#6b5a4d",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   It wasn't simply a legal transformation or a new company name.
@@ -1179,7 +1179,7 @@ export default function OurStory() {
               <p
                 className="uppercase tracking-[8px] text-sm"
                 style={{
-                  color: "#6b5a4d",
+                  color: "var(--text-secondary)",
                 }}
               >
                 TODAY
@@ -1188,7 +1188,7 @@ export default function OurStory() {
               <h2
                 className="font-serif text-5xl md:text-7xl mt-8 leading-tight"
                 style={{
-                  color: "#28170d",
+                  color: "var(--foreground)",
                 }}
               >
                 Every Order
@@ -1199,7 +1199,7 @@ export default function OurStory() {
               <p
                 className="mt-12 text-xl leading-10"
                 style={{
-                  color: "#6b5a4d",
+                  color: "var(--text-secondary)",
                 }}
               >
                 Today, every order we deliver carries far more than a product.
@@ -1208,7 +1208,7 @@ export default function OurStory() {
               <p
                 className="mt-8 text-xl leading-10"
                 style={{
-                  color: "#6b5a4d",
+                  color: "var(--text-secondary)",
                 }}
               >
                 It carries the trust we've earned since <strong>2013</strong>,
@@ -1234,14 +1234,14 @@ export default function OurStory() {
             <div
               className="rounded-[48px] p-12 md:p-20 text-center"
               style={{
-                background: "#28170d",
+                background: "var(--foreground)",
               }}
             >
 
               <p
                 className="uppercase tracking-[8px] text-sm"
                 style={{
-                  color: "#efd6ad",
+                  color: "var(--input-bg)",
                 }}
               >
                 OUR JOURNEY CONTINUES
@@ -1250,7 +1250,7 @@ export default function OurStory() {
               <h2
                 className="font-serif text-4xl md:text-6xl leading-tight mt-8"
                 style={{
-                  color: "#fffbf5",
+                  color: "var(--background)",
                 }}
               >
                 Our journey didn't begin
@@ -1281,14 +1281,14 @@ export default function OurStory() {
               <div
                 className="w-32 h-[2px] mx-auto mt-16 mb-16"
                 style={{
-                  background: "#efd6ad",
+                  background: "var(--input-bg)",
                 }}
               />
 
               <p
                 className="font-serif italic text-2xl md:text-4xl leading-relaxed"
                 style={{
-                  color: "#efd6ad",
+                  color: "var(--input-bg)",
                 }}
               >
                 "Some businesses are started.

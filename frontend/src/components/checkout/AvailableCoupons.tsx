@@ -46,7 +46,7 @@ export default function AvailableCoupons({
   };
 
   return (
-    <div className="mt-4 rounded-xl border border-[#d8c2a0] bg-[#FFF6E2] overflow-hidden">
+    <div className="mt-4 rounded-xl border border-input-bg bg-footer-text overflow-hidden">
 
       <button
         onClick={() => setOpen(!open)}
@@ -55,10 +55,10 @@ export default function AvailableCoupons({
         <div className="flex items-center gap-2">
           <TicketPercent
             size={18}
-            className="text-[#3B281C]"
+            className="text-foreground-2"
           />
 
-          <span className="font-semibold text-[#3B281C]">
+          <span className="font-semibold text-foreground-2">
             Available Coupons
           </span>
         </div>
@@ -72,7 +72,7 @@ export default function AvailableCoupons({
       </button>
 
       {open && (
-        <div className="border-t border-[#d8c2a0]">
+        <div className="border-t border-input-bg">
 
           {coupons.length === 0 && (
             <p className="p-4 text-sm text-gray-500">
@@ -83,13 +83,13 @@ export default function AvailableCoupons({
           {coupons.map((coupon) => (
             <div
               key={coupon._id}
-              className="border-b last:border-0 border-[#ead6ba] p-4"
+              className="border-b last:border-0 border-border-light p-4"
             >
               <div className="flex justify-between items-start">
 
                 <div>
 
-                  <div className="font-bold text-[#3B281C]">
+                  <div className="font-bold text-foreground-2">
                     {coupon.code}
                   </div>
 
@@ -117,7 +117,7 @@ export default function AvailableCoupons({
                   onClick={() =>
                     onSelectCoupon(coupon.code)
                   }
-                  className="rounded-lg bg-[#3B281C] px-4 py-2 text-white text-sm hover:bg-[#4b3526]"
+                  className="rounded-lg bg-foreground-2 px-4 py-2 text-white text-sm hover:bg-foreground-2"
                 >
                   Apply
                 </button>

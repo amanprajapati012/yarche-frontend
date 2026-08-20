@@ -8,11 +8,11 @@ export const metadata: Metadata = {
 
 export default function ShippingDeliveryPage() {
   return (
-    <div className="min-h-screen bg-[#faf7f2] py-16">
+    <div className="min-h-screen bg-background py-16">
       <div className="max-w-5xl mx-auto px-6">
         {/* Hero */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-[#3b2a1d]">
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground-2">
             Shipping & Delivery
           </h1>
 
@@ -25,7 +25,7 @@ export default function ShippingDeliveryPage() {
         <div className="space-y-8">
           {/* Shipping Area */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-2xl font-semibold text-[#3b2a1d] mb-4">
+            <h2 className="text-2xl font-semibold text-foreground-2 mb-4">
               Shipping Coverage
             </h2>
 
@@ -37,7 +37,7 @@ export default function ShippingDeliveryPage() {
 
           {/* Processing */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-2xl font-semibold text-[#3b2a1d] mb-4">
+            <h2 className="text-2xl font-semibold text-foreground-2 mb-4">
               Order Processing Time
             </h2>
 
@@ -57,7 +57,7 @@ export default function ShippingDeliveryPage() {
 
           {/* Shipping Charges */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-2xl font-semibold text-[#3b2a1d] mb-4">
+            <h2 className="text-2xl font-semibold text-foreground-2 mb-4">
               Shipping Charges
             </h2>
 
@@ -69,7 +69,7 @@ export default function ShippingDeliveryPage() {
 
           {/* Delivery */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-2xl font-semibold text-[#3b2a1d] mb-4">
+            <h2 className="text-2xl font-semibold text-foreground-2 mb-4">
               Estimated Delivery Time
             </h2>
 
@@ -87,7 +87,7 @@ export default function ShippingDeliveryPage() {
 
           {/* Tracking */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-2xl font-semibold text-[#3b2a1d] mb-4">
+            <h2 className="text-2xl font-semibold text-foreground-2 mb-4">
               Shipment Confirmation & Order Tracking
             </h2>
 
@@ -105,7 +105,7 @@ export default function ShippingDeliveryPage() {
           </div>
 
           {/* Contact */}
-          <div className="bg-[#8B5E3C] rounded-2xl text-white text-center p-8">
+          <div className="bg-secondary rounded-2xl text-white text-center p-8">
             <h2 className="text-2xl font-semibold mb-3">
               Need Help With Your Order?
             </h2>
@@ -117,7 +117,7 @@ export default function ShippingDeliveryPage() {
 
             <a
               href="/contact"
-              className="inline-block bg-white text-[#8B5E3C] font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition"
+              className="inline-block bg-white text-secondary font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition"
             >
               Contact Us
             </a>

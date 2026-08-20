@@ -179,8 +179,8 @@ if (Array.isArray(res.data)) {
           <span
             className={`px-3 py-1 rounded-full text-xs font-semibold ${
               row.isActive
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-700"
+                ? "bg-success-light text-success"
+                : "bg-error-light text-error"
             }`}
           >
             {row.isActive

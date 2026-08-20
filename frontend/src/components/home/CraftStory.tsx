@@ -33,7 +33,7 @@ export default function CraftStory() {
   return (
     <section className="bg-[var(--background)]  py-12 md:py-16">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="overflow-hidden rounded-3xl border border-[#eadfc5] bg-surface">
+        <div className="overflow-hidden rounded-3xl border border-border bg-surface">
           {/* Top Section */}
           <div className="grid md:grid-cols-2">
             {/* Video */}
@@ -69,12 +69,12 @@ export default function CraftStory() {
               <div className="max-w-md">
                 <h2 className="font-serif text-3xl md:text-5xl text-foreground leading-tight">
                   Crafted
-                  <span className="italic text-[#8B5E3C]"> Slowly.</span>
+                  <span className="italic text-secondary"> Slowly.</span>
                   <br />
                   Meant to Last.
                 </h2>
 
-                <p className="mt-6 text-[#5b4634] leading-relaxed">
+                <p className="mt-6 text-text-secondary leading-relaxed">
                   Every piece at Yoric is crafted by skilled artisans who
                   pour their time, passion and tradition into shaping
                   something beautiful.
@@ -98,22 +98,22 @@ export default function CraftStory() {
                 >
                   <path
                     d="M100 10C100 40 90 60 70 80"
-                    stroke="#28170D"
+                    stroke="var(--foreground)"
                     strokeWidth="2"
                   />
                   <path
                     d="M120 30C120 60 135 90 165 120"
-                    stroke="#28170D"
+                    stroke="var(--foreground)"
                     strokeWidth="2"
                   />
                   <path
                     d="M80 50C60 70 50 95 50 130"
-                    stroke="#28170D"
+                    stroke="var(--foreground)"
                     strokeWidth="2"
                   />
                   <path
                     d="M130 70C155 85 175 105 185 140"
-                    stroke="#28170D"
+                    stroke="var(--foreground)"
                     strokeWidth="2"
                   />
                 </svg>
@@ -122,7 +122,7 @@ export default function CraftStory() {
           </div>
 
           {/* Bottom Features */}
-          <div className="border-t border-[#eadfc5]">
+          <div className="border-t border-border">
             <div className="grid grid-cols-2 md:grid-cols-4">
               <Feature
                 icon={<Truck size={20} />}
@@ -165,7 +165,7 @@ function Feature({
   text: string;
 }) {
   return (
-    <div className="flex items-center gap-3 p-5 md:p-6 border-r border-[#eadfc5] last:border-r-0">
+    <div className="flex items-center gap-3 p-5 md:p-6 border-r border-border last:border-r-0">
       <div className="text-foreground">{icon}</div>
 
       <div>
@@ -173,7 +173,7 @@ function Feature({
           {title}
         </h4>
 
-        <p className="text-xs text-[#6b5b4a]">
+        <p className="text-xs text-text-secondary">
           {text}
         </p>
       </div>

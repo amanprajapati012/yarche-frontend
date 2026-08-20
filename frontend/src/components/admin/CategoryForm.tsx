@@ -157,7 +157,7 @@ export default function CategoryForm({ initialData, onSuccess }: Props) {
         w-6
         h-6
         rounded-full
-        bg-red-500
+        bg-error
         text-white
         flex
         items-center

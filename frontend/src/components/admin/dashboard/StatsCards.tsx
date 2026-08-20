@@ -23,25 +23,25 @@ export default function StatsCards({ stats, loading }: Props) {
       title: "Products",
       value: stats.totalProducts,
       icon: Package,
-      gradient: "from-blue-500 to-indigo-600",
+      gradient: "from-info to-secondary",
     },
     {
       title: "Customers",
       value: stats.totalCustomers,
       icon: Users,
-      gradient: "from-green-500 to-emerald-600",
+      gradient: "from-success to-primary",
     },
     {
       title: "Orders",
       value: stats.totalOrders,
       icon: ShoppingCart,
-      gradient: "from-orange-500 to-red-500",
+      gradient: "from-primary to-error",
     },
     {
       title: "Revenue",
       value: `₹${stats.totalRevenue.toLocaleString()}`,
       icon: DollarSign,
-      gradient: "from-purple-500 to-pink-600",
+      gradient: "from-info to-secondary",
     },
   ];
 

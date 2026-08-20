@@ -91,7 +91,7 @@ export default function ShopByCategory() {
               Shop by{" "}
               <span className="relative inline-block">
                 Category
-                <span className="absolute left-0 -bottom-2 h-1 w-full rounded-full bg-gradient-to-r from-orange-500 to-yellow-400"></span>
+                <span className="absolute left-0 -bottom-2 h-1 w-full rounded-full bg-gradient-to-r from-primary to-warning"></span>
               </span>
             </h2>
           </div>
@@ -140,7 +140,7 @@ export default function ShopByCategory() {
       h-36
       w-36
       rounded-full
-      bg-orange-300/20
+      bg-primary/20
       blur-3xl
       opacity-0
       transition
@@ -206,7 +206,7 @@ export default function ShopByCategory() {
 
                   <div className="mt-4 flex justify-center">
 
-                    <span className="text-sm font-semibold text-orange-600 transition-all duration-300 group-hover:tracking-wider">
+                    <span className="text-sm font-semibold text-primary transition-all duration-300 group-hover:tracking-wider">
                       Discover →
                     </span>
 

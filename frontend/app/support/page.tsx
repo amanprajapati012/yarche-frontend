@@ -59,12 +59,12 @@ export default function GetSupport() {
   return (
     <main
       className="min-h-screen"
-      style={{ background: "#fffbf5", color: "#28170d" }}
+      style={{ background: "var(--background)", color: "var(--foreground)" }}
     >
       {/* HEADER */}
       <header
         className="border-b"
-        style={{ background: "#fffbf5", borderColor: "#e8d9bd" }}
+        style={{ background: "var(--background)", borderColor: "var(--border)" }}
       >
        
       </header>
@@ -73,7 +73,7 @@ export default function GetSupport() {
       <button
         onClick={goToProducts}
         className="w-full h-[74px] overflow-hidden cursor-pointer"
-        style={{ background: "#efd6ad", color: "#28170d" }}
+        style={{ background: "var(--input-bg)", color: "var(--foreground)" }}
         aria-label="Shop current offer"
       >
         <AnimatePresence mode="wait">
@@ -109,8 +109,8 @@ export default function GetSupport() {
               <div
                 className="overflow-hidden rounded-[32px] border"
                 style={{
-                  borderColor: "#e8d9bd",
-                  background: "#fff6e8",
+                  borderColor: "var(--border)",
+                  background: "var(--surface)",
                 }}
               >
                 {/* Replace this image with your own image */}
@@ -128,7 +128,7 @@ export default function GetSupport() {
 
                 <p
                   className="mt-4 text-lg md:text-xl leading-8"
-                  style={{ color: "#6b5a4d" }}
+                  style={{ color: "var(--text-secondary)" }}
                 >
                   We&apos;re here to help! Reach out to us, and we&apos;ll get
                   back to you as soon as possible.
@@ -143,8 +143,8 @@ export default function GetSupport() {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="rounded-[28px] border p-7 md:p-9 flex flex-col"
               style={{
-                background: "#fff6e8",
-                borderColor: "#e8d9bd",
+                background: "var(--surface)",
+                borderColor: "var(--border)",
               }}
             >
               <h2 className="text-center font-serif text-2xl md:text-3xl font-semibold mb-8">
@@ -154,14 +154,14 @@ export default function GetSupport() {
               <button
                 className="group w-full rounded-2xl px-5 py-4 mb-4 flex items-center gap-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                 style={{
-                  background: "#fffbf5",
-                  border: "1px solid #e8d9bd",
-                  color: "#6b5a4d",
+                  background: "var(--background)",
+                  border: "1px solid var(--border)",
+                  color: "var(--text-secondary)",
                 }}
               >
                 <span
                   className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                  style={{ background: "#efd6ad", color: "#28170d" }}
+                  style={{ background: "var(--input-bg)", color: "var(--foreground)" }}
                 >
                   <Truck size={23} strokeWidth={1.7} />
                 </span>
@@ -175,14 +175,14 @@ export default function GetSupport() {
                 onClick={openWhatsApp}
                 className="group w-full rounded-2xl px-5 py-4 mb-4 flex items-center gap-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                 style={{
-                  background: "#fffbf5",
-                  border: "1px solid #e8d9bd",
-                  color: "#6b5a4d",
+                  background: "var(--background)",
+                  border: "1px solid var(--border)",
+                  color: "var(--text-secondary)",
                 }}
               >
                 <span
                   className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                  style={{ background: "#efd6ad", color: "#28170d" }}
+                  style={{ background: "var(--input-bg)", color: "var(--foreground)" }}
                 >
                   <MessageCircle size={23} strokeWidth={1.7} />
                 </span>
@@ -196,14 +196,14 @@ export default function GetSupport() {
                 onClick={callSupport}
                 className="group w-full rounded-2xl px-5 py-4 mb-10 flex items-center gap-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                 style={{
-                  background: "#fffbf5",
-                  border: "1px solid #e8d9bd",
-                  color: "#6b5a4d",
+                  background: "var(--background)",
+                  border: "1px solid var(--border)",
+                  color: "var(--text-secondary)",
                 }}
               >
                 <span
                   className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                  style={{ background: "#efd6ad", color: "#28170d" }}
+                  style={{ background: "var(--input-bg)", color: "var(--foreground)" }}
                 >
                   <Phone size={23} strokeWidth={1.7} />
                 </span>
@@ -223,7 +223,7 @@ export default function GetSupport() {
 
                 <p
                   className="text-base md:text-lg leading-8"
-                  style={{ color: "#6b5a4d" }}
+                  style={{ color: "var(--text-secondary)" }}
                 >
                   10:00 am to 6:30 pm (Monday to Friday)
                   <br />
@@ -232,14 +232,14 @@ export default function GetSupport() {
 
                 <p
                   className="mt-5 text-base md:text-lg leading-7"
-                  style={{ color: "#6b5a4d" }}
+                  style={{ color: "var(--text-secondary)" }}
                 >
                   For further assistance you may email us at
                   <br />
                   <a
                     href="mailto:care@yarche.com"
                     className="font-medium hover:underline"
-                    style={{ color: "#28170d" }}
+                    style={{ color: "var(--foreground)" }}
                   >
                     care@yarche.com
                   </a>
@@ -248,7 +248,7 @@ export default function GetSupport() {
 
               <div
                 className="mt-auto pt-8 flex items-center justify-center gap-2"
-                style={{ color: "#6b5a4d" }}
+                style={{ color: "var(--text-secondary)" }}
               >
                 <Phone size={17} />
                 <a href={`tel:+91${SUPPORT_NUMBER}`} className="hover:underline">
@@ -261,20 +261,20 @@ export default function GetSupport() {
       </section>
 
       {/* ADDRESS */}
-      <section className="py-20 md:py-24" style={{ background: "#fff6e8" }}>
+      <section className="py-20 md:py-24" style={{ background: "var(--surface)" }}>
         <div className="container mx-auto max-w-5xl px-6">
           <div className="grid md:grid-cols-2 gap-8">
             <div
               className="rounded-3xl p-8 md:p-10 border"
               style={{
-                background: "#fffbf5",
-                borderColor: "#e8d9bd",
+                background: "var(--background)",
+                borderColor: "var(--border)",
               }}
             >
               <div className="flex items-center gap-3 mb-5">
                 <span
                   className="w-11 h-11 rounded-xl flex items-center justify-center"
-                  style={{ background: "#efd6ad" }}
+                  style={{ background: "var(--input-bg)" }}
                 >
                   <MapPin size={22} strokeWidth={1.7} />
                 </span>
@@ -283,7 +283,7 @@ export default function GetSupport() {
 
               <p
                 className="text-lg leading-8"
-                style={{ color: "#6b5a4d" }}
+                style={{ color: "var(--text-secondary)" }}
               >
                 Karma Niwas
                 <br />
@@ -298,14 +298,14 @@ export default function GetSupport() {
             <div
               className="rounded-3xl p-8 md:p-10 border"
               style={{
-                background: "#fffbf5",
-                borderColor: "#e8d9bd",
+                background: "var(--background)",
+                borderColor: "var(--border)",
               }}
             >
               <div className="flex items-center gap-3 mb-5">
                 <span
                   className="w-11 h-11 rounded-xl flex items-center justify-center"
-                  style={{ background: "#efd6ad" }}
+                  style={{ background: "var(--input-bg)" }}
                 >
                   <Headphones size={22} strokeWidth={1.7} />
                 </span>
@@ -316,7 +316,7 @@ export default function GetSupport() {
 
               <p
                 className="text-lg leading-8 mb-6"
-                style={{ color: "#6b5a4d" }}
+                style={{ color: "var(--text-secondary)" }}
               >
                 Our support team is just a call or WhatsApp message away.
               </p>
@@ -325,7 +325,7 @@ export default function GetSupport() {
                 <button
                   onClick={callSupport}
                   className="inline-flex items-center gap-2 rounded-full px-6 py-3 hover:-translate-y-1 transition-transform"
-                  style={{ background: "#28170d", color: "#fffbf5" }}
+                  style={{ background: "var(--foreground)", color: "var(--background)" }}
                 >
                   <Phone size={17} />
                   Call Now
@@ -334,7 +334,7 @@ export default function GetSupport() {
                 <button
                   onClick={openWhatsApp}
                   className="inline-flex items-center gap-2 rounded-full px-6 py-3 hover:-translate-y-1 transition-transform"
-                  style={{ background: "#efd6ad", color: "#28170d" }}
+                  style={{ background: "var(--input-bg)", color: "var(--foreground)" }}
                 >
                   <MessageCircle size={17} />
                   WhatsApp
@@ -348,12 +348,12 @@ export default function GetSupport() {
       {/* PRODUCTS CTA */}
       <section
         className="py-20 md:py-24"
-        style={{ background: "#28170d", color: "#fffbf5" }}
+        style={{ background: "var(--foreground)", color: "var(--background)" }}
       >
         <div className="container mx-auto max-w-4xl px-6 text-center">
           <p
             className="uppercase tracking-[6px] text-sm"
-            style={{ color: "#efd6ad" }}
+            style={{ color: "var(--input-bg)" }}
           >
             Explore Yarche
           </p>
@@ -364,7 +364,7 @@ export default function GetSupport() {
 
           <p
             className="mt-5 text-lg leading-8"
-            style={{ color: "#e8d9bd" }}
+            style={{ color: "var(--border)" }}
           >
             Explore our collection of thoughtfully crafted handmade products.
           </p>
@@ -372,7 +372,7 @@ export default function GetSupport() {
           <button
             onClick={goToProducts}
             className="mt-9 inline-flex items-center gap-3 rounded-full px-8 py-4 font-medium transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-            style={{ background: "#efd6ad", color: "#28170d" }}
+            style={{ background: "var(--input-bg)", color: "var(--foreground)" }}
           >
             Shop Now
             <ArrowRight size={19} strokeWidth={1.8} />

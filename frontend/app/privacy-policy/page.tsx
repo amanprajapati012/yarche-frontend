@@ -51,7 +51,7 @@ export default function PrivacyPolicy() {
               href="http://www.allaboutcookies.org"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 underline"
+              className="text-info underline"
             >
               http://www.allaboutcookies.org
             </a>
@@ -139,7 +139,7 @@ export default function PrivacyPolicy() {
           href="https://tools.google.com/dlpage/gaoptout"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 underline"
+          className="text-info underline"
         >
           https://tools.google.com/dlpage/gaoptout
         </a>
@@ -171,7 +171,7 @@ export default function PrivacyPolicy() {
           href="http://www.networkadvertising.org/understanding-online-advertising/how-does-it-work"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 underline block"
+          className="text-info underline block"
         >
           http://www.networkadvertising.org/understanding-online-advertising/how-does-it-work
         </a>
@@ -184,7 +184,7 @@ export default function PrivacyPolicy() {
           href="http://optout.aboutads.info/"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 underline"
+          className="text-info underline"
         >
           http://optout.aboutads.info/
         </a>
@@ -249,7 +249,7 @@ export default function PrivacyPolicy() {
         <p className="mt-4">
           <a
             href="mailto:care@brickbrown.com"
-            className="text-blue-600 underline"
+            className="text-info underline"
           >
             care@brickbrown.com
           </a>
