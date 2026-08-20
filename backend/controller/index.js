@@ -715,8 +715,9 @@ const getProductByCategoryName = async (req, res) => {
   }
 };
 
-const slugify = (text) =>
+const slugify = (text = "") =>
   text
+    .toString()
     .toLowerCase()
     .trim()
     .replace(/%/g, "percent")
@@ -728,18 +729,25 @@ const getProductbyProductName = async (req, res) => {
   try {
     const { product_name } = req.params;
 
-    const slug = decodeURIComponent(product_name);
+    const incomingSlug = decodeURIComponent(product_name);
+
+    console.log("Incoming Slug:", incomingSlug);
 
     const products = await Product.find();
 
-    console.log("Incoming Slug:", slug);
-
     const product = products.find((p) => {
-      const dbSlug = slugify(p.name);
+      const productName = p.product_name || p.name || "";
 
-      console.log(dbSlug);
+      const dbSlug = slugify(productName);
 
-      return dbSlug === slug;
+      console.log(
+        "Product:",
+        productName,
+        "=> Slug:",
+        dbSlug
+      );
+
+      return dbSlug === incomingSlug;
     });
 
     if (!product) {
@@ -749,13 +757,12 @@ const getProductbyProductName = async (req, res) => {
       });
     }
 
-    return res.json({
+    return res.status(200).json({
       response: "success",
       data: product,
     });
-
   } catch (err) {
-    console.log(err);
+    console.error("Get Product By Name Error:", err);
 
     return res.status(500).json({
       response: "failed",
@@ -2421,7 +2428,6 @@ const getReel = async (req, res) => {
   }
 };
 
-// Search Products by Slug
 const searchProducts = async (req, res) => {
   try {
     const { slug } = req.params;
@@ -2434,12 +2440,12 @@ const searchProducts = async (req, res) => {
     }
 
     // Convert slug into readable search text
-    const searchText = slug.replace(/-/g, " ").trim(); // "pet-products" → "pet products"
+    const searchText = slug.replace(/-/g, " ").trim();
 
     // Create regex for partial search (case-insensitive)
     const regex = new RegExp(searchText, "i");
 
-    // Search in multiple fields
+    // Search products
     const products = await Product.find({
       $or: [
         { product_name: regex },
@@ -2447,16 +2453,32 @@ const searchProducts = async (req, res) => {
         { sub_category: regex },
         { description: regex },
       ],
-    });
+    }).lean();
 
-    res.status(200).json({
+    // Add slug to every product
+    const productsWithSlug = products.map((product) => ({
+      ...product,
+      slug: slugify(product.product_name || product.name || ""),
+    }));
+
+    console.log("Search:", searchText);
+    console.log(
+      "Products:",
+      productsWithSlug.map((p) => ({
+        name: p.product_name,
+        slug: p.slug,
+      }))
+    );
+
+    return res.status(200).json({
       message: "Search results",
       response: "success",
-      products,
+      products: productsWithSlug,
     });
   } catch (error) {
     console.error("Search error:", error);
-    res.status(500).json({
+
+    return res.status(500).json({
       message: "Internal Server Error",
       response: "failed",
       error: error.message,
