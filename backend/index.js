@@ -6,6 +6,7 @@ const db = require("./db/connect");
 const cors = require("cors");
 const path = require("path");
 const { initSocket } = require("./socket/socket");
+const shiprocketRouter = require("./router/shiprocketRoute");
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use(
 // Routes
 app.use(router);
 app.use("/admin", adminRouter);
+app.use("/api/shiprocket", shiprocketRouter);
 
 // Server start
 const PORT = process.env.PORT || 5000;
