@@ -23,15 +23,19 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      "https://yarche-iota.vercel.app/",
+      "https://yarche-iota.vercel.app",
       "http://localhost:3000",
       "http://10.21.138.215",
       "http://192.168.1.39:8081",
     ],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "adminauthorization"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "adminauthorization",
+    ],
     credentials: true,
-  }),
+  })
 );
 
 // Routes
