@@ -24,6 +24,7 @@ app.use(
   cors({
     origin: [
       "https://yarche-iota.vercel.app",
+      "https://www.yarche.in/",
       "http://localhost:3000",
       "http://10.21.138.215",
       "http://192.168.1.39:8081",
