@@ -25,6 +25,41 @@ const Combo = require("../models/Combo"); // apna actual path daalna
 const Razorpay = require("razorpay");
 
 
+
+// ================= RAZORPAY DEBUG =================
+
+console.log("========== RAZORPAY CONFIG DEBUG ==========");
+
+console.log(
+  "RAZORPAY_KEY_ID:",
+  process.env.RAZORPAY_KEY_ID
+    ? `FOUND (${process.env.RAZORPAY_KEY_ID.length} chars)`
+    : "MISSING"
+);
+
+console.log(
+  "RAZORPAY_KEY_ID PREFIX:",
+  process.env.RAZORPAY_KEY_ID
+    ? process.env.RAZORPAY_KEY_ID.substring(0, 8) + "..."
+    : "MISSING"
+);
+
+console.log(
+  "RAZORPAY_KEY_SECRET:",
+  process.env.RAZORPAY_KEY_SECRET
+    ? `FOUND (${process.env.RAZORPAY_KEY_SECRET.length} chars)`
+    : "MISSING"
+);
+
+console.log(
+  "NODE_ENV:",
+  process.env.NODE_ENV || "NOT SET"
+);
+
+console.log("============================================");
+
+// ================= RAZORPAY =================
+
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
