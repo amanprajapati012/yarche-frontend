@@ -6,6 +6,7 @@ const db = require("./db/connect");
 const cors = require("cors");
 const path = require("path");
 const { initSocket } = require("./socket/socket");
+const shiprocketRouter = require("./router/shiprocketRoute");
 
 const app = express();
 
@@ -22,20 +23,25 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      "https://yarche-frontend.vercel.app",
+      "https://yarche-iota.vercel.app",
       "http://localhost:3000",
-      "http://10.21.213.215",
+      "http://10.21.138.215",
       "http://192.168.1.39:8081",
     ],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "adminauthorization"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "adminauthorization",
+    ],
     credentials: true,
-  }),
+  })
 );
 
 // Routes
 app.use(router);
 app.use("/admin", adminRouter);
+app.use("/api/shiprocket", shiprocketRouter);
 
 // Server start
 const PORT = process.env.PORT || 5000;

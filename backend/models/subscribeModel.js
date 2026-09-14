@@ -32,7 +32,7 @@ const subscribeSchema = new mongoose.Schema(
     default: 2360
   },
 
-  // ⭐ PRIME VALIDITY
+  // ⭐ PRIME VALIDITY----------
   startDate: {
     type: Date,
     default: Date.now

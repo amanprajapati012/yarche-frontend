@@ -1,18 +1,25 @@
 const mongoose = require("mongoose");
 
-// ==================== ORDER ITEM SCHEMA ====================
+// =====================================================
+// ORDER ITEM SCHEMA
+// =====================================================
+
 const orderItemSchema = new mongoose.Schema({
+  // product OR combo
   type: {
     type: String,
     enum: ["product", "combo"],
     default: "product",
   },
 
-  // ================= NORMAL PRODUCT FIELDS =================
+  // ===================================================
+  // NORMAL PRODUCT FIELDS
+  // ===================================================
+
   product_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product",
-    default: null, // combo ke case me null hota hai, isliye required hataya
+    default: null,
   },
 
   variant_id: {
@@ -30,7 +37,10 @@ const orderItemSchema = new mongoose.Schema({
     default: false,
   },
 
-  // ================= COMBO FIELDS =================
+  // ===================================================
+  // COMBO FIELDS
+  // ===================================================
+
   combo_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Combo",
@@ -42,29 +52,46 @@ const orderItemSchema = new mongoose.Schema({
     default: "",
   },
 
-  // combo ke andar jo products the, unka snapshot
-  // (order history dikhane ke liye aur baad me stock reduce karne ke liye zaroori)
+  // Snapshot of products inside combo
   comboProducts: [
     {
       product_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
       },
+
       variant_id: {
         type: mongoose.Schema.Types.ObjectId,
         default: null,
       },
-      name: String,
+
+      name: {
+        type: String,
+        default: "",
+      },
+
       variant_title: {
         type: String,
         default: "",
       },
-      quantity: Number, // ek combo unit ke andar kitni qty is product ki hai
-      price: Number,
+
+      // Quantity of this product inside ONE combo
+      quantity: {
+        type: Number,
+        default: 1,
+      },
+
+      price: {
+        type: Number,
+        default: 0,
+      },
     },
   ],
 
-  // ================= COMMON FIELDS =================
+  // ===================================================
+  // COMMON PRODUCT / COMBO FIELDS
+  // ===================================================
+
   product_name: {
     type: String,
     required: true,
@@ -72,47 +99,72 @@ const orderItemSchema = new mongoose.Schema({
 
   category: {
     type: String,
-    default: "", // combo me category nahi hoti, isliye required hataya
+    default: "",
   },
 
-  subcategory: String,
+  subcategory: {
+    type: String,
+    default: "",
+  },
 
+  // Original price
   price: {
     type: Number,
     required: true,
   },
 
+  // Actual selling price
   discountedPrice: {
     type: Number,
     required: true,
   },
 
+  // discountedPrice * quantity
   itemTotalPrice: {
     type: Number,
     required: true,
   },
 
+  // Product / Combo image snapshot
   image: {
     url: {
       type: String,
       default: "",
     },
+
     public_id: {
       type: String,
       default: "",
     },
   },
 
+  // Ordered quantity
   quantity: {
     type: Number,
     required: true,
+    min: 1,
   },
 });
 
-// ==================== ORDER SCHEMA ====================
+// =====================================================
+// ORDER SCHEMA
+// =====================================================
+
 const orderSchema = new mongoose.Schema(
   {
-    items: [orderItemSchema],
+    // ===================================================
+    // ORDER ITEMS
+    // ===================================================
+
+    items: {
+      type: [orderItemSchema],
+      required: true,
+      default: [],
+    },
+
+    // ===================================================
+    // USER
+    // ===================================================
 
     user_id: {
       type: mongoose.Schema.Types.ObjectId,
@@ -120,21 +172,76 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
 
-    fullName: { type: String, required: true },
-    mobile: { type: Number },
+    // ===================================================
+    // CUSTOMER DETAILS
+    // ===================================================
 
-    itemQuantity: { type: Number, required: true },
-    totalPrice: { type: Number, required: true },
+    fullName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
 
-    shipping: { type: Number, default: 0 },
+    mobile: {
+      type: Number,
+    },
 
-    couponCode: { type: String },
-    couponDiscount: { type: Number, default: 0 },
+    // ===================================================
+    // ORDER TOTALS
+    // ===================================================
+
+    itemQuantity: {
+      type: Number,
+      required: true,
+      min: 1,
+    },
+
+    totalPrice: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+
+    shipping: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    couponCode: {
+      type: String,
+      default: "",
+    },
+
+    couponDiscount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    // ===================================================
+    // PAYMENT
+    // ===================================================
 
     paymentMode: {
       type: String,
       required: true,
     },
+
+    paymentStatus: {
+      type: String,
+      enum: ["pending", "success", "failed"],
+      default: "pending",
+    },
+
+    transactionNo: {
+      type: String,
+      default: null,
+    },
+
+    // ===================================================
+    // DELIVERY STATUS
+    // ===================================================
 
     deliveryStatus: {
       type: String,
@@ -152,6 +259,10 @@ const orderSchema = new mongoose.Schema(
       ],
       default: "Pending",
     },
+
+    // ===================================================
+    // DELIVERY TIMELINE
+    // ===================================================
 
     deliveryTimeline: [
       {
@@ -172,6 +283,10 @@ const orderSchema = new mongoose.Schema(
       },
     ],
 
+    // ===================================================
+    // TRACKING - GENERAL
+    // ===================================================
+
     trackingId: {
       type: String,
       default: "",
@@ -187,32 +302,70 @@ const orderSchema = new mongoose.Schema(
       default: null,
     },
 
+    // ===================================================
+    // ORDER ADDRESS SNAPSHOT
+    // ===================================================
+
     address: {
       addressId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Address",
       },
 
-      fullName: String,
+      fullName: {
+        type: String,
+        default: "",
+      },
 
-      mobile: String,
+      mobile: {
+        type: String,
+        default: "",
+      },
 
-      email: String,
+      email: {
+        type: String,
+        default: "",
+      },
 
-      addressLine: String,
+      addressLine: {
+        type: String,
+        default: "",
+      },
 
-      landmark: String,
+      landmark: {
+        type: String,
+        default: "",
+      },
 
-      district: String,
+      district: {
+        type: String,
+        default: "",
+      },
 
-      city: String,
+      city: {
+        type: String,
+        default: "",
+      },
 
-      state: String,
+      state: {
+        type: String,
+        default: "",
+      },
 
-      country: String,
+      country: {
+        type: String,
+        default: "",
+      },
 
-      pincode: String,
+      pincode: {
+        type: String,
+        default: "",
+      },
     },
+
+    // ===================================================
+    // CANCEL / RTO / DELIVERY
+    // ===================================================
 
     rtoReason: {
       type: String,
@@ -222,12 +375,6 @@ const orderSchema = new mongoose.Schema(
     restockDone: {
       type: Boolean,
       default: false,
-    },
-
-    // Payment fields
-    transactionNo: {
-      type: String,
-      default: null,
     },
 
     cancelledAt: {
@@ -244,13 +391,122 @@ const orderSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
-    paymentStatus: {
-      type: String,
-      enum: ["pending", "success", "failed"], // ✅ add all states
-      default: "pending",
+
+    // ===================================================
+    // SHIPROCKET
+    // ===================================================
+
+    shiprocket: {
+      // Shiprocket Order ID
+      orderId: {
+        type: String,
+        default: "",
+      },
+
+      // Shiprocket Shipment ID
+      shipmentId: {
+        type: String,
+        default: "",
+      },
+
+      // Channel Order ID
+      channelOrderId: {
+        type: String,
+        default: "",
+      },
+
+      // Selected courier company ID
+      courierCompanyId: {
+        type: Number,
+        default: null,
+      },
+
+      // Courier name
+      courierName: {
+        type: String,
+        default: "",
+      },
+
+      // AWB number
+      awbCode: {
+        type: String,
+        default: "",
+      },
+
+      // Tracking URL
+      trackingUrl: {
+        type: String,
+        default: "",
+      },
+
+      // Label URL
+      labelUrl: {
+        type: String,
+        default: "",
+      },
+
+      // Manifest URL
+      manifestUrl: {
+        type: String,
+        default: "",
+      },
+
+      // Pickup generated / scheduled
+      pickupScheduled: {
+        type: Boolean,
+        default: false,
+      },
+
+      pickupGeneratedAt: {
+        type: Date,
+        default: null,
+      },
+
+      // Label generated time
+      labelGeneratedAt: {
+        type: Date,
+        default: null,
+      },
+
+      // Manifest generated time
+      manifestGeneratedAt: {
+        type: Date,
+        default: null,
+      },
+
+      // Shipment time
+      shippedAt: {
+        type: Date,
+        default: null,
+      },
+
+      // Shiprocket delivery time
+      deliveredAt: {
+        type: Date,
+        default: null,
+      },
+
+      // Last tracking status received from Shiprocket
+      lastTrackingStatus: {
+        type: String,
+        default: "",
+      },
+
+      // Last tracking update time
+      lastTrackingUpdate: {
+        type: Date,
+        default: null,
+      },
     },
   },
-  { timestamps: true },
+
+  {
+    timestamps: true,
+  }
 );
+
+// =====================================================
+// EXPORT
+// =====================================================
 
 module.exports = mongoose.model("Order", orderSchema);
